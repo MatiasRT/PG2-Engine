@@ -17,7 +17,7 @@ bool Game::OnStop() {
 bool Game::OnUpdate() {
 	i++;
 	cout << "Game::OnUpdate(): " <<i<< endl;
-	if (i > 5)
-		return false;
+	//if (i > 5)
+		//return false;
 	return true;
 }

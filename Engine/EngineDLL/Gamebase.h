@@ -1,10 +1,13 @@
 #include "Exports.h"
 #include "Renderer.h"
+#include "Window.h"
+#include "TypeDef.h"
 #include <iostream>
 using namespace std;
 class ENGINEDLL_API Gamebase {
 private:
 	Renderer* render;
+	Window* window;
 public:
 	Gamebase();
 	~Gamebase();
