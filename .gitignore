@@ -1,0 +1,10 @@
+
+Engine/\.vs/
+
+Engine/Debug/
+
+Engine/Engine/Debug/
+
+Engine/EngineDLL/Debug/
+
+Engine/TestEngine/Debug/
