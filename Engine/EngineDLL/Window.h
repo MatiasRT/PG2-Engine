@@ -1,3 +1,4 @@
+#pragma once
 #include "Exports.h"
 #include <iostream>
 using namespace std;
