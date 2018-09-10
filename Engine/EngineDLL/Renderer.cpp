@@ -12,11 +12,15 @@ bool Renderer::Start(Window* windowPtr) {
 	if (windowPtr != NULL) {
 		window = windowPtr;
 		glfwMakeContextCurrent((GLFWwindow*)window->GetWindow()); //Le dice cual es la ventana que va a usar
-		/*
+		
 		//GLuint VertexArrayID;
-		//glGenVertexArrays(1, &VertexArrayID);
-		//glBindVertexArray(VertexArrayID);
-		*/
+		if (glewInit() != GLEW_OK) {
+			cout << "Fallo al inicializar GLEW\n" << endl;
+			return -1;
+		}
+		glGenVertexArrays(1, &VertexArrayID);
+		glBindVertexArray(VertexArrayID);
+		
 		cout << "Renderer::Start()" << endl;
 		return true;
 	}
@@ -35,13 +39,14 @@ void Renderer::ClearColor(float r, float g, float b, float a) {
 void Renderer::SwapBuffers() {
 	glfwSwapBuffers((GLFWwindow*)window->GetWindow());
 }
-void Renderer::GenBuffer(float* buffer, int size) {
+unsigned int Renderer::GenBuffer(float* buffer, int size) {
 	unsigned int vertexbuffer;
 	glGenBuffers(1, &vertexbuffer);
 	// Los siguientes comandos le darán características especiales al 'vertexbuffer' 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	// Darle nuestros vértices a  OpenGL.
 	glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW);
+	return vertexbuffer;
 }
 
 void Renderer::DrawBuffer(unsigned int vtxbuffer, int size) {
@@ -59,4 +64,7 @@ void Renderer::DrawBuffer(unsigned int vtxbuffer, int size) {
 	// Dibujar el triángulo !
 	glDrawArrays(GL_TRIANGLES, 0, size); // Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
 	glDisableVertexAttribArray(0);
+}
+void Renderer::DestroyBuffer(unsigned int buffer) {
+	glDeleteBuffers(1, &buffer);
 }

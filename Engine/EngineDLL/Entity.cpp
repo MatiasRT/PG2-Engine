@@ -1,9 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity(Renderer* rendererPTR)
 {
-}
-
-Entity::~Entity()
-{
+	renderer = rendererPTR;
 }

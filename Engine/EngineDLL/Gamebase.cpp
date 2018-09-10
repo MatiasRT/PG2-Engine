@@ -12,10 +12,10 @@ bool Gamebase::Start() {
 	if (!window->Start(800,600, " "))
 		return false;
 
-	render = new Renderer();
-	if (!render->Start(window))
+	renderer = new Renderer();
+	if (!renderer->Start(window))
 		return false;
-	render->ClearColor(0.0f, 0.0f, 4.0f, 0.0f);
+	renderer->ClearColor(0.0f, 0.0f, 4.0f, 0.0f);
 	return OnStart();
 }
 void Gamebase::Loop() {
@@ -23,8 +23,9 @@ void Gamebase::Loop() {
 	while (loop && !window->ShouldClose()) {
 		loop = OnUpdate();
 
-		render->ClearScreen();
-		render->SwapBuffers();
+		renderer->ClearScreen();
+		OnDraw();
+		renderer->SwapBuffers();
 
 
 		window->PollEvents();
@@ -33,10 +34,10 @@ void Gamebase::Loop() {
 bool Gamebase::Stop() {
 	cout << "Gamebase::Stop()" << endl;
 	OnStop();
-	render->Stop();
+	renderer->Stop();
 	window->Stop();
 
-	delete render;
+	delete renderer;
 	delete window;
 	return true;
 }

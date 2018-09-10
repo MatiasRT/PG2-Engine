@@ -7,6 +7,7 @@ Game::~Game()
 {
 }
 bool Game::OnStart() {
+	tr1 = new Triangle(renderer);
 	cout << "Game::OnStart()" << endl;
 	return true;
 }
@@ -20,4 +21,8 @@ bool Game::OnUpdate() {
 	//if (i > 5)
 		//return false;
 	return true;
+}
+void Game::OnDraw() {
+	tr1->Draw();
+	cout << "Game::OnDraw(): " << i << endl;
 }

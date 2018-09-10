@@ -6,7 +6,6 @@
 using namespace std;
 class ENGINEDLL_API Gamebase {
 private:
-	Renderer* render;
 	Window* window;
 public:
 	Gamebase();
@@ -15,8 +14,10 @@ public:
 	bool Stop();
 	void Loop();
 protected:
+	Renderer * renderer;
 	virtual bool OnStart() = 0;
 	virtual bool OnStop() = 0;
 	virtual bool OnUpdate() = 0;
+	virtual void OnDraw() = 0;
 };
 
