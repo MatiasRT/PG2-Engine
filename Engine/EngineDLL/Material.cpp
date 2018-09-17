@@ -104,8 +104,9 @@ unsigned int Material::LoadShaders(const char * vertex_file_path, const char * f
 	glDeleteShader(VertexShaderID);
 	glDeleteShader(FragmentShaderID);
 
+	this->ProgramID = ProgramID;
 	return ProgramID;
 }
-void Material::Bind(unsigned int programId) {
-	glUseProgram(programId);
+void Material::Bind() {
+	glUseProgram(ProgramID);
 }

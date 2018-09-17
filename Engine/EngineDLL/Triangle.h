@@ -15,5 +15,6 @@ public:
 	void SetVertices(float* vertex, int vtxCount);
 	void Draw() override;
 	void Dispose();
+	void SetMaterial(Material* material);
 };
 

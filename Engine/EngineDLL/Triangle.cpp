@@ -21,15 +21,23 @@ void Triangle::SetVertices(float* vertex, int count) {
 	Dispose();
 
 	vtxCount = count;
+	shouldDispose = true;
 
 	bufferId = renderer->GenBuffer(vertex, sizeof(float) * count * 3);
 }
 void Triangle::Draw() {
+
+	if (material != NULL)
+		material->Bind();
+
 	renderer->DrawBuffer(bufferId, vtxCount);
+}
+void Triangle::SetMaterial(Material* material) {
+	this->material = material;
 }
 void Triangle::Dispose() {
 	if (shouldDispose) {
-		//renderer->DestroyBuffer(bufferId);
+		renderer->DestroyBuffer(bufferId);
 		delete[] vertex;
 		shouldDispose = false;
 	}
