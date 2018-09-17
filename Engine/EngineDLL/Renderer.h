@@ -1,4 +1,6 @@
 #pragma once
+#include "../external/glm-0.9.9.0/glm/gtc/matrix_transform.hpp"
+#include "../external/glm-0.9.9.0/glm/glm.hpp"
 #include "Exports.h"
 #include "Window.h"
 #include <iostream>
@@ -8,6 +10,9 @@ class ENGINEDLL_API Renderer
 private:
 	unsigned int VertexArrayID;
 	Window* window;
+	glm::mat4 WorldMatrix;
+	glm::mat4 ViewMatrix;
+	glm::mat4 ProjectionMatrix;
 public:
 	Renderer();
 	~Renderer();
