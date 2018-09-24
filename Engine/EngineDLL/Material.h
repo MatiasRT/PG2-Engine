@@ -4,21 +4,12 @@
 #include "Exports.h"
 class ENGINEDLL_API Material
 {
-private:
+protected:
 	unsigned int ProgramID;
-	unsigned int matrixID;
-
-	Material(unsigned int programID);
-	static bool LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
+	unsigned int MatrixID;
 public:
-	~Material();
+
 	void Bind();//unsigned int programId);
-
-	static Material* LoadMaterial(const char* vtxShaderPath, const char* frgShaderPath);
-
-	void SetMatrixProperty(const char* name, glm::mat4& mat);
-
-	//unsigned int LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
-	//void SetMatrixProperty(const char* name, glm::mat4& mat)
+	unsigned int LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
+	void SetMatrixProperty(glm::mat4& mat);
 };
-

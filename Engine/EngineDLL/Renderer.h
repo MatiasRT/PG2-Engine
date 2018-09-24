@@ -13,6 +13,7 @@ private:
 	glm::mat4 WorldMatrix;
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionMatrix;
+	glm::mat4 wvp;
 public:
 	Renderer();
 	~Renderer();
@@ -22,7 +23,14 @@ public:
 	void ClearColor(float r, float g, float b, float a);
 	void SwapBuffers();
 	unsigned int GenBuffer(float* buffer, int size);
+	void BeginDraw();
+	void BindBuffer();
 	void DrawBuffer(unsigned int vtxbuffer, int size);
+	void EndDraw();
 	void DestroyBuffer(unsigned int buffer);
+	void UpdateWVP();
+	void LoadIdentityMatrix();
+	void SetModelMatrix(glm::mat4 mat);
+	void MultiplyModelMatrix(glm::mat4 mat);
+	glm::mat4& GetMVP() { return wvp; }
 };
-

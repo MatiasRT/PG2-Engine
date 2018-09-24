@@ -6,13 +6,6 @@
 #include <fstream>
 #include <sstream>
 
-Material::Material(){
-	//GLuint programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
-}
-Material::~Material(){
-
-}
-
 unsigned int Material::LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {
 	// Crear los shaders
 	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -107,6 +100,12 @@ unsigned int Material::LoadShaders(const char * vertex_file_path, const char * f
 	this->ProgramID = ProgramID;
 	return ProgramID;
 }
+
 void Material::Bind() {
 	glUseProgram(ProgramID);
+	MatrixID = glGetUniformLocation(ProgramID, "WVP");
+}
+
+void Material::SetMatrixProperty(glm::mat4& mat) {
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mat[0][0]);
 }
