@@ -6,10 +6,10 @@ Triangle::Triangle(Renderer* renderer): Entity(renderer){
 	vertex = NULL;
 	bufferId = -1;
 
-	vertex = new float[9]{
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f,  1.0f, 0.0f,
+	vertex = new float[9]{													//Este arreglo representa los tres vertices que tiene un triangulo (Acordate que X es a la derecha, e Y es arriba(dedos))
+		-1.0f, -1.0f, 0.0f,													//Vertice 1: Lo estamos seteando en el (-1,-1) de la pantalla, que seria la esquina inferior izquierda de la pantalla
+		1.0f, -1.0f, 0.0f,													//Vertice 2: Lo estamos seteando en el (1,-1) de la pantalla, que seria la esquina inferior derecha de la pantalla
+		0.0f,  1.0f, 0.0f,													//Vertice 3: Lo estamos seteando en el (0, 1) de la pantalla, que seria en el medio en la partte superior
 	};
 
 	SetVertices(vertex, 3);
@@ -27,8 +27,13 @@ void Triangle::SetVertices(float* vertex, int count) {
 }
 void Triangle::Draw() {
 
-	if (material != NULL)
+	renderer->LoadIdentityMatrix();
+	renderer->SetModelMatrix(worldMatrix);
+
+	if (material != NULL) {
 		material->Bind();
+		material->SetMatrixProperty(renderer->GetWVP());
+	}
 
 	renderer->DrawBuffer(bufferId, vtxCount);
 }

@@ -2,9 +2,7 @@
 #include "Exports.h"
 #include <iostream>
 using namespace std;
-class ENGINEDLL_API Window
-{
-private:
+class ENGINEDLL_API Window {
 	void* window;
 	int width;
 	int height;

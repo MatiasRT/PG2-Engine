@@ -49,6 +49,8 @@ void Entity::SetRotY(float y) {
 	axis[1] = 1.0f;
 
 	rotationY = glm::rotate(glm::mat4(1.0f), y, axis);
+
+	UpdateWorldMatrix();
 }
 
 void Entity::SetRotZ(float z) {
@@ -59,6 +61,8 @@ void Entity::SetRotZ(float z) {
 	axis[2] = 1.0f;
 
 	rotationZ = glm::rotate(glm::mat4(1.0f), z, axis);
+
+	UpdateWorldMatrix();
 }
 
 void Entity::UpdateWorldMatrix() {
@@ -69,15 +73,7 @@ glm::vec3 Entity::GetPos() {
 	return v3pos;
 }
 
-glm::vec3 Entity::GetRotX() {
-	return v3rot;
-}
-
-glm::vec3 Entity::GetRotY() {
-	return v3rot;
-}
-
-glm::vec3 Entity::GetRotZ() {
+glm::vec3 Entity::GetRot() {
 	return v3rot;
 }
 

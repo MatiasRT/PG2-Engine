@@ -10,10 +10,8 @@ Window::~Window()
 {
 }
 bool Window::Start(int w, int h, const char* n) {
-	//Inicializar GLFW
-
-	/*Initialize the library*/
-	if (!glfwInit())
+	
+	if (!glfwInit())												//Inicializar GLFW
 		return -1;
 
 	/*Create a window and create its OpenGL context*/

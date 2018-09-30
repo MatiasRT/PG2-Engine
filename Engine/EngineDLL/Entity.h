@@ -30,8 +30,6 @@ public:
 
 	glm::vec3 GetPos();
 	glm::vec3 GetScale();
-	glm::vec3 GetRotX();
-	glm::vec3 GetRotY();
-	glm::vec3 GetRotZ();
+	glm::vec3 GetRot();
 	void UpdateWorldMatrix();
 };

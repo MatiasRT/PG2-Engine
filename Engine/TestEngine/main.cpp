@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <iostream>
+using namespace std;
 
 int main() {
 
@@ -12,6 +14,6 @@ int main() {
 	game->Stop();
 
 	delete game;
-	std::cin.get();
+	cin.get();
 	return 0;
 }

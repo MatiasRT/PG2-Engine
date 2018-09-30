@@ -32,5 +32,5 @@ public:
 	void LoadIdentityMatrix();
 	void SetModelMatrix(glm::mat4 mat);
 	void MultiplyModelMatrix(glm::mat4 mat);
-	glm::mat4& GetMVP() { return wvp; }
+	glm::mat4& GetWVP() { return wvp; }
 };
