@@ -1,12 +1,16 @@
 #include "Game.h"
-Game::Game()
-{
+Game::Game() {
 	i = 0;
 }
-Game::~Game()
-{
+Game::~Game() {
+
 }
 bool Game::OnStart() {
+
+	translation = 0;
+	rotation = 0;
+	speed = 0;
+
 	mat1 = new Material();																		// Creo un Material
 	unsigned int programID = mat1->LoadShaders("VertexShader.txt", "FragmentShader.txt");		// Le digo al Material cuales van a ser los shaders que tiene que utilizar. El VS se ejecuta una vez x cada pixel, y el FS se ejecuta una vez x muestra
 
@@ -29,11 +33,22 @@ bool Game::OnStop() {
 	cout<<"Game::OnStop()"<<endl;
 	return false;
 }
-bool Game::OnUpdate() {
+bool Game::OnUpdate() {																			// Toda la logica va aca
 	i++;
 
-	tr2->SetPos(-4.0f, -4.0f, 0.0f);															// Seteo la posicion del triangulo
-	rt1->SetPos(4.0f, 4.0f, 0.0f);																// Seteo la posicion del rectangulo
+	//Triangulo N1
+	tr1->SetPos(4.0f, 4.0f, 0.0f);
+
+	//Triangulo N2
+	tr2->SetPos(0.0f, -4.0f, 0.0f);																// Seteo la posicion del triangulo
+	speed = 2.0f;																				// Creo una variable que voy a utilizar como velocidad
+	rotation += speed * time;																	// le digo a la variable rotacion que se sume con la velocidad * time	
+	tr2->SetRotZ(rotation);																		// le mando a la rotacion ese calculo para que pueda rotar hasta que se apague el programa
+		
+	//Rectangulo N1
+	speed = 1.0f;
+	translation += speed * time;
+	rt1->SetPos(-4.0f, -10.0f + translation, 0.0f);
 
 	cout<<"Game::OnUpdate(): "<<i<< endl;
 	return true;

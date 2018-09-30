@@ -4,6 +4,7 @@ Gamebase::Gamebase(){
 	
 }
 Gamebase::~Gamebase(){
+
 }
 bool Gamebase::Start() {
 	cout << "Gamebase::Start()" << endl;
@@ -16,11 +17,15 @@ bool Gamebase::Start() {
 	if (!renderer->Start(window))
 		return false;
 	renderer->ClearColor(0.0f, 0.0f, 4.0f, 0.0f);
+
+	lastFrame = 0;
+
 	return OnStart();
 }
 void Gamebase::Loop() {
 	bool loop = true;
 	while (loop && !window->ShouldClose()) {
+		Time();
 		loop = OnUpdate();
 
 		renderer->ClearScreen();
@@ -40,4 +45,11 @@ bool Gamebase::Stop() {
 	delete renderer;
 	delete window;
 	return true;
+}
+
+void Gamebase::Time()
+{
+	currentFrame = glfwGetTime();					// Aca nos guardamos el tiempo (la hora)
+	time = currentFrame - lastFrame;				// Restamos la hora que es en este momento con la hora que era en el frame anterior
+	lastFrame = currentFrame;						// Igualamos el ultimo frame al frame actual
 }
