@@ -13,6 +13,7 @@ Triangle::Triangle(Renderer* renderer): Entity(renderer){
 	};
 
 	SetVertices(vertex, 3);
+
 }
 Triangle::~Triangle(){
 	Dispose();
@@ -34,8 +35,10 @@ void Triangle::Draw() {
 		material->Bind();
 		material->SetMatrixProperty(renderer->GetWVP());
 	}
-
-	renderer->DrawBuffer(bufferId, vtxCount);
+	renderer->BeginDraw(0);													// Le decimos al renderer que comience a dibujar
+	renderer->BindBuffer(bufferId, 0);										// Unimos el buffer con el buffer binding point
+	renderer->DrawBuffer(vtxCount);											// El renderer dibuja el triangulo
+	renderer->EndDraw(0);													// Deja de dibujar
 }
 void Triangle::SetMaterial(Material* material) {
 	this->material = material;

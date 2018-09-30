@@ -23,14 +23,14 @@ public:
 	void ClearColor(float r, float g, float b, float a);
 	void SwapBuffers();
 	unsigned int GenBuffer(float* buffer, int size);
-	void BeginDraw();
-	void BindBuffer();
-	void DrawBuffer(unsigned int vtxbuffer, int size);
-	void EndDraw();
+	void DrawBuffer(int size);
 	void DestroyBuffer(unsigned int buffer);
 	void UpdateWVP();
 	void LoadIdentityMatrix();
 	void SetModelMatrix(glm::mat4 mat);
 	void MultiplyModelMatrix(glm::mat4 mat);
 	glm::mat4& GetWVP() { return wvp; }
+	void BeginDraw(unsigned int attribute);
+	void BindBuffer(unsigned int vtxbuffer, unsigned int attribute);
+	void EndDraw(unsigned int attribute);
 };
