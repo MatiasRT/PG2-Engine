@@ -9,6 +9,7 @@ class Game : public Gamebase{
 	Triangle * tr2;
 	Rectangle * rt1;
 	Material * mat1;
+	Material * mat2;
 public:
 	Game();
 	~Game();
