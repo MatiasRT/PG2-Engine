@@ -8,8 +8,8 @@ class ENGINEDLL_API Window {
 	int height;
 	const char* name;
 public:
-	Window();
-	~Window();
+	Window() { };
+	~Window() { };
 	bool Start(int w, int h, const char* n);
 	bool Stop();
 	bool ShouldClose();

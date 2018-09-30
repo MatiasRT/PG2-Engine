@@ -1,7 +1,7 @@
-#include "../EngineDLL/Gamebase.h"
-#include "../EngineDLL/Triangle.h"
-#include "../EngineDLL/Material.h"
-#include "../EngineDLL/Rectangle.h"
+#include <Gamebase.h>
+#include <Triangle.h>
+#include <Material.h>
+#include <Rectangle.h>
 #include <iostream>
 class Game : public Gamebase{
 	int i;
@@ -14,8 +14,8 @@ class Game : public Gamebase{
 	Material * mat1;
 	Material * mat2;
 public:
-	Game();
-	~Game();
+	Game() { i = 0; };
+	~Game() { };
 protected:
 	bool OnStart() override;
 	bool OnStop() override;

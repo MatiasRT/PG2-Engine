@@ -1,6 +1,6 @@
 #pragma once
-#include "../external/glm-0.9.9.0/glm/gtc/matrix_transform.hpp"
-#include "../external/glm-0.9.9.0/glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
 #include "Exports.h"
 #include "Window.h"
 #include <iostream>
@@ -13,8 +13,8 @@ class ENGINEDLL_API Renderer {
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 wvp;
 public:
-	Renderer();
-	~Renderer();
+	Renderer() { };
+	~Renderer() { };
 	bool Start(Window* windowPtr);
 	bool Stop();
 	void ClearScreen();

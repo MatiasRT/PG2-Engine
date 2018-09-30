@@ -1,16 +1,15 @@
 #include "Entity.h"
 
-Entity::Entity(Renderer* rendererPTR)
-{
+Entity::Entity(Renderer* rendererPTR) {
 	renderer = rendererPTR;
-	worldMatrix = glm::mat4(1.0f);		//Identidad
-	//rotationMatrix = glm::mat4(1.0f);
-	translateMatrix = glm::mat4(1.0f);	//Translacion
-	scaleMatrix = glm::mat4(1.0f);		//Escala
-	rotationX = glm::mat4(1.0f);		//Rotacion en X
-	rotationY = glm::mat4(1.0f);		//Rotacion en Y
-	rotationZ = glm::mat4(1.0f);		//ROtacion en Z
+	worldMatrix = glm::mat4(1.0f);									//Identidad
+	translateMatrix = glm::mat4(1.0f);								//Translacion
+	scaleMatrix = glm::mat4(1.0f);									//Escala
+	rotationX = glm::mat4(1.0f);									//Rotacion en X
+	rotationY = glm::mat4(1.0f);									//Rotacion en Y
+	rotationZ = glm::mat4(1.0f);									//ROtacion en Z
 }
+
 void Entity::SetPos(float x, float y, float z) {
 	v3pos[0] = x;
 	v3pos[1] = y;

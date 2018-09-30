@@ -2,13 +2,6 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 
-Renderer::Renderer()
-{
-}
-Renderer::~Renderer()
-{
-}
-
 bool Renderer::Start(Window* windowPtr) {
 	if (windowPtr != NULL) {
 		window = windowPtr;

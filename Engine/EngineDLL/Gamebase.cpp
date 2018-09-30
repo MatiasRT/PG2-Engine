@@ -1,11 +1,5 @@
 #include "Gamebase.h"
 
-Gamebase::Gamebase(){
-	
-}
-Gamebase::~Gamebase(){
-
-}
 bool Gamebase::Start() {
 	cout << "Gamebase::Start()" << endl;
 
@@ -22,6 +16,7 @@ bool Gamebase::Start() {
 
 	return OnStart();
 }
+
 void Gamebase::Loop() {
 	bool loop = true;
 	while (loop && !window->ShouldClose()) {
@@ -36,6 +31,7 @@ void Gamebase::Loop() {
 		window->PollEvents();
 	}
 }
+
 bool Gamebase::Stop() {
 	cout << "Gamebase::Stop()" << endl;
 	OnStop();
@@ -47,8 +43,7 @@ bool Gamebase::Stop() {
 	return true;
 }
 
-void Gamebase::Time()
-{
+void Gamebase::Time() {
 	currentFrame = glfwGetTime();					// Aca nos guardamos el tiempo (la hora)
 	time = currentFrame - lastFrame;				// Restamos la hora que es en este momento con la hora que era en el frame anterior
 	lastFrame = currentFrame;						// Igualamos el ultimo frame al frame actual

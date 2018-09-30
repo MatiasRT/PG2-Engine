@@ -62,7 +62,6 @@ void Rectangle::SetMaterial(Material* material) {
 void Rectangle::Dispose() {
 	if (shouldDispose) {
 		renderer->DestroyBuffer(bufferId);
-		//color->Dispose();
 		delete[] vertex;
 		delete[] colorVertex;
 		shouldDispose = false;

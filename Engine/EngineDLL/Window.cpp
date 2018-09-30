@@ -1,14 +1,6 @@
 #include "Window.h"
 #include <GLFW\glfw3.h>
 
-
-Window::Window()
-{
-}
-
-Window::~Window()
-{
-}
 bool Window::Start(int w, int h, const char* n) {
 	
 	if (!glfwInit())												//Inicializar GLFW
@@ -25,6 +17,7 @@ bool Window::Start(int w, int h, const char* n) {
 
 	return true;
 }
+
 bool Window::Stop() {
 	if (window != NULL)
 		glfwDestroyWindow((GLFWwindow*)window);
@@ -35,15 +28,18 @@ bool Window::Stop() {
 
 	return true;
 }
+
 bool Window::ShouldClose() {
 	if (window)
 		return glfwWindowShouldClose((GLFWwindow*)window);
 
 	return true;
 }
+
 void Window::PollEvents() {
 	glfwPollEvents();
 }
+
 void* Window::GetWindow() {
 	return window;
 }

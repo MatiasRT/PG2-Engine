@@ -10,8 +10,8 @@ class ENGINEDLL_API Gamebase {
 	double currentFrame;
 	double lastFrame;
 public:
-	Gamebase();
-	~Gamebase();
+	Gamebase() { };
+	~Gamebase() { };
 	bool Start();
 	bool Stop();
 	void Loop();
@@ -24,4 +24,3 @@ protected:
 	virtual void OnDraw() = 0;
 	double time;
 };
-

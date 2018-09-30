@@ -15,9 +15,11 @@ Triangle::Triangle(Renderer* renderer): Entity(renderer){
 	SetVertices(vertex, 3);
 
 }
+
 Triangle::~Triangle(){
 	Dispose();
 }
+
 void Triangle::SetVertices(float* vertex, int count) {
 	Dispose();
 
@@ -26,6 +28,7 @@ void Triangle::SetVertices(float* vertex, int count) {
 
 	bufferId = renderer->GenBuffer(vertex, sizeof(float) * count * 3);
 }
+
 void Triangle::Draw() {
 
 	renderer->LoadIdentityMatrix();
@@ -40,9 +43,11 @@ void Triangle::Draw() {
 	renderer->DrawBuffer(vtxCount);											// El renderer dibuja el triangulo
 	renderer->EndDraw(0);													// Deja de dibujar
 }
+
 void Triangle::SetMaterial(Material* material) {
 	this->material = material;
 }
+
 void Triangle::Dispose() {
 	if (shouldDispose) {
 		renderer->DestroyBuffer(bufferId);

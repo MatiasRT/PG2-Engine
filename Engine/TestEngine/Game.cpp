@@ -1,10 +1,5 @@
 #include "Game.h"
-Game::Game() {
-	i = 0;
-}
-Game::~Game() {
 
-}
 bool Game::OnStart() {
 
 	translation = 0;
@@ -29,10 +24,12 @@ bool Game::OnStart() {
 	cout<<"Game::OnStart()"<<endl;
 	return true;
 }
+
 bool Game::OnStop() {
 	cout<<"Game::OnStop()"<<endl;
 	return false;
 }
+
 bool Game::OnUpdate() {																			// Toda la logica va aca
 	i++;
 
@@ -53,6 +50,7 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	cout<<"Game::OnUpdate(): "<<i<< endl;
 	return true;
 }
+
 void Game::OnDraw() {
 	tr1->Draw();																				// Le digo al Triangulo que se dibuje
 
