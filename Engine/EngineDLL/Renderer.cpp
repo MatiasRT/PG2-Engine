@@ -108,7 +108,7 @@ void Renderer::BindBuffer(unsigned int vtxbuffer, unsigned int attribute){				//
 
 void Renderer::DrawBuffer(int size) {													// Dibujamos en el buffer
 	// Dibujar el triángulo
-	glDrawArrays(GL_TRIANGLES, 0, size);												// Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, size);												// Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
 
 }
 

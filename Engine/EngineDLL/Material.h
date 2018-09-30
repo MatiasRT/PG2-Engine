@@ -2,8 +2,7 @@
 #include "../external/glm-0.9.9.0/glm/gtc/matrix_transform.hpp"
 #include "../external/glm-0.9.9.0/glm/glm.hpp"
 #include "Exports.h"
-class ENGINEDLL_API Material
-{
+class ENGINEDLL_API Material {
 protected:
 	unsigned int ProgramID;
 	unsigned int MatrixID;

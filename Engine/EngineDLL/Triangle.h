@@ -1,9 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Material.h"
-class ENGINEDLL_API Triangle :public Entity
-{
-private:
+class ENGINEDLL_API Triangle :public Entity {
 	unsigned int bufferId;
 	bool shouldDispose;
 	int vtxCount;

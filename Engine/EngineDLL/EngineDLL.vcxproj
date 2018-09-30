@@ -121,6 +121,7 @@
     <ClInclude Include="Exports.h" />
     <ClInclude Include="Gamebase.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="TypeDef.h" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Gamebase.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Window.cpp" />

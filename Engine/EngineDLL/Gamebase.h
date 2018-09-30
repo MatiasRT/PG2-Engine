@@ -5,7 +5,6 @@
 #include <iostream>
 using namespace std;
 class ENGINEDLL_API Gamebase {
-private:
 	Window* window;
 public:
 	Gamebase();

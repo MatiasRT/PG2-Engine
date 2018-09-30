@@ -5,9 +5,7 @@
 #include "Window.h"
 #include <iostream>
 using namespace std;
-class ENGINEDLL_API Renderer
-{
-private:
+class ENGINEDLL_API Renderer {
 	unsigned int VertexArrayID;
 	Window* window;
 	glm::mat4 WorldMatrix;
