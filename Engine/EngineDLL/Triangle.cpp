@@ -1,10 +1,6 @@
 #include "Triangle.h"
 
-Triangle::Triangle(Renderer* renderer): Entity(renderer){
-	shouldDispose = false;
-	material = NULL;
-	vertex = NULL;
-	bufferId = -1;
+Triangle::Triangle(Renderer* renderer): Shape(renderer){
 
 	vertex = new float[9]{													//Este arreglo representa los tres vertices que tiene un triangulo (Acordate que X es a la derecha, e Y es arriba(dedos))
 		-1.0f, -1.0f, 0.0f,													//Vertice 1: Lo estamos seteando en el (-1,-1) de la pantalla, que seria la esquina inferior izquierda de la pantalla
@@ -13,7 +9,6 @@ Triangle::Triangle(Renderer* renderer): Entity(renderer){
 	};
 
 	SetVertices(vertex, 3);
-
 }
 
 Triangle::~Triangle(){
@@ -30,22 +25,7 @@ void Triangle::SetVertices(float* vertex, int count) {
 }
 
 void Triangle::Draw() {
-
-	renderer->LoadIdentityMatrix();
-	renderer->SetModelMatrix(worldMatrix);
-
-	if (material != NULL) {
-		material->Bind();
-		material->SetMatrixProperty(renderer->GetWVP());
-	}
-	renderer->BeginDraw(0);													// Le decimos al renderer que comience a dibujar
-	renderer->BindBuffer(bufferId, 0);										// Unimos el buffer con el buffer binding point
-	renderer->DrawBuffer(vtxCount);											// El renderer dibuja el triangulo
-	renderer->EndDraw(0);													// Deja de dibujar
-}
-
-void Triangle::SetMaterial(Material* material) {
-	this->material = material;
+	DrawMesh(GL_TRIANGLES);
 }
 
 void Triangle::Dispose() {

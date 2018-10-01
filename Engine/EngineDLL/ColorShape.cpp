@@ -30,7 +30,7 @@ void ColorShape::Draw() {
 	}
 	renderer->BeginDraw(1);													// Le decimos al renderer que comience a dibujar
 	renderer->BindBuffer(bufferId, 1);										// Unimos el buffer con el buffer binding point
-	renderer->DrawBuffer(vtxCount);											// El renderer dibuja el triangulo
+	renderer->DrawBuffer(vtxCount, 1);											// El renderer dibuja el triangulo
 	renderer->EndDraw(1);													// Deja de dibujar
 }
 

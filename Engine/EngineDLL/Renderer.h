@@ -21,7 +21,7 @@ public:
 	void ClearColor(float r, float g, float b, float a);
 	void SwapBuffers();
 	unsigned int GenBuffer(float* buffer, int size);
-	void DrawBuffer(int size);
+	void DrawBuffer(int size, int type);
 	void DestroyBuffer(unsigned int buffer);
 	void UpdateWVP();
 	void LoadIdentityMatrix();

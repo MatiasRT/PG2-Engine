@@ -1,18 +1,12 @@
 #pragma once
-#include "Entity.h"
+#include "Shape.h"
 #include "Material.h"
-class ENGINEDLL_API Triangle :public Entity {
-	unsigned int bufferId;
-	bool shouldDispose;
-	int vtxCount;
-	float* vertex;
-	Material * material;
+class ENGINEDLL_API Triangle :public Shape {
 public:
 	Triangle(Renderer * renderer);
 	~Triangle();
 	void SetVertices(float* vertex, int vtxCount);
 	void Draw() override;
 	void Dispose();
-	void SetMaterial(Material* material);
 };
 
