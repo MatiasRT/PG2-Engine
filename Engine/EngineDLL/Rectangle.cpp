@@ -9,44 +9,23 @@ Rectangle::Rectangle(Renderer* renderer) : Shape(renderer) {
 		1.0f, 1.0f, 0.0f													//Vertice 4: Lo estamos seteando en el (1, 1) de la pantalla, que seria la esquina superior derecha de la pantalla
 	};
 
-	/*color = new ColorShape(renderer);
+	SetVertices(vertex, 4);
 
 	colorVertex = new float[12]{
 		0.583f,  0.771f,  0.014f,
 		0.609f,  0.115f,  0.436f,
 		0.327f,  0.483f,  0.844f,
-		0.822f,  0.569f,  0.201f,
-	};*/
+		0.822f,  0.569f,  0.201f
+	};
 
-	SetVertices(vertex, 4);
-
-	//color->SetVertices(colorVertex, 4);
+	SetColorVertices(colorVertex, 4);
 }
 
 Rectangle::~Rectangle() {
-	Dispose();
-}
-
-void Rectangle::SetVertices(float* vertex, int count) {
-	Dispose();
-
-	vtxCount = count;
-	shouldDispose = true;
-
-	bufferId = renderer->GenBuffer(vertex, sizeof(float) * count * 3);
+	delete[] vertex;
+	delete[] colorVertex;
 }
 
 void Rectangle::Draw() {
-
-	//color->Draw();
 	DrawMesh(GL_TRIANGLE_STRIP);
-}
-
-void Rectangle::Dispose() {
-	if (shouldDispose) {
-		renderer->DestroyBuffer(bufferId);
-		delete[] vertex;
-		delete[] colorVertex;
-		shouldDispose = false;
-	}
 }

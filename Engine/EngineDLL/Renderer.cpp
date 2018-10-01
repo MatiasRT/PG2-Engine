@@ -61,6 +61,17 @@ unsigned int Renderer::GenBuffer(float* buffer, int size) {								// Aca creamo
 	return vertexbuffer;
 }
 
+unsigned int Renderer::GenColorBuffer(float* buffer, int size) {
+
+	unsigned int colorbuffer;
+	glGenBuffers(1, &colorbuffer);
+
+	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+
+	glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW);
+	return colorbuffer;
+}
+
 void Renderer::DestroyBuffer(unsigned int buffer) {
 	glDeleteBuffers(1, &buffer);														// Recibe el buffer que hay que eliminar, y lo hacemos con una funcion de OpenGL
 }
@@ -99,10 +110,20 @@ void Renderer::BindBuffer(unsigned int vtxbuffer, unsigned int attribute){				//
 	);
 }
 
-void Renderer::DrawBuffer(int size, int type) {											// Dibujamos en el buffer
-	// Dibujar el triángulo
-	glDrawArrays(type, 0, size);														// Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
+void Renderer::BindColorBuffer(unsigned int clrbuffer, unsigned int attribute) {
+	glBindBuffer(GL_ARRAY_BUFFER, clrbuffer);
+	glVertexAttribPointer(
+		attribute,														
+		3,																
+		GL_FLOAT,														
+		GL_FALSE,														
+		0,																
+		(void*)0
+	);
+}
 
+void Renderer::DrawBuffer(int size, int type) {											// Dibujamos en el buffer
+	glDrawArrays(type, 0, size);														// Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
 }
 
 void Renderer::EndDraw(unsigned int attribute){

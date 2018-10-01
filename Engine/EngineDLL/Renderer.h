@@ -21,6 +21,7 @@ public:
 	void ClearColor(float r, float g, float b, float a);
 	void SwapBuffers();
 	unsigned int GenBuffer(float* buffer, int size);
+	unsigned int GenColorBuffer(float* buffer, int size);
 	void DrawBuffer(int size, int type);
 	void DestroyBuffer(unsigned int buffer);
 	void UpdateWVP();
@@ -30,5 +31,6 @@ public:
 	glm::mat4& GetWVP() { return wvp; }
 	void BeginDraw(unsigned int attribute);
 	void BindBuffer(unsigned int vtxbuffer, unsigned int attribute);
+	void BindColorBuffer(unsigned int clrbuffer, unsigned int attribute);
 	void EndDraw(unsigned int attribute);
 };

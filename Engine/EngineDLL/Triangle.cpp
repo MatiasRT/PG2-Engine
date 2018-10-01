@@ -9,29 +9,21 @@ Triangle::Triangle(Renderer* renderer): Shape(renderer){
 	};
 
 	SetVertices(vertex, 3);
+
+	colorVertex = new float[9]{
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+	};
+
+	SetColorVertices(colorVertex, 3);
 }
 
 Triangle::~Triangle(){
-	Dispose();
-}
-
-void Triangle::SetVertices(float* vertex, int count) {
-	Dispose();
-
-	vtxCount = count;
-	shouldDispose = true;
-
-	bufferId = renderer->GenBuffer(vertex, sizeof(float) * count * 3);
+	delete[] vertex;
+	delete[] colorVertex;
 }
 
 void Triangle::Draw() {
 	DrawMesh(GL_TRIANGLES);
-}
-
-void Triangle::Dispose() {
-	if (shouldDispose) {
-		renderer->DestroyBuffer(bufferId);
-		delete[] vertex;
-		shouldDispose = false;
-	}
 }
