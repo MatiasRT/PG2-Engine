@@ -7,7 +7,7 @@ Entity::Entity(Renderer* rendererPTR) {
 	scaleMatrix = glm::mat4(1.0f);									//Escala
 	rotationX = glm::mat4(1.0f);									//Rotacion en X
 	rotationY = glm::mat4(1.0f);									//Rotacion en Y
-	rotationZ = glm::mat4(1.0f);									//ROtacion en Z
+	rotationZ = glm::mat4(1.0f);									//Rotacion en Z
 }
 
 void Entity::SetPos(float x, float y, float z) {

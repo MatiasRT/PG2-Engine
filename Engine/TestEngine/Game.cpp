@@ -15,19 +15,15 @@ bool Game::OnStart() {
 	rt1 = new Rectangle(renderer);																// Creo un Rectangulo, y le paso como parametro el renderer, asi se puede dibujar
 	rt1->SetMaterial(mat1);																		// Llamo al metodo SetMaterial para decirle al Rectangulo cual es el material que tiene que utilizar
 
-	tr1->SetPos(5, 0, 0);
-	rt1->SetPos(0, 0, 0);
+	cr1 = new Circle(renderer, 1, 30);															// Creo un Rectangulo, y le paso como parametro el renderer, asi se puede dibujar, y le paso tambien el radio que va atener, y la cantidad de triangulos que quiero que formen el circulo (TRIANGLE_FAN, a lo paraguas)
+	cr1->SetMaterial(mat1);
+
+	tr1->SetPos(9.0f, 0.0f, 0.0f);
+	rt1->SetPos(0.0f, 0.0f, 0.0f);
+	cr1->SetPos(-9.0f, 0.0f, 0.0f);
 
 	cout<<"Game::OnStart()"<<endl;
 	return true;
-}
-
-bool Game::OnStop() {
-	delete tr1;
-	delete rt1;
-	delete mat1;
-	cout<<"Game::OnStop()"<<endl;
-	return false;
 }
 
 bool Game::OnUpdate() {																			// Toda la logica va aca
@@ -35,6 +31,12 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	speed = 1.0f;
 	rotation += speed * time;
 	rt1->SetRotZ(rotation);
+	tr1->SetRotY(rotation);
+	cr1->SetRotX(rotation);
+
+	translation += speed * time;
+	tr1->SetPos(9.0f - translation, 0.0f, 0.0f);
+	cr1->SetPos(-9.0f + translation, 0.0f, 0.0f);
 
 	cout<<"Game::OnUpdate(): "<<i<< endl;
 	return true;
@@ -43,5 +45,16 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 void Game::OnDraw() {
 	tr1->Draw();																				// Le digo al Triangulo que se dibuje
 	rt1->Draw();																				// Le digo al Rectangulo que se dibuje
+	cr1->Draw();																				// Le digo al Circulo que se dibuje
+
 	cout << "Game::OnDraw(): " << i << endl;
+}
+
+bool Game::OnStop() {
+	delete tr1;
+	delete rt1;
+	delete cr1;
+	delete mat1;
+	cout << "Game::OnStop()" << endl;
+	return false;
 }

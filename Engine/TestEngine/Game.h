@@ -2,6 +2,7 @@
 #include <Triangle.h>
 #include <Material.h>
 #include <Rectangle.h>
+#include <Circle.h>
 #include <iostream>
 class Game : public Gamebase {
 	int i;
@@ -10,6 +11,7 @@ class Game : public Gamebase {
 	float speed;
 	Triangle * tr1;
 	Rectangle * rt1;
+	Circle * cr1;
 	Material * mat1;
 public:
 	Game() { i = 0; };
