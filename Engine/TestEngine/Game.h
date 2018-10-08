@@ -3,6 +3,7 @@
 #include <Material.h>
 #include <Rectangle.h>
 #include <Circle.h>
+#include <Importer.h>
 #include <iostream>
 class Game : public Gamebase {
 	int i;
