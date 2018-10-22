@@ -4,6 +4,7 @@
 #include <Rectangle.h>
 #include <Circle.h>
 #include <Importer.h>
+#include <Sprite.h>
 #include <iostream>
 class Game : public Gamebase {
 	int i;
@@ -14,6 +15,8 @@ class Game : public Gamebase {
 	Rectangle * rt1;
 	Circle * cr1;
 	Material * mat1;
+	Material * mat2;
+	Sprite * sp1;
 public:
 	Game() { i = 0; };
 	~Game() { };

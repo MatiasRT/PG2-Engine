@@ -1,6 +1,6 @@
 #include "Importer.h"
 
-unsigned char Importer::LoadBMP(const char * name) {
+Header Importer::LoadBMP(const char * name) {
 
 	// Lectura de información del encabezado del archivo
 	unsigned char header[54]; // Each BMP file begins by a 54-bytes header
@@ -29,7 +29,7 @@ unsigned char Importer::LoadBMP(const char * name) {
 	//Todo está en memoria ahora, así que podemos cerrar el archivo
 	fclose(file);
 
-	return *h.data;
+	return h;
 }
 
 bool Importer::CheckFormat(const char * name, unsigned char header[], FILE * file) {

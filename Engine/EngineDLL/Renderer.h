@@ -22,7 +22,7 @@ public:
 	void SwapBuffers();
 	unsigned int GenBuffer(float* buffer, int size);
 	unsigned int GenColorBuffer(float* buffer, int size);
-	unsigned int GenTextureBuffer(float* buffer, float width, float height, const void* data);
+	unsigned int GenTextureBuffer(float width, float height, const void* data);
 	void DrawBuffer(int size, int type);
 	void DestroyBuffer(unsigned int buffer);
 	void UpdateWVP();

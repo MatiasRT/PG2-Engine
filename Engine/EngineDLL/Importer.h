@@ -9,6 +9,6 @@ struct Header {
 };
 static class ENGINEDLL_API Importer {
 public:
-	unsigned char LoadBMP(const char * name);
-	bool CheckFormat(const char * name, unsigned char header[], FILE * file);
+	static Header LoadBMP(const char * name);
+	static bool CheckFormat(const char * name, unsigned char header[], FILE * file);
 };

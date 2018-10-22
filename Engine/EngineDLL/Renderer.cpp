@@ -72,7 +72,7 @@ unsigned int Renderer::GenColorBuffer(float* buffer, int size) {
 	return colorbuffer;
 }
 
-unsigned int Renderer::GenTextureBuffer(float* buffer, float width, float height, const void* data) {
+unsigned int Renderer::GenTextureBuffer(float width, float height, const void* data) {
 
 	unsigned int texturebuffer;
 	glGenTextures(1, &texturebuffer);
@@ -141,7 +141,7 @@ void Renderer::BindTextureBuffer(unsigned int txrbuffer, unsigned int attribute)
 	glBindBuffer(GL_ARRAY_BUFFER, txrbuffer);
 	glVertexAttribPointer(
 		attribute,
-		3,
+		2,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
