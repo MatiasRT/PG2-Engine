@@ -22,6 +22,7 @@ public:
 	void SwapBuffers();
 	unsigned int GenBuffer(float* buffer, int size);
 	unsigned int GenColorBuffer(float* buffer, int size);
+	unsigned int GenTextureBuffer(float* buffer, float width, float height, const void* data);
 	void DrawBuffer(int size, int type);
 	void DestroyBuffer(unsigned int buffer);
 	void UpdateWVP();
@@ -32,5 +33,6 @@ public:
 	void BeginDraw(unsigned int attribute);
 	void BindBuffer(unsigned int vtxbuffer, unsigned int attribute);
 	void BindColorBuffer(unsigned int clrbuffer, unsigned int attribute);
+	void BindTextureBuffer(unsigned int txrbuffer, unsigned int attribute);
 	void EndDraw(unsigned int attribute);
 };

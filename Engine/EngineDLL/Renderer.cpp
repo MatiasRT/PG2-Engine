@@ -72,6 +72,21 @@ unsigned int Renderer::GenColorBuffer(float* buffer, int size) {
 	return colorbuffer;
 }
 
+unsigned int Renderer::GenTextureBuffer(float* buffer, float width, float height, const void* data) {
+
+	unsigned int texturebuffer;
+	glGenTextures(1, &texturebuffer);
+
+	glBindTexture(GL_TEXTURE_2D, texturebuffer);
+
+	// Give the image to OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	return texturebuffer;
+}
+
 void Renderer::DestroyBuffer(unsigned int buffer) {
 	glDeleteBuffers(1, &buffer);														// Recibe el buffer que hay que eliminar, y lo hacemos con una funcion de OpenGL
 }
@@ -118,6 +133,18 @@ void Renderer::BindColorBuffer(unsigned int clrbuffer, unsigned int attribute) {
 		GL_FLOAT,														
 		GL_FALSE,														
 		0,																
+		(void*)0
+	);
+}
+
+void Renderer::BindTextureBuffer(unsigned int txrbuffer, unsigned int attribute) {
+	glBindBuffer(GL_ARRAY_BUFFER, txrbuffer);
+	glVertexAttribPointer(
+		attribute,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		0,
 		(void*)0
 	);
 }
