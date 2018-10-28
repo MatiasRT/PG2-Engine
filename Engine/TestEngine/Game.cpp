@@ -21,8 +21,9 @@ bool Game::OnStart() {
 	cr1 = new Circle(renderer, 1, 30);															// Creo un Rectangulo, y le paso como parametro el renderer, asi se puede dibujar, y le paso tambien el radio que va atener, y la cantidad de triangulos que quiero que formen el circulo (TRIANGLE_FAN, a lo paraguas)
 	cr1->SetMaterial(mat1);
 
-	sp1 = new Sprite(renderer, "sample2.bmp");
+	sp1 = new Sprite(renderer);
 	sp1->SetMaterial(mat2);
+	sp1->LoadBMP("sample2.bmp");
 
 	tr1->SetPos(9.0f, 0.0f, 0.0f);
 	rt1->SetPos(0.0f, 0.0f, 0.0f);

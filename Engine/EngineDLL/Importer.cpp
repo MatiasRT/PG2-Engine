@@ -17,8 +17,10 @@ Header Importer::LoadBMP(const char * name) {
 	}
 
 	// Algunos archivos BMP tienen un mal formato, así que adivinamos la información faltante
-	if (h.imageSize == 0)    h.imageSize = h.width * h.height * 3;	// 3 : un byte por cada componente Rojo (Red), Verde (Green) y Azul(Blue)
-	if (h.dataPos == 0)      h.dataPos = 54;						// El encabezado del BMP está hecho de ésta manera
+	if (h.imageSize == 0)    
+		h.imageSize = h.width * h.height * 3;	// 3 : un byte por cada componente Rojo (Red), Verde (Green) y Azul(Blue)
+	if (h.dataPos == 0)      
+		h.dataPos = 54;						// El encabezado del BMP está hecho de ésta manera
 
 	// Se crea un buffer
 	h.data = new unsigned char[h.imageSize];

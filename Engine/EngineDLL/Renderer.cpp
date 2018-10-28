@@ -72,7 +72,9 @@ unsigned int Renderer::GenColorBuffer(float* buffer, int size) {
 	return colorbuffer;
 }
 
-unsigned int Renderer::GenTextureBuffer(float width, float height, const void* data) {
+/* REVISAR ESTO TAMBIEN QUE SE REPITE EN LOS GEN */
+
+unsigned int Renderer::UploadData(float width, float height, const void* data) {
 
 	unsigned int texturebuffer;
 	glGenTextures(1, &texturebuffer);
@@ -147,6 +149,15 @@ void Renderer::BindTextureBuffer(unsigned int txrbuffer, unsigned int attribute)
 		0,
 		(void*)0
 	);
+}
+/* REVISAR LOS BIND PORQUE SE PUEDEN UNIR Y CAMBIAR SOLO EL TAMAÑO POR PARAMETRO */
+
+void Renderer::BindTexture(unsigned int textureID, unsigned int txrbufferID) {
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	// Set our "myTextureSampler" sampler to use Texture Unit 0
+	glUniform1i(txrbufferID, 0);
 }
 
 void Renderer::DrawBuffer(int size, int type) {											// Dibujamos en el buffer

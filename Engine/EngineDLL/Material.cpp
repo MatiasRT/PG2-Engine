@@ -106,6 +106,10 @@ void Material::Bind() {
 	MatrixID = glGetUniformLocation(ProgramID, "WVP");
 }
 
+void Material::BindTexture() {
+	TextureID = glGetUniformLocation(ProgramID, "myTextureSampler");			// Le dice al material que tiene que usar una textura
+}
+
 void Material::SetMatrixProperty(glm::mat4& mat) {
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mat[0][0]);
 }
