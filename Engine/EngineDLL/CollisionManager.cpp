@@ -18,7 +18,7 @@ CollisionManager::~CollisionManager() {
 	delete boxes;
 }
 
-void CollisionManager::BoxCollisionDetecter() {
+void CollisionManager::BoxCollisionDetector() {
 	for (int i = 0; i < (int)Layers::Count; i++) {															//Con estos dos fors recorremos las layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
@@ -27,7 +27,7 @@ void CollisionManager::BoxCollisionDetecter() {
 	}
 }
 
-void CollisionManager::CircleCollisionDetecter() {
+void CollisionManager::CircleCollisionDetector() {
 	for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos las layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
@@ -57,10 +57,11 @@ void CollisionManager::CollisionBoxMath(BoundingBox A, BoundingBox B) {
 	unsigned int moduleX = abs(diff.x);																		// Modulo de X
 	unsigned int moduleY = abs(diff.y);																		// Modulo de Y
 
+	/* FALTA SI ES TRIGGER */
 	if (moduleX < (A.GetWidth()/2 + B.GetWidth()/2) && moduleY < (A.GetHeight()/2 + B.GetHeight()/2)) {
-		unsigned int inX = (A.GetWidth() / 2 + B.GetWidth() / 2) - moduleX;									// Cuanto penetra X
-		unsigned int inY = (A.GetHeight() / 2 + B.GetHeight() / 2) - moduleY;
-		if (inX > inY) {																					// 
+		unsigned int inX = (A.GetWidth() / 2 + B.GetWidth() / 2) - moduleX;									// Cuanto penetra en X	(¿Tiene que ser valor absoluto?)
+		unsigned int inY = (A.GetHeight() / 2 + B.GetHeight() / 2) - moduleY;								// Cuanto penetra en Y
+		if (inX > inY) {																					// Si se penetra mas verticalmente
 			if (A.isStatic()) 
 				B.SetPos(B.GetX(), B.GetY() - inY);
 			else if(B.isStatic())
@@ -70,13 +71,13 @@ void CollisionManager::CollisionBoxMath(BoundingBox A, BoundingBox B) {
 				B.SetPos(B.GetX(), B.GetY() - (inY/2));
 			}
 		}
-		else {
+		else {																								// Si se penetra mas horizontalmente
 			if (A.isStatic())
 				B.SetPos(B.GetX(), B.GetY() - inX);
 			else if (B.isStatic())
 				A.SetPos(A.GetX(), A.GetY() - inX);
 			else {
-				A.SetPos(A.GetX(), A.GetY() - (inX / 2));														// Se deberian mover a la mitad de la distancia
+				A.SetPos(A.GetX(), A.GetY() - (inX / 2));													// Se deberian mover a la mitad de la distancia
 				B.SetPos(B.GetX(), B.GetY() - (inX / 2));
 			}
 		}
@@ -87,16 +88,18 @@ void CollisionManager::CollisionCircleMath(BoundingCircle A, BoundingCircle B) {
 	glm::vec2 diff = A.GetPos() - B.GetPos();
 	unsigned int moduleX = abs(diff.x);
 	unsigned int moduleY = abs(diff.y);
-	unsigned int dist = ((moduleX * 2) + (moduleY * 2));														// Distancia al cuadrado
+	unsigned int dist = ((moduleX * 2) + (moduleY * 2));													// Distancia al cuadrado
 
-	if (dist < ((A.GetRadius() + B.GetRadius()) * 2)) {
+	if (dist*2 < ((A.GetRadius() + B.GetRadius()) * 2)) {													// Si esto ocurre, hay colision
 		unsigned int dist = ((A.GetRadius() + B.GetRadius()) * 2);
-		unsigned int insideCircle = ((A.GetRadius() + B.GetRadius()) - dist);										// Penetracion en el circulo
-		glm::vec2 dirA = glm::normalize(A.GetPos());															// Direccion en X a la que va a ser expulsado
-		glm::vec2 dirB = glm::normalize(B.GetPos());															// Direeccion en Y a la que va a ser expulsado
+		unsigned int insideCircle = ((A.GetRadius() + B.GetRadius()) - dist);								// Penetracion en el circulo
+		glm::vec2 dirA = glm::normalize(A.GetPos());														// Direccion en X a la que va a ser expulsado
+		glm::vec2 dirB = glm::normalize(B.GetPos());														// Direeccion en Y a la que va a ser expulsado
 		//unsigned int dirX = diff.x / moduleX;																	
 		//unsigned int dirY = diff.y / moduleY;	
 
 		// Para expulsar deberia tener las direcciones de los dos objetos que colisionaron (dirA y dirB), y ver cual es la fuerza que se le aplica para retornarla y que salga con esa cantidad de fuerza
+	
+		
 	}
 }

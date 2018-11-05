@@ -11,8 +11,8 @@ using namespace std;
 
 class ENGINEDLL_API CollisionManager {
 
-	vector <list <BoundingCircle>*>* circles;
-	vector <list <BoundingBox>*>* boxes;
+	vector<list<BoundingCircle>*>* circles;
+	vector<list<BoundingBox>*>* boxes;
 
 	void LayersMatchBox(list<BoundingBox>* layerA, list<BoundingBox>* layerB);
 	void LayersMatchCircle(list<BoundingCircle>* layerA, list<BoundingCircle>* layerB);
@@ -21,6 +21,6 @@ class ENGINEDLL_API CollisionManager {
 public:
 	CollisionManager();
 	~CollisionManager();
-	void CircleCollisionDetecter();
-	void BoxCollisionDetecter();
+	void CircleCollisionDetector();
+	void BoxCollisionDetector();
 };
