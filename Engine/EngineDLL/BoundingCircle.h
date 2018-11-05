@@ -6,10 +6,14 @@
 class ENGINEDLL_API BoundingCircle {
 	glm::vec2 pos;
 	unsigned int radius;
+	bool staticCircle;
 	Layers layer;
 public:
-	BoundingCircle(glm::vec2 pos, unsigned int radius);
+	BoundingCircle(glm::vec2 pos, unsigned int radius, bool setStatic);
 	~BoundingCircle() { };
 	glm::vec2 GetPos();
-	unsigned int GetInfo();
+	bool isStatic();
+	unsigned int GetX();
+	unsigned int GetY();
+	unsigned int GetRadius();
 };

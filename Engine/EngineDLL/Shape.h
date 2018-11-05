@@ -12,6 +12,7 @@ protected:
 	int vtxColorCount;
 	float* vertex;
 	float* colorVertex;
+
 	Material * material;
 public:
 	Shape(Renderer * renderer);

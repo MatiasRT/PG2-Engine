@@ -14,8 +14,10 @@ class ENGINEDLL_API CollisionManager {
 	vector <list <BoundingCircle>*>* circles;
 	vector <list <BoundingBox>*>* boxes;
 
-	void CollisionBoxMath();
-	void CollisionCircleMath();
+	void LayersMatchBox(list<BoundingBox>* layerA, list<BoundingBox>* layerB);
+	void LayersMatchCircle(list<BoundingCircle>* layerA, list<BoundingCircle>* layerB);
+	void CollisionBoxMath(BoundingBox A, BoundingBox B);
+	void CollisionCircleMath(BoundingCircle A, BoundingCircle B);
 public:
 	CollisionManager();
 	~CollisionManager();
