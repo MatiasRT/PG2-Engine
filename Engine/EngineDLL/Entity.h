@@ -1,4 +1,5 @@
 #pragma once
+#include "Definitions.h"
 #include "Exports.h"
 #include "Renderer.h"
 #include <iostream>

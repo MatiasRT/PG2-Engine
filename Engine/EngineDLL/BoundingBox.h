@@ -1,13 +1,13 @@
 #pragma once
 #include "Exports.h"
-#include "CollisionManager.h"
+#include "Definitions.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 class ENGINEDLL_API BoundingBox {
 	glm::vec2 pos;
 	unsigned int width;
 	unsigned int height;
-	Layer layer;
+	Layers layer;
 public:
 	BoundingBox(glm::vec2 pos, unsigned int width, unsigned int height);
 	~BoundingBox() { };
