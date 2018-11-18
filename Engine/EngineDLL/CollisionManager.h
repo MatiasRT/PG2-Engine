@@ -12,6 +12,8 @@ using namespace std;
 
 class ENGINEDLL_API CollisionManager {
 
+	static CollisionManager* instance;
+
 	vector<list<Sprite*>*>* boxes;
 	vector<list<Sprite*>*>* circles;
 
@@ -27,4 +29,11 @@ public:
 	void FillingCircleList(Layers layer, Sprite * s);
 	void CircleCollisionDetector();
 	void BoxCollisionDetector();
+
+	static CollisionManager* Instance() {
+		if (instance == NULL) {
+			instance = new CollisionManager();
+		}
+		return instance;
+	};
 };

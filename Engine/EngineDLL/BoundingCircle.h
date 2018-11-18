@@ -5,12 +5,12 @@
 #include <glm/glm.hpp>
 class ENGINEDLL_API BoundingCircle {
 	glm::vec2 pos;
-	unsigned int radius;
+	float radius;
 	bool isStatic;
 	bool isTrigger;
 
 public:
-	BoundingCircle(glm::vec2 pos, unsigned int radius, bool setStatic, bool setTrigger);
+	BoundingCircle(glm::vec2 pos, float radius, bool setStatic, bool setTrigger);
 	~BoundingCircle() { };
 	bool IsStatic() { return isStatic; };
 	bool IsTrigger() { return isTrigger; };
