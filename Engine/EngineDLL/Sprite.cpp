@@ -1,7 +1,7 @@
 #include "Sprite.h"
 
 Sprite::Sprite(Renderer* renderer) : Shape(renderer) {
-	
+	collision = false;
 	vertex = new float[12]{													
 		-1.0f, -1.0f, 0.0f,													
 		-1.0f, 1.0f, 0.0f,													
@@ -47,7 +47,7 @@ void Sprite::DrawMesh1(int type) {
 	renderer->BeginDraw(0);
 	renderer->BeginDraw(1);																	// Le decimos al renderer que comience a dibujar
 	renderer->BindBuffer(bufferId, 0);
-	renderer->BindTextureBuffer(txrBufferId, 1);												// Unimos el buffer con el buffer binding point
+	renderer->BindTextureBuffer(txrBufferId, 1);											// Unimos el buffer con el buffer binding point
 	renderer->DrawBuffer(vtxCount, type);													// El renderer dibuja el triangulo
 	renderer->EndDraw(0);
 	renderer->EndDraw(1);																	// Deja de dibujar

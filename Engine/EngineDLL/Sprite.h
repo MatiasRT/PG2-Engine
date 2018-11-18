@@ -10,6 +10,7 @@ class ENGINEDLL_API Sprite : public Shape {
 	bool shouldDisposeTexture;
 	int vtxTextureCount;
 	float* textureVertex;
+	bool collision;
 public:
 	Sprite(Renderer* renderer);//, const char * name);
 	~Sprite();
@@ -19,4 +20,6 @@ public:
 	void DrawMesh1(int type);
 	void Draw() override;
 	void SetMaterial(Material* material);
+	void SetCollision() { collision = true; }
+	bool GetCollision() { return collision; }
 };

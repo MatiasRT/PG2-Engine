@@ -1,7 +1,6 @@
 #pragma once
 #include "Exports.h"
 #include "Definitions.h"
-#include "Shape.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 class ENGINEDLL_API BoundingBox {
@@ -9,17 +8,23 @@ class ENGINEDLL_API BoundingBox {
 	//Shape* boxShape;
 
 	glm::vec2 pos;
-	unsigned int width;
-	unsigned int height;
-	bool staticBox;
+	float width;
+	float height;
+	bool isStatic;
+	bool isTrigger;
+	bool collision;
+
 public:
-	BoundingBox(glm::vec2 pos, unsigned int width, unsigned int height, bool setStatic/*, Shape* shape*/);
+	BoundingBox(glm::vec2 pos, float width, float height, bool setStatic, bool setTrigger/*, Shape* shape*/);
 	~BoundingBox() { };
-	bool isStatic();
-	void SetPos(int x, int y);
-	unsigned int GetX();
-	unsigned int GetY();
-	unsigned int GetWidth();
-	unsigned int GetHeight();
-	glm::vec2 GetPos();
+	bool IsStatic() { return isStatic; };
+	bool IsTrigger() { return isTrigger; };
+	void SetPos(int x, int y) { pos.x = x; pos.y = y; };
+	void SetCollision(bool setCollision) { collision = setCollision; };
+	float GetX() { return pos.x; };
+	float GetY() { return pos.y; };
+	float GetWidth() { return width; };
+	float GetHeight() { return height; };
+	glm::vec2 GetPos() { return pos; };
+	bool GetCollision() { return collision; };
 };

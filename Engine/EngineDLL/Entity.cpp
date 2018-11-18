@@ -64,18 +64,14 @@ void Entity::SetRotZ(float z) {
 	UpdateWorldMatrix();
 }
 
+void Entity::SetBoundingBox(float w, float h, bool setStatic, bool setTrigger) {
+	box = new BoundingBox(glm::vec2(v3pos.x, v3pos.y), w, h, setStatic, setTrigger);
+}
+
+void Entity::SetBoundingCircle(float r, bool setStatic, bool setTrigger) {
+	circle = new BoundingCircle(glm::vec2(v3pos.x, v3pos.y), r, setStatic/*, setTrigger*/);
+}
+
 void Entity::UpdateWorldMatrix() {
 	worldMatrix = (translateMatrix * rotationX * rotationY * rotationZ * scaleMatrix);
-}
-
-glm::vec3 Entity::GetPos() {
-	return v3pos;
-}
-
-glm::vec3 Entity::GetRot() {
-	return v3rot;
-}
-
-glm::vec3 Entity::GetScale() {
-	return v3scale;
 }

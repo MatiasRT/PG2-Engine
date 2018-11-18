@@ -2,6 +2,8 @@
 #include "Definitions.h"
 #include "Exports.h"
 #include "Renderer.h"
+#include "BoundingBox.h"
+#include "BoundingCircle.h"
 #include <iostream>
 using namespace std;
 class ENGINEDLL_API Entity {
@@ -19,6 +21,9 @@ protected:
 	glm::mat4 rotationX;
 	glm::mat4 rotationY;
 	glm::mat4 rotationZ;
+
+	BoundingBox* box;
+	BoundingCircle* circle;
 public:
 	virtual void Draw() = 0;
 	Entity(Renderer* rendererPtr);
@@ -27,9 +32,12 @@ public:
 	void SetRotX(float x);
 	void SetRotY(float y);
 	void SetRotZ(float z);
-
-	glm::vec3 GetPos();
-	glm::vec3 GetScale();
-	glm::vec3 GetRot();
+	void SetBoundingBox(float w, float h, bool setStatic, bool setTrigger);
+	void SetBoundingCircle(float r, bool setStatic, bool setTrigger);
+	glm::vec3 GetPos() { return v3pos; };
+	glm::vec3 GetScale() { return v3scale; };
+	glm::vec3 GetRot() { return v3rot; };
+	BoundingBox* GetBoundingBox() { return box; };
+	BoundingCircle* GetBoundingCircle() { return circle; };
 	void UpdateWorldMatrix();
 };
