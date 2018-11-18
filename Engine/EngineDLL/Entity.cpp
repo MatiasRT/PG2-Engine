@@ -69,7 +69,7 @@ void Entity::SetBoundingBox(float w, float h, bool setStatic, bool setTrigger) {
 }
 
 void Entity::SetBoundingCircle(float r, bool setStatic, bool setTrigger) {
-	circle = new BoundingCircle(glm::vec2(v3pos.x, v3pos.y), r, setStatic/*, setTrigger*/);
+	circle = new BoundingCircle(glm::vec2(v3pos.x, v3pos.y), r, setStatic, setTrigger);
 }
 
 void Entity::UpdateWorldMatrix() {
