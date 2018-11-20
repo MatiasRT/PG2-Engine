@@ -27,7 +27,6 @@ protected:
 public:
 	virtual void Draw() = 0;
 	Entity(Renderer* rendererPtr);
-	~Entity() { delete box; delete circle; };
 	void SetPos(float x, float y, float z);
 	void SetScale(float x, float y, float z);
 	void SetRotX(float x);

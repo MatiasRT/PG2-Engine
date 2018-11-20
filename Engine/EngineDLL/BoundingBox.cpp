@@ -6,5 +6,6 @@ BoundingBox::BoundingBox(glm::vec2 p, float w, float h, bool setStatic, bool set
 	height = h;
 	isStatic = setStatic;
 	isTrigger = setTrigger;
+	collision = false;
 	//boxShape = shape;
 }

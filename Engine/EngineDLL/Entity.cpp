@@ -1,6 +1,8 @@
 #include "Entity.h"
 
 Entity::Entity(Renderer* rendererPTR) {
+	box = NULL;
+	circle = NULL;
 	renderer = rendererPTR;
 	worldMatrix = glm::mat4(1.0f);									//Identidad
 	translateMatrix = glm::mat4(1.0f);								//Translacion
@@ -8,12 +10,24 @@ Entity::Entity(Renderer* rendererPTR) {
 	rotationX = glm::mat4(1.0f);									//Rotacion en X
 	rotationY = glm::mat4(1.0f);									//Rotacion en Y
 	rotationZ = glm::mat4(1.0f);									//Rotacion en Z
+	v3pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	v3scale = glm::vec3(1.0f, 1.0f, 0.0f);
+	v3rot = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 void Entity::SetPos(float x, float y, float z) {
-	v3pos[0] = x;
-	v3pos[1] = y;
-	v3pos[2] = z;
+	if (box == NULL)/* || circle == NULL) */{
+		v3pos[0] = x;
+		v3pos[1] = y;
+		v3pos[2] = z;
+	}
+	else if (!box->GetCollision()/* || cirlce->GetCollision*/) {
+		v3pos[0] = x;
+		v3pos[1] = y;
+		v3pos[2] = z;
+		box->SetPos(v3pos[0], v3pos[1]);
+		box->SetCollision(false);
+	}
 
 	translateMatrix = glm::translate(glm::mat4(1.0f), v3pos);
 	UpdateWorldMatrix();

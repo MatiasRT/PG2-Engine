@@ -1,4 +1,5 @@
 #include <Gamebase.h>
+#include <CollisionManager.h>
 #include <Triangle.h>
 #include <Material.h>
 #include <Rectangle.h>
@@ -17,6 +18,7 @@ class Game : public Gamebase {
 	Material * mat1;
 	Material * mat2;
 	Sprite * sp1;
+	Sprite * sp2;
 public:
 	Game() { i = 0; };
 	~Game() { };
