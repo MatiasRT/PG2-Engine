@@ -71,7 +71,7 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 	float moduleX = abs(diff.x);																			// Modulo de X
 	float moduleY = abs(diff.y);																			// Modulo de Y
 
-	if (!boxA->IsTrigger() || !boxB->IsTrigger()) {															// Si nunguno de las cajas es trigger entra al if
+	//if (!boxA->IsTrigger() || !boxB->IsTrigger()) {															// Si nunguno de las cajas es trigger entra al if
 
 		if (moduleX <= (boxA->GetWidth() / 2 + boxB->GetWidth() / 2) && moduleY <= (boxA->GetHeight() / 2 + boxB->GetHeight() / 2)) {
 
@@ -91,7 +91,7 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 					A->SetPos(boxA->GetX(), boxA->GetY() + (inY / 2), 0);									// Se deberian mover a la mitad de la distancia
 					B->SetPos(boxB->GetX(), boxB->GetY() - (inY / 2), 0);
 
-					cout << "Hola" << endl;
+					cout << "Colision Vertical" << endl;
 				}
 			}
 			else {																							// Si se penetra mas horizontalmente
@@ -107,11 +107,11 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 					A->SetPos(boxA->GetX() + (inX / 2), boxA->GetY() , 0);									// Se deberian mover a la mitad de la distancia
 					B->SetPos(boxB->GetX() - (inX / 2), boxB->GetY() , 0);
 
-					cout << "Hola" << endl;
+					cout << "Colision Horizontal" << endl;
 				}
 			}
 		}
-	}
+	//}
 }
 
 void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {

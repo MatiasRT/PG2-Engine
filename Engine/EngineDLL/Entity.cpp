@@ -10,7 +10,8 @@ Entity::Entity(Renderer* rendererPTR) {
 	rotationX = glm::mat4(1.0f);									//Rotacion en X
 	rotationY = glm::mat4(1.0f);									//Rotacion en Y
 	rotationZ = glm::mat4(1.0f);									//Rotacion en Z
-	v3pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	//v3pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	v3pos[0] = v3pos[1] = v3pos[2] = 0.0f;
 	v3scale = glm::vec3(1.0f, 1.0f, 0.0f);
 	v3rot = glm::vec3(0.0f, 0.0f, 0.0f);
 }
@@ -75,6 +76,23 @@ void Entity::SetRotZ(float z) {
 
 	rotationZ = glm::rotate(glm::mat4(1.0f), z, axis);
 
+	UpdateWorldMatrix();
+}
+
+void Entity::Translate(float x, float y, float z) {
+	if (box == NULL) {
+		v3pos[0] += x;
+		v3pos[1] += y;
+		v3pos[2] += z;
+	}
+	else if (!box->GetCollision()) {
+		v3pos[0] += x;
+		v3pos[1] += y;
+		v3pos[2] += z;
+		box->SetPos(v3pos[0], v3pos[1]);
+		box->SetCollision(false);
+	}
+	translateMatrix = glm::translate(glm::mat4(1.0f), v3pos);
 	UpdateWorldMatrix();
 }
 
