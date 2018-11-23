@@ -4,25 +4,24 @@ Entity::Entity(Renderer* rendererPTR) {
 	box = NULL;
 	circle = NULL;
 	renderer = rendererPTR;
-	worldMatrix = glm::mat4(1.0f);									//Identidad
-	translateMatrix = glm::mat4(1.0f);								//Translacion
-	scaleMatrix = glm::mat4(1.0f);									//Escala
-	rotationX = glm::mat4(1.0f);									//Rotacion en X
-	rotationY = glm::mat4(1.0f);									//Rotacion en Y
-	rotationZ = glm::mat4(1.0f);									//Rotacion en Z
-	//v3pos = glm::vec3(0.0f, 0.0f, 0.0f);
-	v3pos[0] = v3pos[1] = v3pos[2] = 0.0f;
-	v3scale = glm::vec3(1.0f, 1.0f, 0.0f);
-	v3rot = glm::vec3(0.0f, 0.0f, 0.0f);
+	worldMatrix = glm::mat4(1.0f);											// Identidad
+	translateMatrix = glm::mat4(1.0f);										// Translacion
+	scaleMatrix = glm::mat4(1.0f);											// Escala
+	rotationX = glm::mat4(1.0f);											// Rotacion en X
+	rotationY = glm::mat4(1.0f);											// Rotacion en Y
+	rotationZ = glm::mat4(1.0f);											// Rotacion en Z
+	v3pos = glm::vec3(0.0f, 0.0f, 0.0f);									// Inicializacion de la posicion
+	v3scale = glm::vec3(1.0f, 1.0f, 0.0f);									// Inicializacion de la escala
+	v3rot = glm::vec3(0.0f, 0.0f, 0.0f);									// Inicializacion de la rotacion
 }
 
 void Entity::SetPos(float x, float y, float z) {
-	if (box == NULL)/* || circle == NULL) */{
+	if (box == NULL)/* || circle == NULL) */{								// No hay caja de colision
 		v3pos[0] = x;
 		v3pos[1] = y;
 		v3pos[2] = z;
 	}
-	else if (!box->GetCollision()/* || cirlce->GetCollision*/) {
+	else if (!box->GetCollision()/* || cirlce->GetCollision*/) {			// Hay caja de colision, verifica el resultado del getter de colision de la caja
 		v3pos[0] = x;
 		v3pos[1] = y;
 		v3pos[2] = z;
@@ -79,13 +78,13 @@ void Entity::SetRotZ(float z) {
 	UpdateWorldMatrix();
 }
 
-void Entity::Translate(float x, float y, float z) {
-	if (box == NULL) {
+void Entity::Translation(float x, float y, float z) {						// Usamos translation para mover a la entidad porque sino se pierde la posicion original ya que la estoy pisando todo el tiempo.
+	if (box == NULL) {														// No hay caja de colision
 		v3pos[0] += x;
 		v3pos[1] += y;
 		v3pos[2] += z;
 	}
-	else if (!box->GetCollision()) {
+	else if (!box->GetCollision()) {										// Hay caja de colision, verifica el resultado del getter de colision de la caja
 		v3pos[0] += x;
 		v3pos[1] += y;
 		v3pos[2] += z;
@@ -97,11 +96,11 @@ void Entity::Translate(float x, float y, float z) {
 }
 
 void Entity::SetBoundingBox(float w, float h, bool setStatic, bool setTrigger) {
-	box = new BoundingBox(glm::vec2(v3pos.x, v3pos.y), w, h, setStatic, setTrigger);
+	box = new BoundingBox(glm::vec2(v3pos.x, v3pos.y), w, h, setStatic, setTrigger);		// Seteamos los valores que va a tener la caja de colision de una entidad en particular
 }
 
 void Entity::SetBoundingCircle(float r, bool setStatic, bool setTrigger) {
-	circle = new BoundingCircle(glm::vec2(v3pos.x, v3pos.y), r, setStatic, setTrigger);
+	circle = new BoundingCircle(glm::vec2(v3pos.x, v3pos.y), r, setStatic, setTrigger);		// Seteamos los valores que va a tener la circunferencia de colision de una entidad en particular
 }
 
 void Entity::UpdateWorldMatrix() {

@@ -46,7 +46,7 @@ void CollisionManager::CircleCollisionDetector() {
 	}
 }
 
-void CollisionManager::LayersMatchBox(list<Sprite*>* layerA, list<Sprite*>* layerB) {							// Ven las colisiones entre los layers (cajas)
+void CollisionManager::LayersMatchBox(list<Sprite*>* layerA, list<Sprite*>* layerB) {						// Ven las colisiones entre los layers (cajas)
 	for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i){
 		for (list<Sprite*>::iterator j = layerB->begin(); j != layerB->end(); ++j) {
 			CollisionBoxMath(*i, *j);																		// Le mandamos por parametro los sprites a la funcion que resuelve la colision
@@ -54,7 +54,7 @@ void CollisionManager::LayersMatchBox(list<Sprite*>* layerA, list<Sprite*>* laye
 	}
 }
 
-void CollisionManager::LayersMatchCircle(list<Sprite*>* layerA, list<Sprite*>* layerB) {						// Ven las colisiones entre los layers (circulos)
+void CollisionManager::LayersMatchCircle(list<Sprite*>* layerA, list<Sprite*>* layerB) {					// Ven las colisiones entre los layers (circulos)
 	for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i) {
 		for (list<Sprite*>::iterator j = layerB->begin(); j != layerB->end(); ++j) {
 			CollisionCircleMath(*i, *j);																	// Le mandamos por parametro los sprites a la funcion que resuelve la colision
@@ -63,55 +63,66 @@ void CollisionManager::LayersMatchCircle(list<Sprite*>* layerA, list<Sprite*>* l
 }
 
 void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
-	BoundingBox* boxA = A->GetBoundingBox();																	// Obtenemos la caja de colision del sprite n1
-	BoundingBox* boxB = B->GetBoundingBox();																	// Obtenemos la caja de colision del sprite n2
+	BoundingBox* boxA = A->GetBoundingBox();																// Obtenemos la caja de colision del sprite n1
+	BoundingBox* boxB = B->GetBoundingBox();																// Obtenemos la caja de colision del sprite n2
 
 	glm::vec2 diff = boxA->GetPos() - boxB->GetPos();														// Obtenemos la diferencia
 
 	float moduleX = abs(diff.x);																			// Modulo de X
 	float moduleY = abs(diff.y);																			// Modulo de Y
+	
+	if (!boxA->IsStatic() || !boxB->IsStatic()) {															// Si las dos son estaticas que no haga los calculos
 
-	//if (!boxA->IsTrigger() || !boxB->IsTrigger()) {															// Si nunguno de las cajas es trigger entra al if
+		if (!boxA->IsTrigger() || !boxB->IsTrigger()) {														// Si las dos son triggers que no hagan los calculos
 
-		if (moduleX <= (boxA->GetWidth() / 2 + boxB->GetWidth() / 2) && moduleY <= (boxA->GetHeight() / 2 + boxB->GetHeight() / 2)) {
+			if (moduleX <= (boxA->GetWidth() / 2 + boxB->GetWidth() / 2) && moduleY <= (boxA->GetHeight() / 2 + boxB->GetHeight() / 2)) {
 
-			float inX = (boxA->GetWidth() / 2 + boxB->GetWidth() / 2) - moduleX;							// Cuanto penetra en X	(¿Tiene que ser valor absoluto?)
-			float inY = (boxA->GetHeight() / 2 + boxB->GetHeight() / 2) - moduleY;							// Cuanto penetra en Y
+				float inX = (boxA->GetWidth() / 2 + boxB->GetWidth() / 2) - moduleX;						// Cuanto penetra en X	(¿Tiene que ser valor absoluto?)
+				float inY = (boxA->GetHeight() / 2 + boxB->GetHeight() / 2) - moduleY;						// Cuanto penetra en Y
 
-			if (inX > inY) {																				// Si se penetra mas verticalmente
-				if (boxA->IsStatic()) {
-					B->SetPos(boxB->GetX(), boxB->GetY() - inY, 0);											// Si la caja A es estatica, que la caja B salga para afuera la cantidad de penetracion que hubo en Y
-					boxB->SetCollision(true);																// Avisamos al Bounding Box que hubo colision.	
+				if (inX > inY) {																			// Si se penetra mas verticalmente
+					if (boxA->IsStatic()) {
+						if (!boxB->IsTrigger()) {
+							B->SetPos(boxB->GetX(), boxB->GetY() - inY, 0);									// Si la caja A es estatica, que la caja B salga para afuera la cantidad de penetracion que hubo en Y
+							boxB->SetCollision(true);														// Avisamos al Bounding Box que hubo colision.	
+						}
+					}
+					else {
+						if (boxB->IsStatic()) {
+							if (!boxA->IsTrigger()) {
+								A->SetPos(boxA->GetX(), boxA->GetY() - inY, 0);								// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en Y
+								boxA->SetCollision(true);													// Avisamos al Bounding Box que hubo colision.	
+							}
+						}
+						else {
+							A->SetPos(boxA->GetX(), boxA->GetY() + (inY / 2), 0);							// Se deberian mover a la mitad de la distancia
+							B->SetPos(boxB->GetX(), boxB->GetY() - (inY / 2), 0);
+						}
+					}
 				}
-				else if (boxB->IsStatic()) {
-					A->SetPos(boxA->GetX(), boxA->GetY() - inY, 0);											// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en Y
-					boxA->SetCollision(true);																// Avisamos al Bounding Box que hubo colision.	
-				}
-				else {
-					A->SetPos(boxA->GetX(), boxA->GetY() + (inY / 2), 0);									// Se deberian mover a la mitad de la distancia
-					B->SetPos(boxB->GetX(), boxB->GetY() - (inY / 2), 0);
-
-					cout << "Colision Vertical" << endl;
-				}
-			}
-			else {																							// Si se penetra mas horizontalmente
-				if (boxA->IsStatic()) {
-					B->SetPos(boxB->GetX() - inX, boxB->GetY(), 0);											// Si la caja A es estatica, que la caja B salga para afuera la cantidad de penetracion que hubo en X
-					boxB->SetCollision(true);																// Avisamos al Bounding Box que hubo colision.	
-				}
-				else if (boxB->IsStatic()) {
-					A->SetPos(boxA->GetX() - inX, boxA->GetY() , 0);											// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en X
-					boxA->SetCollision(true);																// Avisamos al Bounding Box que hubo colision.	
-				}
-				else {
-					A->SetPos(boxA->GetX() + (inX / 2), boxA->GetY() , 0);									// Se deberian mover a la mitad de la distancia
-					B->SetPos(boxB->GetX() - (inX / 2), boxB->GetY() , 0);
-
-					cout << "Colision Horizontal" << endl;
+				else {																						// Si se penetra mas horizontalmente
+					if (boxA->IsStatic()) {
+						if (!boxB->IsTrigger()) {
+							B->SetPos(boxB->GetX() - inX, boxB->GetY(), 0);									// Si la caja A es estatica, que la caja B salga para afuera la cantidad de penetracion que hubo en X
+							boxB->SetCollision(true);														// Avisamos al Bounding Box que hubo colision.	
+						}
+					} 
+					else {
+						if (boxB->IsStatic()) {
+							if (!boxA->IsTrigger()) {
+								A->SetPos(boxA->GetX() - inX, boxA->GetY(), 0);									// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en X
+								boxA->SetCollision(true);														// Avisamos al Bounding Box que hubo colision.	
+							}
+						}
+						else {
+							A->SetPos(boxA->GetX() + (inX / 2), boxA->GetY(), 0);								// Se deberian mover a la mitad de la distancia
+							B->SetPos(boxB->GetX() - (inX / 2), boxB->GetY(), 0);
+						}
+					}
 				}
 			}
 		}
-	//}
+	}
 }
 
 void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {

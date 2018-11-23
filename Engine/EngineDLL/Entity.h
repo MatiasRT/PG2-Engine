@@ -7,15 +7,14 @@
 #include <iostream>
 using namespace std;
 class ENGINEDLL_API Entity {
+protected:
+	Renderer * renderer;
 
 	glm::vec3 v3pos;
 	glm::vec3 v3scale;
 	glm::vec3 v3rot;
-protected:
-	Renderer * renderer;
 
 	glm::mat4 worldMatrix;
-
 	glm::mat4 translateMatrix;
 	glm::mat4 scaleMatrix;
 	glm::mat4 rotationX;
@@ -32,7 +31,7 @@ public:
 	void SetRotX(float x);
 	void SetRotY(float y);
 	void SetRotZ(float z);
-	void Translate(float x, float y, float z);
+	void Translation(float x, float y, float z);
 	void SetBoundingBox(float w, float h, bool setStatic, bool setTrigger);
 	void SetBoundingCircle(float r, bool setStatic, bool setTrigger);
 	glm::vec3 GetPos() { return v3pos; };

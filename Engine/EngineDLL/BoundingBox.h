@@ -19,7 +19,7 @@ public:
 	~BoundingBox() { };
 	bool IsStatic() { return isStatic; };
 	bool IsTrigger() { return isTrigger; };
-	void SetPos(int x, int y) { pos.x = x; pos.y = y; };
+	void SetPos(float x, float y) { pos.x = x; pos.y = y; };
 	void SetCollision(bool setCollision) { collision = setCollision; };
 	float GetX() { return pos.x; };
 	float GetY() { return pos.y; };

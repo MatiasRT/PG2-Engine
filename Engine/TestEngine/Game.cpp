@@ -47,7 +47,7 @@ bool Game::OnStart() {
 
 bool Game::OnUpdate() {																			// Toda la logica va aca
 	CollisionManager::Instance()->BoxCollisionDetector();
-	i++;
+	//i++;
 	//speed = 1.0f;
 	//rotation += speed * time;
 	//rt1->SetRotZ(rotation);
@@ -58,9 +58,8 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	//tr1->SetPos(9.0f - translation, 0.0f, 0.0f);
 	//cr1->SetPos(-9.0f + translation, 0.0f, 0.0f);
 
-
-	sp1->Translate(0.0f, speed * time * 2.0f, 0.0f);
-	sp2->Translate(0.0f, -speed * time * 2.0f, 0.0f);
+	sp1->Translation(0.0f, speed * time * 4.0f, 0.0f);											// Movemos con translation asi no pisamos la posicion original
+	sp2->Translation(0.0f, -speed * time * 2.0f, 0.0f);
 
 	//cout<<"Game::OnUpdate(): "<<i<< endl;
 	return true;
