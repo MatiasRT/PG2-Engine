@@ -95,8 +95,12 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 							}
 						}
 						else {
-							A->SetPos(boxA->GetX(), boxA->GetY() + (inY / 2), 0);							// Se deberian mover a la mitad de la distancia
-							B->SetPos(boxB->GetX(), boxB->GetY() - (inY / 2), 0);
+							if(!boxA->IsTrigger())
+								if (!boxB->IsTrigger()) {
+									A->SetPos(boxA->GetX(), boxA->GetY() + (inY / 2), 0);					// Se deberian mover a la mitad de la distancia
+									B->SetPos(boxB->GetX(), boxB->GetY() - (inY / 2), 0);
+
+								}
 						}
 					}
 				}
@@ -110,13 +114,16 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 					else {
 						if (boxB->IsStatic()) {
 							if (!boxA->IsTrigger()) {
-								A->SetPos(boxA->GetX() - inX, boxA->GetY(), 0);									// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en X
-								boxA->SetCollision(true);														// Avisamos al Bounding Box que hubo colision.	
+								A->SetPos(boxA->GetX() - inX, boxA->GetY(), 0);								// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en X
+								boxA->SetCollision(true);													// Avisamos al Bounding Box que hubo colision.	
 							}
 						}
 						else {
-							A->SetPos(boxA->GetX() + (inX / 2), boxA->GetY(), 0);								// Se deberian mover a la mitad de la distancia
-							B->SetPos(boxB->GetX() - (inX / 2), boxB->GetY(), 0);
+							if (!boxA->IsTrigger())
+								if (!boxB->IsTrigger()) {
+									A->SetPos(boxA->GetX() + (inX / 2), boxA->GetY(), 0);					// Se deberian mover a la mitad de la distancia
+									B->SetPos(boxB->GetX() - (inX / 2), boxB->GetY(), 0);
+								}
 						}
 					}
 				}
