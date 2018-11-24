@@ -4,18 +4,24 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 class ENGINEDLL_API BoundingCircle {
+	//Layers layer;
+	//Shape* boxShape;
 	glm::vec2 pos;
 	float radius;
 	bool isStatic;
 	bool isTrigger;
+	bool collision;
 
 public:
 	BoundingCircle(glm::vec2 pos, float radius, bool setStatic, bool setTrigger);
 	~BoundingCircle() { };
 	bool IsStatic() { return isStatic; };
 	bool IsTrigger() { return isTrigger; };
+	void SetPos(float x, float y) { pos.x = x; pos.y = y; };
+	void SetCollision(bool setCollision) { collision = setCollision; };
 	float GetX() { return pos.x; };
 	float GetY() { return pos.y; };
 	float GetRadius() { return radius; };
 	glm::vec2 GetPos() { return pos; };
+	bool GetCollision() { return collision; };
 };

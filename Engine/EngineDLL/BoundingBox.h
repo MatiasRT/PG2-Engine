@@ -4,9 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 class ENGINEDLL_API BoundingBox {
-	Layers layer;
+	//Layers layer;
 	//Shape* boxShape;
-
 	glm::vec2 pos;
 	float width;
 	float height;
