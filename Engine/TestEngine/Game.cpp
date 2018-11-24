@@ -23,19 +23,20 @@ bool Game::OnStart() {
 	//cr1 = new Circle(renderer, 1, 30);														// Creo un Rectangulo, y le paso como parametro el renderer, asi se puede dibujar, y le paso tambien el radio que va atener, y la cantidad de triangulos que quiero que formen el circulo (TRIANGLE_FAN, a lo paraguas)
 	//cr1->SetMaterial(mat1);
 
-	sp1 = new Sprite(renderer);
+	sp1 = new Sprite(renderer, 1, 1);
 	sp1->SetMaterial(mat2);
 	sp1->LoadBMP("sample2.bmp");
 	sp1->SetPos(0.0f, -6.0f, 0.0f);
 	sp1->SetBoundingBox(2.0f, 2.0f, false, false);
 	instance->FillingBoxList(Player_layer, sp1);
 	
-	sp2 = new Sprite(renderer);
+	sp2 = new Sprite(renderer, 8, 8);
 	sp2->SetMaterial(mat2);
-	sp2->LoadBMP("sample2.bmp");
+	sp2->LoadBMP("asteroid.bmp");
 	sp2->SetPos(0.0f, 6.0f, 0.0f);
 	sp2->SetBoundingBox(2.0f, 2.0f, false, false);
 	instance->FillingBoxList(Enemy_layer, sp2);
+	sp2->SetAnimation(0, 64, 0.1f);
 
 	//tr1->SetPos(9.0f, 0.0f, 0.0f);
 	//rt1->SetPos(0.0f, 0.0f, 0.0f);
@@ -57,6 +58,8 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	//translation += speed * time;
 	//tr1->SetPos(9.0f - translation, 0.0f, 0.0f);
 	//cr1->SetPos(-9.0f + translation, 0.0f, 0.0f);
+
+	sp2->UpdateAnim(time);
 
 	sp1->TranslationBox(0.0f, speed * time * 4.0f, 0.0f);											// Movemos con translation asi no pisamos la posicion original
 	sp2->TranslationBox(0.0f, -speed * time * 2.0f, 0.0f);

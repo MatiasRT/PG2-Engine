@@ -10,7 +10,7 @@ class ENGINEDLL_API Spritesheet {
 
 public:
 	Spritesheet(int tW, int tH, int col, int rows);
-	~Spritesheet() { delete uvList; };
+	~Spritesheet() {/* delete uvList;*/ };
 	int GetSize() { return uvList->size(); };
 	float * GetSpritesheet(int frame);
 };

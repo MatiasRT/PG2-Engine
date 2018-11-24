@@ -2,19 +2,27 @@
 
 Animation::Animation(int col, int rows) {
 	sprite = new Spritesheet(1, 1, col, rows);
+
+	firstFrame = 0;
+	finalFrame = 0;
+	currentFrame = 0;
+	currentTime = 0.0f;
+	timeFrame = 0.1;
 }
 
 Animation::~Animation() {
-	delete sprite;
+	//delete sprite;
 }
 
 float * Animation::UpdateAnimation(float time) {
+	cout << currentFrame << endl;
 	currentTime += time;
 	if (currentTime > timeFrame) {
 		currentTime = 0.0f;
 		if (currentFrame < finalFrame)
 			currentFrame++;
-		else currentFrame = firstFrame;
+		else 
+			currentFrame = firstFrame;
 	}
 	return sprite->GetSpritesheet(currentFrame);
 }

@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(Renderer* renderer) : Shape(renderer) {
+Sprite::Sprite(Renderer* renderer, int col, int rows) : Shape(renderer) {
 	collision = false;
 	vertex = new float[12]{													
 		-1.0f, -1.0f, 0.0f,													
@@ -9,12 +9,15 @@ Sprite::Sprite(Renderer* renderer) : Shape(renderer) {
 		1.0f, 1.0f, 0.0f										
 	};
 
-	textureVertex = new float[8]{
+	/*textureVertex = new float[8]{
 		0.0f, 0.0f,
 		0.0f, 1.0f,
 		1.0f, 0.0f,
 		1.0f, 1.0f,
-	};
+	};*/
+
+	animation = new Animation(col, rows);
+	textureVertex = animation->UpdateAnimation(0);
 
 	SetVertices(vertex, 4);
 	SetTextureVertices(4);
@@ -71,4 +74,13 @@ Sprite::~Sprite() {
 
 void Sprite::SetMaterial(Material* material) {
 	this->material = material;
+}
+
+void Sprite::SetAnimation(int iF, int fF, int tF) {
+	animation->SetAnimation(iF, fF, tF);
+}
+
+void Sprite::UpdateAnim(float time) {
+	textureVertex = animation->UpdateAnimation(time);
+	SetTextureVertices(4);;
 }

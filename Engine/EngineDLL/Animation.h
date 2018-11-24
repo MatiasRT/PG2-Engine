@@ -1,13 +1,14 @@
 #pragma once
 #include "Exports.h"
 #include "Spritesheet.h"
-
+#include <iostream>
+using namespace std;
 class ENGINEDLL_API Animation {
-	int firstFrame = 0;
-	int finalFrame = 0;
-	int currentFrame = 0;
-	float currentTime = 0.0f;
-	float timeFrame = 0.1;
+	int firstFrame;
+	int finalFrame;
+	int currentFrame;
+	float currentTime;
+	float timeFrame;
 	
 	Spritesheet* sprite;
 	

@@ -24,8 +24,9 @@ Spritesheet::Spritesheet(int tW, int tH, int col, int rows) {
 
 float * Spritesheet::GetSpritesheet(int frame) {
 	int fr = 0;
-	for (list<float*>::iterator i = uvList->begin; i != uvList->end(); i++)
+	for (list<float*>::iterator i = uvList->begin(); i != uvList->end(); i++) {
 		if (fr == frame)
 			return *i;
 		else fr++;
+	}
 }

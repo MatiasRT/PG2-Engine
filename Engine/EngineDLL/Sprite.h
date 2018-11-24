@@ -2,8 +2,10 @@
 #include "Shape.h"
 #include "Material.h"
 #include "Importer.h"
+#include "Animation.h"
 class ENGINEDLL_API Sprite : public Shape {
 	Header header;
+	Animation * animation;
 	const char* file;
 	unsigned int textureId;
 	unsigned int txrBufferId;
@@ -12,14 +14,16 @@ class ENGINEDLL_API Sprite : public Shape {
 	float* textureVertex;
 	bool collision;
 public:
-	Sprite(Renderer* renderer);//, const char * name);
+	Sprite(Renderer* renderer, int col, int rows);//, const char * name);
 	~Sprite();
 	void LoadBMP(const char * name);
-	void SetTextureVertices(int count);
 	void DisposeTexture();
 	void DrawMesh1(int type);
 	void Draw() override;
+	void SetTextureVertices(int count);
 	void SetMaterial(Material* material);
+	void SetAnimation(int iF, int fF, int tF);
+	void UpdateAnim(float time);
 	void SetCollision() { collision = true; }
 	bool GetCollision() { return collision; }
 };
