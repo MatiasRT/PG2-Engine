@@ -99,7 +99,6 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 								if (!boxB->IsTrigger()) {
 									A->SetPos(boxA->GetX(), boxA->GetY() + (inY / 2), 0);					// Se deberian mover a la mitad de la distancia
 									B->SetPos(boxB->GetX(), boxB->GetY() - (inY / 2), 0);
-
 								}
 						}
 					}
@@ -151,8 +150,5 @@ void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {
 		//unsigned int dirY = diff.y / moduleY;	
 
 		// Para expulsar deberia tener las direcciones de los dos objetos que colisionaron (dirA y dirB), y ver cual es la fuerza que se le aplica para retornarla y que salga con esa cantidad de fuerza.
-	
-		
 	}
-	
 }
