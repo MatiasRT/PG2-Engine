@@ -21,12 +21,21 @@ void Entity::SetPos(float x, float y, float z) {
 		v3pos[1] = y;
 		v3pos[2] = z;
 	}
-	else if (!box->GetCollision() || !circle->GetCollision()) {								// Hay caja/circunferencia de colision, verifica el resultado del getter de colision de la caja/circunferencia
-		v3pos[0] = x;
-		v3pos[1] = y;
-		v3pos[2] = z;
-		box->SetPos(v3pos[0], v3pos[1]);
-		box->SetCollision(false);
+	else {
+		if (box != NULL && !box->GetCollision()) {											// Hay caja/circunferencia de colision, verifica el resultado del getter de colision de la caja/circunferencia
+			v3pos[0] = x;
+			v3pos[1] = y;
+			v3pos[2] = z;
+			box->SetPos(v3pos[0], v3pos[1]);
+			box->SetCollision(false);	
+		}
+		if (circle != NULL && !circle->GetCollision()) {
+			v3pos[0] = x;
+			v3pos[1] = y;
+			v3pos[2] = z;
+			circle->SetPos(v3pos[0], v3pos[1]);
+			circle->SetCollision(false);
+		}
 	}
 
 	translateMatrix = glm::translate(glm::mat4(1.0f), v3pos);
