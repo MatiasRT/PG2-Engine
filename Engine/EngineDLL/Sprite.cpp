@@ -76,7 +76,7 @@ void Sprite::SetMaterial(Material* material) {
 	this->material = material;
 }
 
-void Sprite::SetAnimation(int iF, int fF, int tF) {
+void Sprite::SetAnimation(int iF, int fF, float tF) {
 	animation->SetAnimation(iF, fF, tF);
 }
 

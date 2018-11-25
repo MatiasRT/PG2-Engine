@@ -3,6 +3,7 @@
 #include "Spritesheet.h"
 #include <iostream>
 using namespace std;
+
 class ENGINEDLL_API Animation {
 	int firstFrame;
 	int finalFrame;
@@ -14,7 +15,7 @@ class ENGINEDLL_API Animation {
 	
 public:
 	Animation(int col, int rows);
-	~Animation();
+	~Animation() { delete sprite;  }
 	float* UpdateAnimation(float time);
 	void SetAnimation(int firstF, int finalF, float timeF);
 };

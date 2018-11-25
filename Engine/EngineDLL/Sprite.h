@@ -22,7 +22,7 @@ public:
 	void Draw() override;
 	void SetTextureVertices(int count);
 	void SetMaterial(Material* material);
-	void SetAnimation(int iF, int fF, int tF);
+	void SetAnimation(int iF, int fF, float tF);
 	void UpdateAnim(float time);
 	void SetCollision() { collision = true; }
 	bool GetCollision() { return collision; }

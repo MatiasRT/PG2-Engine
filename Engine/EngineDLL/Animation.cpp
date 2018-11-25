@@ -3,6 +3,9 @@
 Animation::Animation(int col, int rows) {
 	sprite = new Spritesheet(1, 1, col, rows);
 
+	//cout << col<<endl;
+	//cout << rows<<endl;
+
 	firstFrame = 0;
 	finalFrame = 0;
 	currentFrame = 0;
@@ -10,12 +13,7 @@ Animation::Animation(int col, int rows) {
 	timeFrame = 0.1;
 }
 
-Animation::~Animation() {
-	//delete sprite;
-}
-
 float * Animation::UpdateAnimation(float time) {
-	cout << currentFrame << endl;
 	currentTime += time;
 	if (currentTime > timeFrame) {
 		currentTime = 0.0f;
@@ -28,7 +26,7 @@ float * Animation::UpdateAnimation(float time) {
 }
 
 void Animation::SetAnimation(int firstF, int finalF, float timeF) {
-	if (firstF >= 0 && finalF < sprite->GetSize() && timeF > 0) {
+	if (firstF >= 0 && finalF < sprite->GetSize() && timeF > 0.0f) {
 		firstFrame = firstF;
 		finalFrame = finalF;
 		timeFrame = timeF;
