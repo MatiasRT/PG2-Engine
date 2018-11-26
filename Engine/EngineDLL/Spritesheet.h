@@ -14,5 +14,5 @@ public:
 	Spritesheet(int tW, int tH, int col, int rows);
 	~Spritesheet() { delete uvVector; };
 	int GetSize() { return uvVector->size(); };
-	float * GetSpritesheet(int frame);
+	float * SetSpritesheet(int frame);
 };

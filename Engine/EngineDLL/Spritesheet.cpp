@@ -27,11 +27,11 @@ Spritesheet::Spritesheet(int tW, int tH, int col, int rows) {
 	}
 }
 
-float * Spritesheet::GetSpritesheet(int frame) {
+float * Spritesheet::SetSpritesheet(int frame) {											// Recibe de la animacion el frame en el que se encuentra
 	int fr = 0;
-	for (vector<float*>::iterator i = uvVector->begin(); i != uvVector->end(); i++) {
-		if (fr == frame)
-			return *i;
+	for (vector<float*>::iterator i = uvVector->begin(); i != uvVector->end(); i++) {		
+		if (fr == frame)																	
+			return *i;																		// Devuelve el uvVector para que se vaya actualizando el sprite
 		else fr++;
 	}
 }
