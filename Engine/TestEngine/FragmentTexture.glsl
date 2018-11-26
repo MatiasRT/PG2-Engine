@@ -10,7 +10,15 @@ out vec3 color;
 uniform sampler2D myTextureSampler;
 
 void main(){
-
-    // Output color = color of the texture at the specified UV
-    color = texture( myTextureSampler, UV ).rgb;
+	float colorR = 1.0f;
+	float colorG = 0.0f;
+	float colorB = 1.0f;
+	color = texture( myTextureSampler, UV ).rgb;
+	
+	if (color.r == colorR && color.g == colorG && color.b == colorB){
+		discard;
+	} else {
+		// Output color = color of the texture at the specified UV
+		color = texture( myTextureSampler, UV ).rgb;
+	}
 }
