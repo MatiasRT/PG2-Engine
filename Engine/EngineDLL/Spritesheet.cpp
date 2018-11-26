@@ -1,8 +1,8 @@
 #include "Spritesheet.h"
 
 Spritesheet::Spritesheet(int tW, int tH, int col, int rows) {
-	//uvList = new list<float*>();															// Creo una lista de punteros de floats, donde se van a guardar los uv큦 de la textura
-	uvVector = new vector<float*>();														// Creo un vector de punteros de floats, donde se van a guardar los uv큦 de la textura
+	//uvList = new list<float*>();															// Creo una lista de punteros a floats, donde se van a guardar los uv큦 de la textura
+	uvVector = new vector<float*>();														// Creo un vector de punteros a floats, donde se van a guardar los uv큦 de la textura
 
 	int countFrames = rows * col;															// Multiplico la cantidad de columnas y de filas que tiene el sprite para poder dibujar el correcto
 	float wFrame = 1.0f / col;																// ancho de cada sprite dentro de la imagen.
@@ -15,6 +15,7 @@ Spritesheet::Spritesheet(int tW, int tH, int col, int rows) {
 		//y = (i / countFrames) * hFrame;
 		x = (i % col) * wFrame;
 		y = (i / col) * hFrame;
+
 		uvPositions = new float[8]{															// Llenamos el arreglo de uvs
 			x / tW, 1 - ((y + hFrame) / tH),												// Este seria el punto arriba a la izquierda
 			x / tW, 1 - y / tH,																// Este arriba a la derecha

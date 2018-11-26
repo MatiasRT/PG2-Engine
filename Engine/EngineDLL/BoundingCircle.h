@@ -8,12 +8,13 @@ class ENGINEDLL_API BoundingCircle {
 	//Shape* boxShape;
 	glm::vec2 pos;
 	float radius;
+	float mass;
 	bool isStatic;
 	bool isTrigger;
 	bool collision;
 
 public:
-	BoundingCircle(glm::vec2 pos, float radius, bool setStatic, bool setTrigger);
+	BoundingCircle(glm::vec2 pos, float radius, float mass, bool setStatic, bool setTrigger);
 	~BoundingCircle() { };
 	bool IsStatic() { return isStatic; };
 	bool IsTrigger() { return isTrigger; };
@@ -22,6 +23,7 @@ public:
 	float GetX() { return pos.x; };
 	float GetY() { return pos.y; };
 	float GetRadius() { return radius; };
+	float GetMass() { return mass; };
 	glm::vec2 GetPos() { return pos; };
 	bool GetCollision() { return collision; };
 };

@@ -121,12 +121,12 @@ void Entity::TranslationCircle(float x, float y, float z) {
 	UpdateWorldMatrix();
 }
 
-void Entity::SetBoundingBox(float w, float h, bool setStatic, bool setTrigger) {
-	box = new BoundingBox(glm::vec2(v3pos.x, v3pos.y), w, h, setStatic, setTrigger);		// Seteamos los valores que va a tener la caja de colision de una entidad en particular
+void Entity::SetBoundingBox(float w, float h, float mass, bool setStatic, bool setTrigger) {
+	box = new BoundingBox(glm::vec2(v3pos.x, v3pos.y), w, h, mass, setStatic, setTrigger);	// Seteamos los valores que va a tener la caja de colision de una entidad en particular
 }
 
-void Entity::SetBoundingCircle(float r, bool setStatic, bool setTrigger) {
-	circle = new BoundingCircle(glm::vec2(v3pos.x, v3pos.y), r, setStatic, setTrigger);		// Seteamos los valores que va a tener la circunferencia de colision de una entidad en particular
+void Entity::SetBoundingCircle(float r, float mass, bool setStatic, bool setTrigger) {
+	circle = new BoundingCircle(glm::vec2(v3pos.x, v3pos.y), r, mass, setStatic, setTrigger);// Seteamos los valores que va a tener la circunferencia de colision de una entidad en particular
 }
 
 void Entity::UpdateWorldMatrix() {

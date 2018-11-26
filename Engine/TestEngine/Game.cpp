@@ -4,7 +4,7 @@ bool Game::OnStart() {
 
 	translation = 0;
 	rotation = 0;
-	speed = 1;
+	speed = 0;
 
 	mat1 = new Material();																		// Creo un Material
 	unsigned int programID = mat1->LoadShaders("VertexColor.glsl", "FragmentColor.glsl");		// Le digo al Material cuales van a ser los shaders que tiene que utilizar. El VS se ejecuta una vez x cada pixel, y el FS se ejecuta una vez x muestra
@@ -27,7 +27,7 @@ bool Game::OnStart() {
 	sp1->SetMaterial(mat2);
 	sp1->LoadBMP("asteroid.bmp");
 	sp1->SetPos(0.0f, -6.0f, 0.0f);
-	sp1->SetBoundingBox(2.0f, 2.0f, false, false);
+	sp1->SetBoundingBox(2.0f, 2.0f, 50.0f, false, false);
 	instance->FillingBoxList(Player_layer, sp1);
 	sp1->SetAnimation(0, 63, 0.1f);
 
@@ -35,7 +35,7 @@ bool Game::OnStart() {
 	sp2->SetMaterial(mat2);
 	sp2->LoadBMP("character.bmp");
 	sp2->SetPos(0.0f, 6.0f, 0.0f);
-	sp2->SetBoundingBox(2.0f, 2.0f, false, false);
+	sp2->SetBoundingBox(2.0f, 2.0f, 10.0f, false, false);
 	instance->FillingBoxList(Enemy_layer, sp2);
 	sp2->SetAnimation(0, 47, 0.1f);
 
@@ -50,7 +50,6 @@ bool Game::OnStart() {
 bool Game::OnUpdate() {																			// Toda la logica va aca
 	CollisionManager::Instance()->BoxCollisionDetector();
 	//i++;
-	//speed = 1.0f;
 	//rotation += speed * time;
 	//rt1->SetRotZ(rotation);
 	//tr1->SetRotY(rotation);
@@ -62,8 +61,9 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	sp1->UpdateAnim(time);
 	sp2->UpdateAnim(time);
 
-	sp1->TranslationBox(0.0f, speed * time * 4.0f, 0.0f);											// Movemos con translation asi no pisamos la posicion original
-	sp2->TranslationBox(0.0f, -speed * time * 2.0f, 0.0f);
+	speed = 4.0f;
+	sp1->TranslationBox(0.0f, speed * time, 0.0f);												// Movemos con translation asi no pisamos la posicion original
+	sp2->TranslationBox(0.0f, -speed * time, 0.0f);
 
 	//cout<<"Game::OnUpdate(): "<<i<< endl;
 	return true;

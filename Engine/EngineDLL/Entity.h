@@ -33,8 +33,8 @@ public:
 	void SetRotZ(float z);
 	void TranslationBox(float x, float y, float z);
 	void TranslationCircle(float x, float y, float z);
-	void SetBoundingBox(float w, float h, bool setStatic, bool setTrigger);
-	void SetBoundingCircle(float r, bool setStatic, bool setTrigger);
+	void SetBoundingBox(float w, float h, float mass, bool setStatic, bool setTrigger);
+	void SetBoundingCircle(float r, float mass, bool setStatic, bool setTrigger);
 	glm::vec3 GetPos() { return v3pos; };
 	glm::vec3 GetScale() { return v3scale; };
 	glm::vec3 GetRot() { return v3rot; };

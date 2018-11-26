@@ -71,6 +71,10 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 	float moduleX = abs(diff.x);																			// Modulo de X
 	float moduleY = abs(diff.y);																			// Modulo de Y
 	
+	float masses = boxA->GetMass() + boxB->GetMass();														// Obtengo el total de las masas de los dos objetos
+	float aMass = (boxA->GetMass() / masses) * 10;															// El porcentaje de masa del primer objeto
+	float bMass = (boxB->GetMass() / masses) * 10;															// El porcentaje de masa del segundo objeto
+
 	if (!boxA->IsStatic() || !boxB->IsStatic()) {															// Si las dos son estaticas que no haga los calculos
 
 		if (!boxA->IsTrigger() || !boxB->IsTrigger()) {														// Si las dos son triggers que no hagan los calculos
@@ -97,8 +101,8 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 						else {
 							if(!boxA->IsTrigger())
 								if (!boxB->IsTrigger()) {
-									A->SetPos(boxA->GetX(), boxA->GetY() + (inY / 2), 0);					// Se deberian mover a la mitad de la distancia
-									B->SetPos(boxB->GetX(), boxB->GetY() - (inY / 2), 0);
+									A->SetPos(boxA->GetX(), boxA->GetY() + (inY / aMass), 0);				// Se deberia mover segun la masa que tenga.
+									B->SetPos(boxB->GetX(), boxB->GetY() - (inY / bMass), 0);
 								}
 						}
 					}
@@ -120,8 +124,8 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 						else {
 							if (!boxA->IsTrigger())
 								if (!boxB->IsTrigger()) {
-									A->SetPos(boxA->GetX() + (inX / 2), boxA->GetY(), 0);					// Se deberian mover a la mitad de la distancia
-									B->SetPos(boxB->GetX() - (inX / 2), boxB->GetY(), 0);
+									A->SetPos(boxA->GetX() + (inX / aMass), boxA->GetY(), 0);				// Se deberian mover a la mitad de la distancia
+									B->SetPos(boxB->GetX() - (inX / bMass), boxB->GetY(), 0);
 								}
 						}
 					}

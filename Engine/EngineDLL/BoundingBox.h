@@ -9,12 +9,13 @@ class ENGINEDLL_API BoundingBox {
 	glm::vec2 pos;
 	float width;
 	float height;
+	float mass;
 	bool isStatic;
 	bool isTrigger;
 	bool collision;
 
 public:
-	BoundingBox(glm::vec2 pos, float width, float height, bool setStatic, bool setTrigger/*, Shape* shape*/);
+	BoundingBox(glm::vec2 pos, float width, float height, float mass, bool setStatic, bool setTrigger/*, Shape* shape*/);
 	~BoundingBox() { };
 	bool IsStatic() { return isStatic; };
 	bool IsTrigger() { return isTrigger; };
@@ -24,6 +25,7 @@ public:
 	float GetY() { return pos.y; };
 	float GetWidth() { return width; };
 	float GetHeight() { return height; };
+	float GetMass() { return mass; };
 	glm::vec2 GetPos() { return pos; };
 	bool GetCollision() { return collision; };
 };
