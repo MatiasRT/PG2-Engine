@@ -32,6 +32,7 @@ void CollisionManager::BoxCollisionDetector() {
 	for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
+			if (j == Layers::Tile || i == Layers::Tile) continue;
 				LayersMatchBox(boxes->at(i), boxes->at(j));
 		}
 	}
@@ -155,4 +156,8 @@ void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {
 
 		// Para expulsar deberia tener las direcciones de los dos objetos que colisionaron (dirA y dirB), y ver cual es la fuerza que se le aplica para retornarla y que salga con esa cantidad de fuerza.
 	}
+}
+
+void CollisionManager::ClearLayer(int layer) {																// Cada vez que se mueve (updatea) el tile hay que limpiar las listas de layers
+	boxes->at(layer)->clear();
 }

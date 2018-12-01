@@ -21,6 +21,7 @@ class ENGINEDLL_API CollisionManager {
 	
 	void CollisionBoxMath(Sprite* A, Sprite* B);
 	void CollisionCircleMath(Sprite* A, Sprite* B);
+
 public:
 	CollisionManager();
 	~CollisionManager();
@@ -28,6 +29,8 @@ public:
 	void FillingCircleList(Layers layer, Sprite* s);
 	void CircleCollisionDetector();
 	void BoxCollisionDetector();
+	
+	void ClearLayer(int layer);
 
 	static CollisionManager* Instance() {
 		if (instance == NULL) {
