@@ -1,6 +1,6 @@
 #include "Tilemap.h"
 
-Tilemap::Tilemap(char* filepath, int winWidth, int winHeight, Material * material, Renderer * render) {		// Cargamos el archivo
+Tilemap::Tilemap(char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend) {		// Cargamos el archivo
 	
 	string buffer;
 	ifstream tilemap(filepath);
@@ -43,30 +43,40 @@ Tilemap::Tilemap(char* filepath, int winWidth, int winHeight, Material * materia
 	}
 	tilemap.close();											// Una vez que leimos todo y llenamos el vector del nivel, cerramos el archivo.
 
+	render = rend;
+	material = mat;
+	scrollX = 0;
+	scrollY = 0;
 
+	instance = CollisionManager::Instance();					// Hacemos una instacia del CM porque los tiles van a utilizar cajas de colision
 
-	/*int tileW = 10;
-	int tileH = 10;
-	viewW = int(winW / tileW) + 1;							// Tamaño de la vista ancho (mas una fila/columna para swapear)
-	viewH = int(winH / tileH) + 1;							// Tamaño de la vista alto
+	int tileHeight = 64;										// Alto y ancho de cada tile
+	int tileWidht = 64;
 
-	view = new int[viewH, viewW];							// Obtenemos la matriz de vista
+	viewHeight = (winHeight / tileHeight) + 2;					// La altura de la vista va a ser determinada por la ventana que utilizemos y el tamaño de los tiles, mas las dos columnas que necesitamos para swapear
+	viewWidth = (winWidth / tileWidht) + 2;						// Lo mismo de lo de arriba, lo que cambia es que es para el ancho.
+
+	view = new int[viewWidth, viewHeight];						// Esta es la vista total
+
+	viewSprite = new vector<vector<Sprite*>*>(viewWidth);		// Inicializamos el vector con la cantidad de columnas totales
 	
-	viewSprite = new vector<vector<Sprite*>*>();
-	
-	
-	int lvlW = viewW * 10;
-	int lvlH = viewH * 10;*/
+	for (int i = 0; i < viewWidth; i++)
+		viewSprite->at(i) = new vector<Sprite*>(viewHeight);	// Le agrego las filas al vector
+
 }
-
-Tilemap::~Tilemap() {
-
+	
+Tilemap::~Tilemap() {											// Libero memoria de las cosas creadas en el constructor
+	for (int i = 0; i < viewWidth; i++) {
+		delete[] viewSprite->at(i);
+		delete[] level->at(i);
+	}
+	delete[] view;
 }
 
 void Tilemap::DrawTilemap() {
-	for (int i = 0; i < viewSprite->size(); i++) {
-		for (int j = 0; j < viewSprite->size(); j++) {
-			viewSprite->at(i)->at(j)->Draw();
+	for (int i = 0; i < viewWidth; i++) {						// Recorro el archo de la vista
+		for (int j = 0; j < viewHeight; j++) {					// Recorro el largo de la vista
+			viewSprite->at(i)->at(j)->Draw();					// Dibujo en cada posicion el valor que haya en la misma
 		}
 	}
 }
@@ -93,5 +103,4 @@ void Tilemap::LoadView() {
 void Tilemap::UpdateTilemap() {
 	instance->ClearLayer(Layers::Tile);
 	instance->ClearLayer(Layers::ObjectTile);
-
 }

@@ -34,7 +34,7 @@ class ENGINEDLL_API Tilemap {
 	void LoadView();
 
 public:
-	Tilemap(char* filepath, int winWidth, int winHeight, Material * material, Renderer * render);
+	Tilemap(char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend);
 	~Tilemap();
 	void DrawTilemap();
 	void UpdateTilemap();
