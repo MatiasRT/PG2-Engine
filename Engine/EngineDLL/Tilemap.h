@@ -7,30 +7,35 @@
 #include "CollisionManager.h"
 #include <vector>
 #include <fstream>
+#include <iostream>
+#include <string>
 
 class ENGINEDLL_API Tilemap {
-	
-	Sprite * layers;
+
+	int viewWidth;
+	int viewHeight;
+	int levelWidth;
+	int levelHeight;
+	float scrollX;
+	float scrollY;
+
+	int * view;
+
 	Material * material;
 	Renderer * render;
+	CollisionManager * instance;
 
 	glm::vec3 CameraPos;
 
-	CollisionManager * instance;
-
-
-	int viewW;
-	int viewH;
-
-	int * level;
-	int * view;
 	vector<vector<Sprite*>*>* viewSprite;
+	vector<vector<int>*>* level;
+
+	void UploadSprite();
+	void LoadView();
+
 public:
-	Tilemap(char* filepath, int winW, int winH);
+	Tilemap(char* filepath, int winWidth, int winHeight, Material * material, Renderer * render);
 	~Tilemap();
 	void DrawTilemap();
 	void UpdateTilemap();
-	void LoadViewSprite();
-	void LoadLevel();
-	void LoadView();
 };
