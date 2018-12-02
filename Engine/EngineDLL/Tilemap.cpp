@@ -1,12 +1,18 @@
 #include "Tilemap.h"
 
-Tilemap::Tilemap(char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend) {		// Cargamos el archivo
+Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend) {		// Cargamos el archivo
+	
+	render = rend;												// Inicializamos variables
+	material = mat;
+	scrollX = 0;
+	scrollY = 0;
+	levelHeight = 1;
+	levelWidth = 1;
+
+	instance = CollisionManager::Instance();					// Hacemos una instacia del CM porque los tiles van a utilizar cajas de colision
 	
 	string buffer;
 	ifstream tilemap(filepath);
-	
-	levelHeight = 1;
-	levelWidth = 1;
 	
 	getline(tilemap, buffer);									// Extraemos la primera linea del archivo
 
@@ -21,7 +27,6 @@ Tilemap::Tilemap(char* filepath, int winWidth, int winHeight, Material * mat, Re
 	tilemap.seekg(0, std::ios::beg);							// Cambiamos la posicion del cursor en el archivo (primer parametro es el salto, y el segundo es el punto de partida)
 
 	level = new vector<vector<int>*>(levelWidth);				// Inicializamos el vector con la cantidad de columnas totales
-	
 	for (int i = 0; i < levelWidth; i++)
 		level->at(i) = new vector<int>(levelHeight);			// Le agrego las filas al vector
 									
@@ -43,13 +48,6 @@ Tilemap::Tilemap(char* filepath, int winWidth, int winHeight, Material * mat, Re
 	}
 	tilemap.close();											// Una vez que leimos todo y llenamos el vector del nivel, cerramos el archivo.
 
-	render = rend;
-	material = mat;
-	scrollX = 0;
-	scrollY = 0;
-
-	instance = CollisionManager::Instance();					// Hacemos una instacia del CM porque los tiles van a utilizar cajas de colision
-
 	int tileHeight = 64;										// Alto y ancho de cada tile
 	int tileWidht = 64;
 
@@ -58,10 +56,9 @@ Tilemap::Tilemap(char* filepath, int winWidth, int winHeight, Material * mat, Re
 
 	view = new int[viewWidth, viewHeight];						// Esta es la vista total
 
-	viewSprite = new vector<vector<Sprite*>*>(viewWidth);		// Inicializamos el vector con la cantidad de columnas totales
-	
+	viewSprite = new vector<vector<Tile*>*>(viewWidth);		// Inicializamos el vector con la cantidad de columnas totales
 	for (int i = 0; i < viewWidth; i++)
-		viewSprite->at(i) = new vector<Sprite*>(viewHeight);	// Le agrego las filas al vector
+		viewSprite->at(i) = new vector<Tile*>(viewHeight);	// Le agrego las filas al vector
 
 }
 	
@@ -81,10 +78,6 @@ void Tilemap::DrawTilemap() {
 	}
 }
 
-void Tilemap::UploadSprite() {
-
-}
-
 void Tilemap::LoadView() {
 /*
 	int vH = viewH + CameraPos.x;
@@ -100,7 +93,11 @@ void Tilemap::LoadView() {
 	*/
 }
 
+void Tilemap::UploadSprite() {
+
+}
+
 void Tilemap::UpdateTilemap() {
-	instance->ClearLayer(Layers::Tile);
+	instance->ClearLayer(Layers::Tiles);
 	instance->ClearLayer(Layers::ObjectTile);
 }

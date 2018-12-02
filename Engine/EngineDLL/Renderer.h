@@ -36,4 +36,5 @@ public:
 	void BindTextureBuffer(unsigned int txrbuffer, unsigned int attribute);
 	void BindTexture(unsigned int textureID, unsigned int txrbufferID);
 	void EndDraw(unsigned int attribute);
+	void UpdateTexture(unsigned int textureID);
 };

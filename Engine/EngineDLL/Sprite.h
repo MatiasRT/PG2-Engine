@@ -4,6 +4,7 @@
 #include "Importer.h"
 #include "Animation.h"
 class ENGINEDLL_API Sprite : public Shape {
+protected:
 	Header header;
 	Animation * animation;
 	const char* file;

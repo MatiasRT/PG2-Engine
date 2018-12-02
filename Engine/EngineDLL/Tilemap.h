@@ -1,10 +1,9 @@
 #pragma once
 #include "Exports.h"
-#include "Entity.h"
-#include "Sprite.h"
 #include "Renderer.h"
 #include "Material.h"
 #include "CollisionManager.h"
+#include "Tile.h"
 #include <vector>
 #include <fstream>
 #include <iostream>
@@ -27,14 +26,15 @@ class ENGINEDLL_API Tilemap {
 
 	glm::vec3 CameraPos;
 
-	vector<vector<Sprite*>*>* viewSprite;
+	vector<vector<Tile*>*>* viewSprite;
 	vector<vector<int>*>* level;
+	//vector<int>* textures;
 
 	void UploadSprite();
 	void LoadView();
 
 public:
-	Tilemap(char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend);
+	Tilemap(const char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend);
 	~Tilemap();
 	void DrawTilemap();
 	void UpdateTilemap();
