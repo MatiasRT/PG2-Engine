@@ -18,6 +18,7 @@ class Game : public Gamebase {
 	Circle * cr1;
 	Material * mat1;
 	Material * mat2;
+	Material * mat3;
 	Sprite * sp1;
 	Sprite * sp2;
 	Tilemap * tile;

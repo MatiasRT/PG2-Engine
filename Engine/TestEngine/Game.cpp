@@ -12,7 +12,10 @@ bool Game::OnStart() {
 	mat2 = new Material();
 	unsigned int textureID = mat2->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
 
-	tile = new Tilemap("level.csv", 800, 600, mat2, renderer);
+	mat3 = new Material();
+	unsigned int tileID = mat3->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
+
+	tile = new Tilemap("level.csv", 800, 600, mat3, renderer);
 
 	CollisionManager* instance = CollisionManager::Instance();
 
@@ -28,15 +31,15 @@ bool Game::OnStart() {
 	sp1 = new Sprite(renderer, 8, 8);
 	sp1->SetMaterial(mat2);
 	sp1->LoadBMP("asteroid.bmp");
-	sp1->SetPos(0.0f, -6.0f, 0.0f);
-	sp1->SetBoundingBox(2.0f, 2.0f, 50.0f, false, false);
+	sp1->SetPos(8.0f, 6.0f, 0.0f);
+	sp1->SetBoundingBox(2.0f, 2.0f, 30.0f, false, false);
 	instance->FillingBoxList(Player_layer, sp1);
 	sp1->SetAnimation(0, 63, 0.1f);
 
 	sp2 = new Sprite(renderer, 6, 8);
 	sp2->SetMaterial(mat2);
 	sp2->LoadBMP("character.bmp");
-	sp2->SetPos(0.0f, 6.0f, 0.0f);
+	sp2->SetPos(-5.0f, 6.0f, 0.0f);
 	sp2->SetBoundingBox(2.0f, 2.0f, 10.0f, false, false);
 	instance->FillingBoxList(Enemy_layer, sp2);
 	sp2->SetAnimation(0, 47, 0.1f);
@@ -68,10 +71,14 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	sp1->UpdateAnim(time);
 	sp2->UpdateAnim(time);
 
-	speed = 4.0f;
-	//sp1->TranslationBox(0.0f, speed * time, 0.0f);												// Movemos con translation asi no pisamos la posicion original
+	speed = 3.0f;
+	/* Movimiento vertical */
+	//sp1->TranslationBox(0.0f, -speed * time, 0.0f);												// Movemos con translation asi no pisamos la posicion original
 	//sp2->TranslationBox(0.0f, -speed * time, 0.0f);
-	//sp1->TranslationBox(-speed * time, 0.0f, 0.0f);
+
+	/* Movimineto horizontal */
+	sp1->TranslationBox(-speed * time, 0.0f, 0.0f);												// Movemos con translation asi no pisamos la posicion original
+	sp2->TranslationBox(speed * time, 0.0f, 0.0f);
 
 
 	//cout<<"Game::OnUpdate(): "<<i<< endl;

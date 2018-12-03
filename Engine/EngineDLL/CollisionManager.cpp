@@ -102,8 +102,9 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 						else {
 							if(!boxA->IsTrigger())
 								if (!boxB->IsTrigger()) {
-									A->SetPos(boxA->GetX(), boxA->GetY() + (inY / aMass), 0);				// Se deberia mover segun la masa que tenga.
-									B->SetPos(boxB->GetX(), boxB->GetY() - (inY / bMass), 0);
+									A->SetPos(boxA->GetX(), boxA->GetY() - (inY / aMass), 0);				// Se deberia mover segun la masa que tenga.
+									B->SetPos(boxB->GetX(), boxB->GetY() + (inY / bMass), 0);
+									//cout << "Hubo colision 1" << endl;
 								}
 						}
 					}
@@ -125,8 +126,9 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 						else {
 							if (!boxA->IsTrigger())
 								if (!boxB->IsTrigger()) {
-									A->SetPos(boxA->GetX() + (inX / aMass), boxA->GetY(), 0);				// Se deberian mover a la mitad de la distancia
-									B->SetPos(boxB->GetX() - (inX / bMass), boxB->GetY(), 0);
+									A->SetPos(boxA->GetX() - (inX / aMass), boxA->GetY(), 0);				// Se deberian mover a la mitad de la distancia
+									B->SetPos(boxB->GetX() + (inX / bMass), boxB->GetY(), 0);
+									//cout << "Hubo colision" << endl;
 								}
 						}
 					}
