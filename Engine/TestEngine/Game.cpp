@@ -71,6 +71,8 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	speed = 4.0f;
 	//sp1->TranslationBox(0.0f, speed * time, 0.0f);												// Movemos con translation asi no pisamos la posicion original
 	//sp2->TranslationBox(0.0f, -speed * time, 0.0f);
+	//sp1->TranslationBox(-speed * time, 0.0f, 0.0f);
+
 
 	//cout<<"Game::OnUpdate(): "<<i<< endl;
 	return true;

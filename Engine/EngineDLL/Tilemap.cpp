@@ -8,8 +8,8 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	scrollY = 0;
 	levelHeight = 1;
 	levelWidth = 1;
-	xLevel = viewHeight;
-	yLevel = viewWidth;
+	xLevel = 0;
+	yLevel = 0;
 	LastCameraPos = glm::vec3(0,0,0);
 	CurrentCameraPos = glm::vec3(0, 0, 0);
 	DeltaCameraPos = glm::vec3(0, 0, 0);
@@ -43,24 +43,14 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 			int levelW = 0;
 
 			for (int j = 0; j < buffer.length(); j++) {				// Los archivos CSV tienen los valores 0 (hay informacion) y -1 (esta vacio)
-				switch (buffer[j]) {
-				case '0':
-					level->at(i)->at(levelW) = 1;
-					levelW++;
-					break;
-				case '1':
-					level->at(i)->at(levelW) = 0;
-					levelW++;
-					break;
-				}
-				/*if (buffer[j] == '0') {							// Si la linea que leyó contiene un cero es que hay informacion
+				if (buffer[j] == '0') {								// Si la linea que leyó contiene un cero es que hay informacion
 					level->at(i)->at(levelW) = 1;					// Le mandamos al vector que en esa posicion hay un 1
 					levelW++;										// Pasamos al siguiente caracter
 				}
 				else if (buffer[j] == '1') {						// Si la linea que leyó contiene un 1 (no importa el signo) es que esta vacio
 					level->at(i)->at(levelW) = 0;					// Le asignamos un 0 en esa posicion del vector
 					levelW++;										// Pasamos al siguiente caracter
-				}*/
+				}
 			}
 		}
 	}
@@ -86,14 +76,15 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 }
 	
 void Tilemap::UploadSprite() {
-	for (int i=0;i<viewWidth; i++)
+	for (int i = 0; i < viewWidth; i++) {
 		for (int j = 0; j < viewHeight; j++) {
 			viewSprite->at(i)->at(j) = new Tile(render, 1, 1);
 			viewSprite->at(i)->at(j)->SetMaterial(material);
-			viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 0, true, true);
+			viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 0, true, false);
 			viewSprite->at(i)->at(j)->UploadTexture("empty.bmp");
 			viewSprite->at(i)->at(j)->UploadTexture("sample2.bmp");
 		}
+	}
 }
 
 void Tilemap::LoadView() {

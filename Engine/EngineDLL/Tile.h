@@ -4,6 +4,7 @@
 #include <vector>
 
 class ENGINEDLL_API Tile : public Sprite {
+	Header header;
 	vector<int>* textures;
 public:
 	Tile(Renderer * rend, int col, int row);
