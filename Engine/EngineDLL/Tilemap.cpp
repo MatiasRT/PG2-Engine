@@ -8,6 +8,11 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	scrollY = 0;
 	levelHeight = 1;
 	levelWidth = 1;
+	xLevel = viewHeight;
+	yLevel = viewWidth;
+	LastCameraPos = glm::vec3(0,0,0);
+	CurrentCameraPos = glm::vec3(0, 0, 0);
+	DeltaCameraPos = glm::vec3(0, 0, 0);
 
 	instance = CollisionManager::Instance();					// Hacemos una instacia del CM porque los tiles van a utilizar cajas de colision
 	
@@ -48,26 +53,61 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	}
 	tilemap.close();											// Una vez que leimos todo y llenamos el vector del nivel, cerramos el archivo.
 
-	int tileHeight = 64;										// Alto y ancho de cada tile
-	int tileWidht = 64;
+	int tileHeight = 256 / 4;									// Alto y ancho de cada tile
+	int tileWidht = 256 / 4;
 
-	viewHeight = (winHeight / tileHeight) + 2;					// La altura de la vista va a ser determinada por la ventana que utilizemos y el tamaño de los tiles, mas las dos columnas que necesitamos para swapear
-	viewWidth = (winWidth / tileWidht) + 2;						// Lo mismo de lo de arriba, lo que cambia es que es para el ancho.
+	viewHeight = (winHeight / tileHeight) + 4;					// La altura de la vista va a ser determinada por la ventana que utilizemos y el tamaño de los tiles, mas las dos columnas que necesitamos para swapear
+	viewWidth = (winWidth / tileWidht) + 4;						// Lo mismo de lo de arriba, lo que cambia es que es para el ancho.
 
-	view = new int[viewWidth, viewHeight];						// Esta es la vista total
-
-	viewSprite = new vector<vector<Tile*>*>(viewWidth);		// Inicializamos el vector con la cantidad de columnas totales
+	//view = new int[viewWidth, viewHeight];					// Esta es la vista total
+	view = new vector<vector<int>*>(viewWidth);
 	for (int i = 0; i < viewWidth; i++)
-		viewSprite->at(i) = new vector<Tile*>(viewHeight);	// Le agrego las filas al vector
+		view->at(i) = new vector<int>(viewHeight);
 
+	viewSprite = new vector<vector<Tile*>*>(viewWidth);			// Inicializamos el vector con la cantidad de columnas totales
+	for (int i = 0; i < viewWidth; i++)
+		viewSprite->at(i) = new vector<Tile*>(viewHeight);		// Le agrego las filas al vector
+
+	UploadSprite();
+	LoadView();
 }
 	
-Tilemap::~Tilemap() {											// Libero memoria de las cosas creadas en el constructor
-	for (int i = 0; i < viewWidth; i++) {
-		delete[] viewSprite->at(i);
-		delete[] level->at(i);
+void Tilemap::UploadSprite() {
+	for (int i=0;i<viewWidth; i++)
+		for (int j = 0; j < viewHeight; j++) {
+			viewSprite->at(i)->at(j) = new Tile(render, 1, 1);
+			viewSprite->at(i)->at(j)->SetMaterial(material);
+			viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 0, true, true);
+			viewSprite->at(i)->at(j)->UploadTexture("Empty.bmp");
+			viewSprite->at(i)->at(j)->UploadTexture("Sample2.bmp");
+		}
+}
+
+void Tilemap::LoadView() {
+	int posX = -12;
+	int posY = 9;
+	lastPosX = 0;
+	lastPosY = 0;
+
+	for (int i = 0; i < levelWidth; i++) {
+		posX = -12;
+		for (int j = 0; j < levelHeight; j++) {
+			if (i < viewWidth && j < viewHeight) {
+				view->at(i)->at(j) = level->at(i)->at(j);
+				if (view->at(i)->at(j) == 0) {
+					viewSprite->at(i)->at(j)->ChangeTexture(0);
+					instance->FillingBoxList(Layers::Tiles, viewSprite->at(i)->at(j));
+				}
+				if (view->at(i)->at(j) == 1) {
+					viewSprite->at(i)->at(j)->ChangeTexture(1);
+					instance->FillingBoxList(Layers::ObjectTile, viewSprite->at(i)->at(j));
+				}
+				posX += 2;
+				viewSprite->at(i)->at(j)->SetPos(posX, posY, 0);
+			}
+		}
+		posY -= 2;
 	}
-	delete[] view;
 }
 
 void Tilemap::DrawTilemap() {
@@ -78,26 +118,116 @@ void Tilemap::DrawTilemap() {
 	}
 }
 
-void Tilemap::LoadView() {
-/*
-	int vH = viewH + CameraPos.x;
-	int vW = viewW + CameraPos.y;
+void Tilemap::UpdateViewX() {
+	int posX = 12;
+	int posY = 9;
 
-	for (int i = 0; i < vH; i++) {
-		for (int j = 0; j < vW; j++) {
-			int offsetX = i + CameraPos.x;
-			int offsetY = j + CameraPos.y;
-			view[i, j] = level[offsetX, offsetY];
+	//Update X
+	for (int i = 0; i < viewWidth; i++) {
+		for (int j = 1; j < viewHeight; j++) {
+			view->at(i)->at(j - 1) = view->at(i)->at(j);
 		}
 	}
-	*/
+	for (int i = 0; i < viewWidth; i++) {
+		int pos = level->at(i)->at(xLevel);
+		view->at(i)->at(viewHeight - 1) = pos;
+	}
+	//volver a dibujar
+	//posX = 12;
+	for (int j = 0; j < viewWidth; j++) {
+		if (view->at(j)->at(viewHeight - 1) == 0) {
+			viewSprite->at(j)->at(lastPosX)->ChangeTexture(0);
+			instance->FillingBoxList(Layers::Tiles, viewSprite->at(j)->at(lastPosX));
+		}
+		if (view->at(j)->at(viewHeight - 1) == 1) {
+			viewSprite->at(j)->at(lastPosX)->ChangeTexture(1);
+			instance->FillingBoxList(Layers::ObjectTile, viewSprite->at(j)->at(lastPosX));
+		}
+		viewSprite->at(j)->at(lastPosX)->SetPos(posX + LastCameraPos.x, posY, 0);
+		posY -= 2;
+	}
+	if (lastPosX < viewHeight - 1) 
+		lastPosX++;
+	else 
+		lastPosX = 0;
 }
 
-void Tilemap::UploadSprite() {
-
+void Tilemap::UpdateViewY() {
+	int posX = 12;
+	int posY = 9;
+	//Update Y
+	for (int i = 1; i < viewWidth; i++) {
+		for (int j = 0; j < viewHeight; j++) {
+			view->at(i - 1)->at(j) = view->at(i)->at(j);
+		}
+	}
+	for (int i = 0; i < viewHeight; i++) {
+		int pos = level->at(i)->at(yLevel);
+		view->at(viewWidth - 1)->at(i) = pos;
+	}
+	//volver a dibujar
+	for (int j = 0; j < viewHeight; j++) {
+		if (view->at(viewWidth - 1)->at(j) == 0) {
+			viewSprite->at(lastPosY)->at(j)->ChangeTexture(0);
+			instance->FillingBoxList(Layers::Tiles, viewSprite->at(lastPosY)->at(j));
+		}
+		if (view->at(viewWidth - 1)->at(j) == 1) {
+			viewSprite->at(lastPosY)->at(j)->ChangeTexture(1);
+			instance->FillingBoxList(Layers::ObjectTile, viewSprite->at(lastPosY)->at(j));
+		}
+		viewSprite->at(lastPosY)->at(j)->SetPos(posX, posY + CurrentCameraPos.y, 0);
+		posY -= 2;
+	}
+	if (lastPosY < viewHeight - 1) 
+		lastPosY++;
+	else 
+		lastPosY = 0;
 }
 
 void Tilemap::UpdateTilemap() {
-	instance->ClearLayer(Layers::Tiles);
-	instance->ClearLayer(Layers::ObjectTile);
+	CurrentCameraPos = render->GetCameraPos();
+	DeltaCameraPos = CurrentCameraPos - LastCameraPos;
+	LastCameraPos = CurrentCameraPos;
+	//UpdateX
+	scrollX += DeltaCameraPos.x;
+	if (scrollX >= 2) {
+		if (xLevel < levelWidth - 1)
+			xLevel++;
+		UpdateViewX();
+		scrollX = 0;
+	}
+	else
+		if (scrollX <= -2) {
+			if (xLevel < 0)
+				xLevel--;
+			UpdateViewX();
+			scrollX = 0;
+		}
+	//UpdateY
+	scrollY += DeltaCameraPos.y;
+	if (scrollY <= -2) {
+		if (yLevel < 0)
+			yLevel--;
+		UpdateViewY();
+		scrollY = 0;
+	}
+	else {
+		if (scrollY >= 2) {
+			if (yLevel > levelHeight - 1)
+				yLevel++;
+			UpdateViewY();
+			scrollY = 0;
+		}
+	}
+}
+
+Tilemap::~Tilemap() {											// Libero memoria de las cosas creadas en el constructor
+	for (int i = 0; i < viewWidth; i++) {
+		for (int j = 0; j < viewWidth; j++) {
+			delete viewSprite->at(i)->at(j);
+		}
+		delete viewSprite->at(i);
+		delete level->at(i);
+	}
+	delete view;
 }

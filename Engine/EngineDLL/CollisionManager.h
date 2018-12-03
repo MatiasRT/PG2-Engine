@@ -29,8 +29,6 @@ public:
 	void FillingCircleList(Layers layer, Sprite* s);
 	void CircleCollisionDetector();
 	void BoxCollisionDetector();
-	
-	void ClearLayer(int layer);
 
 	static CollisionManager* Instance() {
 		if (instance == NULL) {

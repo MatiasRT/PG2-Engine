@@ -12,6 +12,9 @@ class ENGINEDLL_API Renderer {
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 wvp;
+
+	glm::vec3 camera;
+	glm::vec3 eye;
 public:
 	Renderer() { };
 	~Renderer() { };
@@ -37,4 +40,6 @@ public:
 	void BindTexture(unsigned int textureID, unsigned int txrbufferID);
 	void EndDraw(unsigned int attribute);
 	void UpdateTexture(unsigned int textureID);
+	void TranslateCamera(glm::vec3 pos);
+	glm::vec3 GetCameraPos() { return camera; };
 };

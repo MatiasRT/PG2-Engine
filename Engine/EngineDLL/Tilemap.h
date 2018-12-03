@@ -15,23 +15,30 @@ class ENGINEDLL_API Tilemap {
 	int viewHeight;
 	int levelWidth;
 	int levelHeight;
+	int xLevel;
+	int yLevel;
 	float scrollX;
 	float scrollY;
-
-	int * view;
+	int lastPosX;
+	int lastPosY;
 
 	Material * material;
 	Renderer * render;
 	CollisionManager * instance;
 
-	glm::vec3 CameraPos;
+	glm::vec3 LastCameraPos;
+	glm::vec3 CurrentCameraPos;
+	glm::vec3 DeltaCameraPos;
 
 	vector<vector<Tile*>*>* viewSprite;
 	vector<vector<int>*>* level;
+	vector<vector<int>*>* view;
 	//vector<int>* textures;
 
 	void UploadSprite();
 	void LoadView();
+	void UpdateViewX();
+	void UpdateViewY();
 
 public:
 	Tilemap(const char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend);
