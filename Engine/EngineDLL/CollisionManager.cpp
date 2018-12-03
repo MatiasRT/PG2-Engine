@@ -32,7 +32,11 @@ void CollisionManager::BoxCollisionDetector() {
 	for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
-			if (j == Layers::Tiles || i == Layers::Tiles) continue;
+			
+			if (j == Layers::Tiles_layer || i == Layers::Tiles_layer) {
+				//cout << "i: " << i << " j:" << j << endl;
+				continue;
+			}
 				LayersMatchBox(boxes->at(i), boxes->at(j));
 		}
 	}
@@ -42,6 +46,7 @@ void CollisionManager::CircleCollisionDetector() {
 	for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
+			if (j == Layers::Tiles_layer || i == Layers::Tiles_layer) continue;
 				LayersMatchCircle(circles->at(i), circles->at(j));
 		}
 	}
@@ -75,7 +80,7 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 	float masses = boxA->GetMass() + boxB->GetMass();														// Obtengo el total de las masas de los dos objetos
 	float aMass = (boxA->GetMass() / masses) * 10;															// El porcentaje de masa del primer objeto
 	float bMass = (boxB->GetMass() / masses) * 10;															// El porcentaje de masa del segundo objeto
-
+ 
 	if (!boxA->IsStatic() || !boxB->IsStatic()) {															// Si las dos son estaticas que no haga los calculos
 
 		if (!boxA->IsTrigger() || !boxB->IsTrigger()) {														// Si las dos son triggers que no hagan los calculos

@@ -56,8 +56,8 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	}
 	tilemap.close();																		// Una vez que leimos todo y llenamos el vector del nivel, cerramos el archivo.
 
-	int tileHeight = 64;																	// Alto y ancho de cada tile
-	int tileWidht = 64;
+	int tileHeight = 256 / 4;																// Alto y ancho de cada tile
+	int tileWidht = 256 / 4;
 
 	viewHeight = (winHeight / tileHeight) + 4;												// La altura de la vista va a ser determinada por la ventana que utilizemos y el tamaño de los tiles, mas las dos columnas que necesitamos para swapear
 	viewWidth = (winWidth / tileWidht) + 4;													// Lo mismo de lo de arriba, lo que cambia es que es para el ancho.
@@ -83,7 +83,7 @@ void Tilemap::UploadSprite() {																// Aca cargamos los sprites
 		for (int j = 0; j < viewHeight; j++) {
 			viewSprite->at(i)->at(j) = new Tile(render, 1, 1);								// Creo en esa posicion un tile
 			viewSprite->at(i)->at(j)->SetMaterial(material);								// Le asigno el material
-			viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 110.0f, false, false);		// Le asigno una bounding box
+			viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 0.0f, true, false);		// Le asigno una bounding box
 			viewSprite->at(i)->at(j)->UploadTexture("empty.bmp");							// Le cargo la textura con la que no va a colisionar
 			viewSprite->at(i)->at(j)->UploadTexture("pastote.bmp");							// Le cargo la textura con la que si va a colisionar
 		}
@@ -91,7 +91,7 @@ void Tilemap::UploadSprite() {																// Aca cargamos los sprites
 }
 
 void Tilemap::LoadView() {																	// Cargamos la vista
-	int posX = -12;
+	int posX = -13;
 	int posY = 9;
 
 	for (int i = 0; i < levelWidth; i++) {
@@ -101,17 +101,17 @@ void Tilemap::LoadView() {																	// Cargamos la vista
 				view->at(i)->at(j) = level->at(i)->at(j);									// Le asigno la posicion del nivel a la vista de un tile especifico
 				if (view->at(i)->at(j) == 0) {												// Si hay un 0 en esa posicion no deberia colisionar 
 					viewSprite->at(i)->at(j)->ChangeTexture(0);								// Cambiamos la textura
-					instance->FillingBoxList(Layers::Tiles, viewSprite->at(i)->at(j));		// Le asignamos una layer
+					instance->FillingBoxList(Tiles_layer, viewSprite->at(i)->at(j));		// Le asignamos una layer
 				}
 				if (view->at(i)->at(j) == 1) {												// Si hay un 1 en esa posicion deberia colisionar 
 					viewSprite->at(i)->at(j)->ChangeTexture(1);								// Cambiamos la textura
-					instance->FillingBoxList(Layers::ObjectTile, viewSprite->at(i)->at(j));	// Le asignamos una layer
+					instance->FillingBoxList(ObjectTile_layer, viewSprite->at(i)->at(j));	// Le asignamos una layer
 				}
-				posX += 2;																	// Le sumo las dos columnas que swapean
-				viewSprite->at(i)->at(j)->SetPos(posX, posY, 0);							// En la posicion especifica del tile le agrego una posicion de una entidad
+				posX += 2;																	// Posicion de las columnas (determino el espacio entre ellas)
+				viewSprite->at(i)->at(j)->SetPos(posX, posY, 0);							// Estoy asignando una posicion especifica donde se asigna el tile
 			}
 		}
-		posY -= 2;																			// Se las resto
+		posY -= 2;																			// La posicion de las filas (determino el espacio entre ellas)
 	}
 }
 
@@ -123,38 +123,37 @@ void Tilemap::DrawTilemap() {
 	}
 }
 
-void Tilemap::UpdateViewX() {
-	int posX = 10;
-	int posY = 9;
+void Tilemap::UpdateViewX() {																// Aca calculamos como se debe dibujar al moverse a la derecha en el eje x
+	int posX = 13;																			// Posicion en x donde comienza a dibujarse al moverse
+	int posY = 9;																			// Posicion en y donde comienza a dibujarse al moverse
 																							// Updateamos x
-	for (int i = 0; i < viewWidth; i++) {
+	/*for (int i = 0; i < viewWidth; i++) {
 		for (int j = 1; j < viewHeight; j++) {
 			view->at(i)->at(j - 1) = view->at(i)->at(j);
 		}
-	}
-	for (int i = 0; i < viewWidth; i++) {
+	}*/
+
+	for (int i = 0; i < viewWidth; i++) {	
 		int pos = level->at(i)->at(xLevel);
-		view->at(i)->at(viewHeight - 1) = pos;
+		view->at(i)->at(viewHeight - 1) = pos;												// Updateamos la altura, la Y	
 	}
-		
-	posX = 12;
 																							// volver a dibujar
-	for (int j = 0; j < viewWidth; j++) {
-		if (view->at(j)->at(viewHeight - 1) == 0) {
-			viewSprite->at(j)->at(lastPosX)->ChangeTexture(0);
-			instance->FillingBoxList(Layers::Tiles, viewSprite->at(j)->at(lastPosX));
+	for (int j = 0; j < viewWidth; j++) {												
+		if (view->at(j)->at(viewHeight - 1) == 0) {											// Si hay un 0 en esa posicion no deberia colisionar 
+			viewSprite->at(j)->at(lastPosX)->ChangeTexture(0);								// Cambiamos la textura en ese lugar especifico de la grilla
+			instance->FillingBoxList(Tiles_layer, viewSprite->at(j)->at(lastPosX));			// Le asignamos una layer para determinar si colisiona o no
 		}
-		if (view->at(j)->at(viewHeight - 1) == 1) {
-			viewSprite->at(j)->at(lastPosX)->ChangeTexture(1);
-			instance->FillingBoxList(Layers::ObjectTile, viewSprite->at(j)->at(lastPosX));
+		if (view->at(j)->at(viewHeight - 1) == 1) {											// Si hay un 1 en esa posicion deberia colisionar 
+			viewSprite->at(j)->at(lastPosX)->ChangeTexture(1);								// Cambiamos la textura
+			instance->FillingBoxList(ObjectTile_layer, viewSprite->at(j)->at(lastPosX));	// Le asignamos una layer
 		}
-		viewSprite->at(j)->at(lastPosX)->SetPos(posX + LastCameraPos.x, posY, 0);
-		posY -= 2;
+		viewSprite->at(j)->at(lastPosX)->SetPos(posX + LastCameraPos.x, posY, 0);			// Estoy asignando una posicion especifica donde se asigna el tile
+		posY -= 2;																			// La posicion de las filas (determino el espacio entre ellas)
 	}
-	if (lastPosX < viewHeight - 1) 
-		lastPosX++;
+	if (lastPosX < viewHeight - 1)															// Si la ultima posicion de x es menor que la altura (filas) de la vista - 1(sino se sale de rango),
+		lastPosX++;																			// cuenta que fila de la matriz tiene que mandar para atras
 	else 
-		lastPosX = 0;
+		lastPosX = 0;																		
 }
 
 void Tilemap::UpdateTilemap() {

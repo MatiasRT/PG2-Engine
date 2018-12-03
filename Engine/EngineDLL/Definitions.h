@@ -9,7 +9,7 @@ enum Layers {
 	Enemy_layer,
 	Bullet_layer,
 	EnemyBullet_layer,
-	Tiles,
-	ObjectTile,
+	Tiles_layer,
+	ObjectTile_layer,
 	Count
 };
