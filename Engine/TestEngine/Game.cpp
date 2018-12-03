@@ -1,7 +1,7 @@
 #include "Game.h"
 
 bool Game::OnStart() {
-
+	i = 0;
 	translation = 0;
 	rotation = 0;
 	speed = 0;
@@ -31,7 +31,7 @@ bool Game::OnStart() {
 	sp1 = new Sprite(renderer, 8, 8);
 	sp1->SetMaterial(mat2);
 	sp1->LoadBMP("asteroid.bmp");
-	sp1->SetPos(8.0f, 6.0f, 0.0f);
+	sp1->SetPos(15.0f, 6.0f, 0.0f);
 	sp1->SetBoundingBox(2.0f, 2.0f, 30.0f, false, false);
 	instance->FillingBoxList(Player_layer, sp1);
 	sp1->SetAnimation(0, 63, 0.1f);
@@ -65,8 +65,7 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	//cr1->SetPos(-9.0f + translation, 0.0f, 0.0f);
 
 	tile->UpdateTilemap();
-
-	//renderer->TranslateCamera(glm::vec3(speed * time, 0, 0));
+	renderer->TranslateCamera(glm::vec3(speed * time, 0, 0));
 
 	sp1->UpdateAnim(time);
 	sp2->UpdateAnim(time);
