@@ -91,8 +91,8 @@ void Tilemap::UploadSprite() {																// Aca cargamos los sprites
 }
 
 void Tilemap::LoadView() {																	// Cargamos la vista
-	int posX = -13;
-	int posY = 9;
+	int posX = -13;																			// Posicion en x del tilemap
+	int posY = 9;																			// Posicion en y del tilemap
 
 	for (int i = 0; i < levelWidth; i++) {
 		posX = -13;																			// Posicion de x al comenzar
@@ -156,13 +156,46 @@ void Tilemap::UpdateViewX() {																// Aca calculamos como se debe dibu
 		lastPosX = 0;																		
 }
 
+void Tilemap::UpdateViewY() {
+	/*int posX = 13;
+	int posY = 9;
+	//Update Y
+	for (int i = 1; i < viewWidth; i++) {
+		for (int j = 0; j < viewHeight; j++) {
+			view->at(i - 1)->at(j) = view->at(i)->at(j);
+		}
+	}
+	for (int i = 0; i < viewHeight; i++) {
+		int pos = level->at(i)->at(yLevel);
+		view->at(viewWidth - 1)->at(i) = pos;
+	}
+	//volver a dibujar
+	for (int j = 0; j < viewHeight; j++) {
+		if (view->at(viewWidth - 1)->at(j) == 0) {
+			viewSprite->at(lastPosY)->at(j)->ChangeTexture(0);
+			instance->FillingBoxList(Layers::Tiles_layer, viewSprite->at(lastPosY)->at(j));
+		}
+		if (view->at(viewWidth - 1)->at(j) == 1) {
+			viewSprite->at(lastPosY)->at(j)->ChangeTexture(1);
+			instance->FillingBoxList(Layers::ObjectTile_layer, viewSprite->at(lastPosY)->at(j));
+		}
+		viewSprite->at(lastPosY)->at(j)->SetPos(posX, posY + CurrentCameraPos.y, 0);
+		posY -= 2;
+	}
+	if (lastPosY < viewHeight - 1)
+		lastPosY++;
+	else
+		lastPosY = 0;*/
+}
+
 void Tilemap::UpdateTilemap() {
-	CurrentCameraPos = render->GetCameraPos();
-	DeltaCameraPos = CurrentCameraPos - LastCameraPos;
-	LastCameraPos = CurrentCameraPos;
-																							//UpdateX
-	scrollX += DeltaCameraPos.x;
-	if (scrollX >= 2) {
+	CurrentCameraPos = render->GetCameraPos();												// Obtengo la posicion de la camara actual
+	DeltaCameraPos = CurrentCameraPos - LastCameraPos;										// Resto la pos de la camara actual con la posicion de la camara que era en el frame anterior
+	LastCameraPos = CurrentCameraPos;														// Igualo la ultima posicion de la camara a la posicion actual de la camara
+																							
+	//Updateamos X
+	scrollX += DeltaCameraPos.x;															// Le sumamos la posicion de la camara al barrido en x
+	if (scrollX >= 2) {																				
 		if (xLevel < levelWidth - 1)
 			xLevel++;
 		UpdateViewX();
@@ -176,23 +209,35 @@ void Tilemap::UpdateTilemap() {
 			scrollX = 0;
 		}
 	}
+
+	//Updateamos Y
+	/*scrollY += DeltaCameraPos.y;															// Le sumamos la posicion de la camara al barrido en x
+	if (scrollX >= 2) {
+		if (yLevel < 0)
+			yLevel--;
+		UpdateViewY();
+		scrollY = 0;
+	}
+	else {
+		if (scrollY <= -2) {
+			if (yLevel < 0)
+				yLevel--;
+			UpdateViewY();
+			scrollY = 0;
+		}
+	}*/
 }
 
-Tilemap::~Tilemap() {																		// Libero memoria de las cosas creadas en el constructor
-	for (int i = 0; i < viewWidth; i++) {
-		for (int j = 0; j < viewHeight; j++) {
-			delete viewSprite->at(i)->at(j);
-		}
-		delete viewSprite->at(i);
-	}
-
-	for (int i = 0; i < levelWidth; i++) {
-		delete level->at(i);
-	}
-	delete level;
-
+Tilemap::~Tilemap() {																		// Libero memoria
 	for (int i = 0; i < viewWidth; i++) {
 		delete view->at(i);
+		for (int j = 0; j < viewHeight; j++)
+			delete viewSprite->at(i)->at(j);
+		delete viewSprite->at(i);
 	}
 	delete view;
+
+	for (int i = 0; i < levelWidth; i++)
+		delete level->at(i);
+	delete level;
 }
