@@ -8,6 +8,8 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	scrollY = 0;
 	levelHeight = 1;
 	levelWidth = 1;
+	lastPosX = 0;
+	lastPosY = 0;
 	LastCameraPos = glm::vec3(0, 0, 0);
 	CurrentCameraPos = glm::vec3(0, 0, 0);
 	DeltaCameraPos = glm::vec3(0, 0, 0);
@@ -34,8 +36,8 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	for (int i = 0; i < levelWidth; i++)
 		level->at(i) = new vector<int>(levelHeight);										// Le agrego las filas al vector
 		
-	if (tilemap.is_open()) {
-		for (int i = 0; i < levelWidth; i++) {
+	if (tilemap.is_open()) {																// Preguntamos si el archivo esta abierto
+		for (int i = 0; i < levelWidth; i++) {												// Recorremos por la cantidad de columnas, por el ancho
 
 			getline(tilemap, buffer);														// Obtengo la primera linea
 			int levelW = 0;
@@ -54,19 +56,19 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	}
 	tilemap.close();																		// Una vez que leimos todo y llenamos el vector del nivel, cerramos el archivo.
 
-	int tileHeight = 256 / 4;																// Alto y ancho de cada tile
-	int tileWidht = 256 / 4;
+	int tileHeight = 64;																	// Alto y ancho de cada tile
+	int tileWidht = 64;
 
 	viewHeight = (winHeight / tileHeight) + 4;												// La altura de la vista va a ser determinada por la ventana que utilizemos y el tamaño de los tiles, mas las dos columnas que necesitamos para swapear
 	viewWidth = (winWidth / tileWidht) + 4;													// Lo mismo de lo de arriba, lo que cambia es que es para el ancho.
 
-	xLevel = viewHeight;
+	xLevel = viewHeight;																	// Me guardo la altura y el ancho para usarlo mas tarde
 	yLevel = viewWidth;
 
 	//view = new int[viewWidth, viewHeight];												// Esta es la vista total
-	view = new vector<vector<int>*>(viewWidth);
+	view = new vector<vector<int>*>(viewWidth);												// Inicializo el vector con la cantidad de columnas totales
 	for (int i = 0; i < viewWidth; i++)
-		view->at(i) = new vector<int>(viewHeight);
+		view->at(i) = new vector<int>(viewHeight);											// Le agrego las filas al vector
 
 	viewSprite = new vector<vector<Tile*>*>(viewWidth);										// Inicializamos el vector con la cantidad de columnas totales
 	for (int i = 0; i < viewWidth; i++)
@@ -76,42 +78,40 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	LoadView();
 }
 	
-void Tilemap::UploadSprite() {
-	for (int i = 0; i < viewWidth; i++) {
+void Tilemap::UploadSprite() {																// Aca cargamos los sprites
+	for (int i = 0; i < viewWidth; i++) {													// Recorremos cada posicion de la grilla de tiles
 		for (int j = 0; j < viewHeight; j++) {
-			viewSprite->at(i)->at(j) = new Tile(render, 1, 1);
-			viewSprite->at(i)->at(j)->SetMaterial(material);
-			viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 110.0f, false, false);
-			viewSprite->at(i)->at(j)->UploadTexture("empty.bmp");
-			viewSprite->at(i)->at(j)->UploadTexture("pastote.bmp");
+			viewSprite->at(i)->at(j) = new Tile(render, 1, 1);								// Creo en esa posicion un tile
+			viewSprite->at(i)->at(j)->SetMaterial(material);								// Le asigno el material
+			viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 110.0f, false, false);		// Le asigno una bounding box
+			viewSprite->at(i)->at(j)->UploadTexture("empty.bmp");							// Le cargo la textura con la que no va a colisionar
+			viewSprite->at(i)->at(j)->UploadTexture("pastote.bmp");							// Le cargo la textura con la que si va a colisionar
 		}
 	}
 }
 
-void Tilemap::LoadView() {
+void Tilemap::LoadView() {																	// Cargamos la vista
 	int posX = -12;
 	int posY = 9;
-	lastPosX = 0;
-	lastPosY = 0;
 
 	for (int i = 0; i < levelWidth; i++) {
-		posX = -12;
+		posX = -13;																			// Posicion de x al comenzar
 		for (int j = 0; j < levelHeight; j++) {
 			if (i < viewWidth && j < viewHeight) {
-				view->at(i)->at(j) = level->at(i)->at(j);
-				if (view->at(i)->at(j) == 0) {
-					viewSprite->at(i)->at(j)->ChangeTexture(0);
-					instance->FillingBoxList(Layers::Tiles, viewSprite->at(i)->at(j));
+				view->at(i)->at(j) = level->at(i)->at(j);									// Le asigno la posicion del nivel a la vista de un tile especifico
+				if (view->at(i)->at(j) == 0) {												// Si hay un 0 en esa posicion no deberia colisionar 
+					viewSprite->at(i)->at(j)->ChangeTexture(0);								// Cambiamos la textura
+					instance->FillingBoxList(Layers::Tiles, viewSprite->at(i)->at(j));		// Le asignamos una layer
 				}
-				if (view->at(i)->at(j) == 1) {
-					viewSprite->at(i)->at(j)->ChangeTexture(1);
-					instance->FillingBoxList(Layers::ObjectTile, viewSprite->at(i)->at(j));
+				if (view->at(i)->at(j) == 1) {												// Si hay un 1 en esa posicion deberia colisionar 
+					viewSprite->at(i)->at(j)->ChangeTexture(1);								// Cambiamos la textura
+					instance->FillingBoxList(Layers::ObjectTile, viewSprite->at(i)->at(j));	// Le asignamos una layer
 				}
-				posX += 2;
-				viewSprite->at(i)->at(j)->SetPos(posX, posY, 0);
+				posX += 2;																	// Le sumo las dos columnas que swapean
+				viewSprite->at(i)->at(j)->SetPos(posX, posY, 0);							// En la posicion especifica del tile le agrego una posicion de una entidad
 			}
 		}
-		posY -= 2;
+		posY -= 2;																			// Se las resto
 	}
 }
 
@@ -180,13 +180,20 @@ void Tilemap::UpdateTilemap() {
 }
 
 Tilemap::~Tilemap() {																		// Libero memoria de las cosas creadas en el constructor
-	/*for (int i = 0; i < viewWidth; i++) {
-		for (int j = 0; j < viewWidth; j++) {
-			delete viewSprite;
+	for (int i = 0; i < viewWidth; i++) {
+		for (int j = 0; j < viewHeight; j++) {
+			delete viewSprite->at(i)->at(j);
 		}
-		//delete viewSprite->at(i);
-		//delete level->at(i);
+		delete viewSprite->at(i);
 	}
-	//delete view;
-	*/
+
+	for (int i = 0; i < levelWidth; i++) {
+		delete level->at(i);
+	}
+	delete level;
+
+	for (int i = 0; i < viewWidth; i++) {
+		delete view->at(i);
+	}
+	delete view;
 }

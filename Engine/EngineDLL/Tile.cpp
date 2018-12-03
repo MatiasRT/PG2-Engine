@@ -7,7 +7,7 @@ Tile::Tile(Renderer * rend, int col, int row):Sprite(rend, col, row) {
 }
 
 Tile::~Tile() {
-	//delete textures;
+	delete textures;
 }
 
 void Tile::UploadTexture(const char * file) {
