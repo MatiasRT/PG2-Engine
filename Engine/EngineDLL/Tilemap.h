@@ -38,7 +38,6 @@ class ENGINEDLL_API Tilemap {
 	void UploadSprite();
 	void LoadView();
 	void UpdateViewX();
-	void UpdateViewY();
 
 public:
 	Tilemap(const char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend);

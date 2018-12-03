@@ -6,6 +6,7 @@
 #include <Circle.h>
 #include <Importer.h>
 #include <Sprite.h>
+#include <Tilemap.h>
 #include <iostream>
 class Game : public Gamebase {
 	int i;
@@ -19,6 +20,7 @@ class Game : public Gamebase {
 	Material * mat2;
 	Sprite * sp1;
 	Sprite * sp2;
+	Tilemap * tile;
 public:
 	Game() { i = 0; };
 	~Game() { };

@@ -12,6 +12,8 @@ bool Game::OnStart() {
 	mat2 = new Material();
 	unsigned int textureID = mat2->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
 
+	tile = new Tilemap("level.csv", 800, 600, mat2, renderer);
+
 	CollisionManager* instance = CollisionManager::Instance();
 
 	//tr1 = new Triangle(renderer);																// Creo un Triangulo, y le paso como parametro el renderer, asi se puede dibujar
@@ -58,18 +60,24 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	//translation += speed * time;
 	//tr1->SetPos(9.0f - translation, 0.0f, 0.0f);
 	//cr1->SetPos(-9.0f + translation, 0.0f, 0.0f);
+
+	tile->UpdateTilemap();
+
+	//renderer->TranslateCamera(glm::vec3(speed * time, 0, 0));
+
 	sp1->UpdateAnim(time);
 	sp2->UpdateAnim(time);
 
 	speed = 4.0f;
-	sp1->TranslationBox(0.0f, speed * time, 0.0f);												// Movemos con translation asi no pisamos la posicion original
-	sp2->TranslationBox(0.0f, -speed * time, 0.0f);
+	//sp1->TranslationBox(0.0f, speed * time, 0.0f);												// Movemos con translation asi no pisamos la posicion original
+	//sp2->TranslationBox(0.0f, -speed * time, 0.0f);
 
 	//cout<<"Game::OnUpdate(): "<<i<< endl;
 	return true;
 }
 
 void Game::OnDraw() {
+	tile->DrawTilemap();
 	//tr1->Draw();																				// Le digo al Triangulo que se dibuje
 	//rt1->Draw();																				// Le digo al Rectangulo que se dibuje
 	//cr1->Draw();																				// Le digo al Circulo que se dibuje
@@ -87,6 +95,7 @@ bool Game::OnStop() {
 	delete sp2;
 	delete mat1;
 	delete mat2;
+	delete tile;
 	cout << "Game::OnStop()" << endl;
 	return false;
 }
