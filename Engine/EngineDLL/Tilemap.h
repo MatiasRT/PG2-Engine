@@ -2,7 +2,7 @@
 #include "Exports.h"
 #include "Renderer.h"
 #include "Material.h"
-#include "CollisionManager.h"
+#include "BoundingBox.h"
 #include "Tile.h"
 #include <vector>
 #include <fstream>
@@ -10,7 +10,6 @@
 #include <string>
 
 class ENGINEDLL_API Tilemap {
-
 	int viewWidth;
 	int viewHeight;
 	int levelWidth;
@@ -24,7 +23,6 @@ class ENGINEDLL_API Tilemap {
 
 	Material * material;
 	Renderer * render;
-	CollisionManager * instance;
 
 	glm::vec3 LastCameraPos;
 	glm::vec3 CurrentCameraPos;
@@ -45,4 +43,5 @@ public:
 	~Tilemap();
 	void DrawTilemap();
 	void UpdateTilemap();
+	bool CollisionMath(BoundingBox * box, Directions dir);
 };

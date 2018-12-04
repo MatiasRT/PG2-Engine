@@ -13,3 +13,10 @@ enum Layers {
 	ObjectTile_layer,
 	Count
 };
+
+enum Directions {
+	Up,
+	Down,
+	Left,
+	Right
+};
