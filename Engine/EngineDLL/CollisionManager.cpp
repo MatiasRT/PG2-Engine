@@ -95,7 +95,6 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 						if (!boxB->IsTrigger()) {
 							B->SetPos(boxB->GetX(), boxB->GetY() - inY, 0);									// Si la caja A es estatica, que la caja B salga para afuera la cantidad de penetracion que hubo en Y
 							boxB->SetCollision(true);														// Avisamos al Bounding Box que hubo colision.	
-							cout << "Hubo colision 1" << endl;
 						}
 					}
 					else {
@@ -103,7 +102,6 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 							if (!boxA->IsTrigger()) {
 								A->SetPos(boxA->GetX(), boxA->GetY() - inY, 0);								// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en Y
 								boxA->SetCollision(true);													// Avisamos al Bounding Box que hubo colision.	
-								cout << "Hubo colision 2" << endl;
 							}
 						}
 						else {
@@ -111,7 +109,6 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 								if (!boxB->IsTrigger()) {
 									A->SetPos(boxA->GetX(), boxA->GetY() - (inY / aMass), 0);				// Se deberia mover segun la masa que tenga.
 									B->SetPos(boxB->GetX(), boxB->GetY() + (inY / bMass), 0);
-									//cout << "Hubo colision 1" << endl;
 								}
 						}
 					}
@@ -121,7 +118,6 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 						if (!boxB->IsTrigger()) {
 							B->SetPos(boxB->GetX() - inX, boxB->GetY(), 0);									// Si la caja A es estatica, que la caja B salga para afuera la cantidad de penetracion que hubo en X
 							boxB->SetCollision(true);														// Avisamos al Bounding Box que hubo colision.	
-							cout << "Hubo colision 3" << endl;
 						}
 					} 
 					else {
@@ -129,7 +125,6 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 							if (!boxA->IsTrigger()) {
 								A->SetPos(boxA->GetX() - inX, boxA->GetY(), 0);								// Si la caja B es estatica, que la caja A salga para afuera la cantidad de penetracion que hubo en X
 								boxA->SetCollision(true);													// Avisamos al Bounding Box que hubo colision.	
-								cout << "Hubo colision 4" << endl;
 							}
 						}
 						else {
@@ -137,7 +132,6 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 								if (!boxB->IsTrigger()) {
 									A->SetPos(boxA->GetX() - (inX / aMass), boxA->GetY(), 0);				// Se deberian mover a la mitad de la distancia
 									B->SetPos(boxB->GetX() + (inX / bMass), boxB->GetY(), 0);
-									//cout << "Hubo colision" << endl;
 								}
 						}
 					}
