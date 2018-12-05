@@ -83,7 +83,6 @@ void Tilemap::UploadSprite() {																// Aca cargamos los sprites
 		for (int j = 0; j < viewHeight; j++) {
 			viewSprite->at(i)->at(j) = new Tile(render, 1, 1);								// Creo en esa posicion un tile
 			viewSprite->at(i)->at(j)->SetMaterial(material);								// Le asigno el material
-			//viewSprite->at(i)->at(j)->SetBoundingBox(2.0f, 2.0f, 0.0f, true, false);		// Le asigno una bounding box
 			viewSprite->at(i)->at(j)->UploadTexture("empty.bmp");							// Le cargo la textura con la que no va a colisionar
 			viewSprite->at(i)->at(j)->UploadTexture("pastote.bmp");							// Le cargo la textura con la que si va a colisionar
 		}
@@ -101,11 +100,9 @@ void Tilemap::LoadView() {																	// Cargamos la vista
 				view->at(i)->at(j) = level->at(i)->at(j);									// Le asigno la posicion del nivel a la vista de un tile especifico
 				if (view->at(i)->at(j) == 0) {												// Si hay un 0 en esa posicion no deberia colisionar 
 					viewSprite->at(i)->at(j)->ChangeTexture(0);								// Cambiamos la textura
-					//instance->FillingBoxList(Tiles_layer, viewSprite->at(i)->at(j));		// Le asignamos una layer
 				}
 				if (view->at(i)->at(j) == 1) {												// Si hay un 1 en esa posicion deberia colisionar 
 					viewSprite->at(i)->at(j)->ChangeTexture(1);								// Cambiamos la textura
-					//instance->FillingBoxList(ObjectTile_layer, viewSprite->at(i)->at(j));	// Le asignamos una layer
 				}
 				posX += 2;																	// Posicion de las columnas (determino el espacio entre ellas)
 				viewSprite->at(i)->at(j)->SetPos(posX, posY, 0);							// Estoy asignando una posicion especifica donde se asigna el tile
@@ -141,11 +138,9 @@ void Tilemap::UpdateViewX() {																// Aca calculamos como se debe dibu
 	for (int j = 0; j < viewWidth; j++) {												
 		if (view->at(j)->at(viewHeight - 1) == 0) {											// Si hay un 0 en esa posicion no deberia colisionar 
 			viewSprite->at(j)->at(lastPosX)->ChangeTexture(0);								// Cambiamos la textura en ese lugar especifico de la grilla
-			//instance->FillingBoxList(Tiles_layer, viewSprite->at(j)->at(lastPosX));			// Le asignamos una layer para determinar si colisiona o no
 		}
 		if (view->at(j)->at(viewHeight - 1) == 1) {											// Si hay un 1 en esa posicion deberia colisionar 
 			viewSprite->at(j)->at(lastPosX)->ChangeTexture(1);								// Cambiamos la textura
-			//instance->FillingBoxList(ObjectTile_layer, viewSprite->at(j)->at(lastPosX));	// Le asignamos una layer
 		}
 		viewSprite->at(j)->at(lastPosX)->SetPos(posX + render->GetCameraPos().x, posY, 0);			// Estoy asignando una posicion especifica donde se asigna el tile
 		posY -= 2;																			// La posicion de las filas (determino el espacio entre ellas)
@@ -154,38 +149,6 @@ void Tilemap::UpdateViewX() {																// Aca calculamos como se debe dibu
 		lastPosX++;																			// cuenta que fila de la matriz tiene que mandar para atras
 	else 
 		lastPosX = 0;																		
-}
-
-void Tilemap::UpdateViewY() {
-	/*int posX = 13;
-	int posY = 9;
-	//Update Y
-	for (int i = 1; i < viewWidth; i++) {
-		for (int j = 0; j < viewHeight; j++) {
-			view->at(i - 1)->at(j) = view->at(i)->at(j);
-		}
-	}
-	for (int i = 0; i < viewHeight; i++) {
-		int pos = level->at(i)->at(yLevel);
-		view->at(viewWidth - 1)->at(i) = pos;
-	}
-	//volver a dibujar
-	for (int j = 0; j < viewHeight; j++) {
-		if (view->at(viewWidth - 1)->at(j) == 0) {
-			viewSprite->at(lastPosY)->at(j)->ChangeTexture(0);
-			instance->FillingBoxList(Layers::Tiles_layer, viewSprite->at(lastPosY)->at(j));
-		}
-		if (view->at(viewWidth - 1)->at(j) == 1) {
-			viewSprite->at(lastPosY)->at(j)->ChangeTexture(1);
-			instance->FillingBoxList(Layers::ObjectTile_layer, viewSprite->at(lastPosY)->at(j));
-		}
-		viewSprite->at(lastPosY)->at(j)->SetPos(posX, posY + CurrentCameraPos.y, 0);
-		posY -= 2;
-	}
-	if (lastPosY < viewHeight - 1)
-		lastPosY++;
-	else
-		lastPosY = 0;*/
 }
 
 void Tilemap::UpdateTilemap() {
@@ -209,23 +172,6 @@ void Tilemap::UpdateTilemap() {
 			scrollX = 0;
 		}
 	}
-
-	//Updateamos Y
-	/*scrollY += DeltaCameraPos.y;															// Le sumamos la posicion de la camara al barrido en x
-	if (scrollX >= 2) {
-		if (yLevel < 0)
-			yLevel--;
-		UpdateViewY();
-		scrollY = 0;
-	}
-	else {
-		if (scrollY <= -2) {
-			if (yLevel < 0)
-				yLevel--;
-			UpdateViewY();
-			scrollY = 0;
-		}
-	}*/
 }
 
 bool Tilemap::CollisionMath(BoundingBox * box, Directions dir) {

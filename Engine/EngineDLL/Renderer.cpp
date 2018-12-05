@@ -6,7 +6,7 @@ bool Renderer::Start(Window* windowPtr) {
 	if (windowPtr != NULL) {
 		window = windowPtr;
 		glfwMakeContextCurrent((GLFWwindow*)window->GetWindow());						// Le dice cual es la ventana que va a usar
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		//GLuint VertexArrayID;
 		if (glewInit() != GLEW_OK) {
 			cout << "Fallo al inicializar GLEW\n" << endl;
