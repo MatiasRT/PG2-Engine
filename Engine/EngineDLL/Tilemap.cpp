@@ -14,8 +14,6 @@ Tilemap::Tilemap(const char* filepath, int winWidth, int winHeight, Material * m
 	CurrentCameraPos = glm::vec3(0, 0, 0);
 	DeltaCameraPos = glm::vec3(0, 0, 0);
 
-	//instance = CollisionManager::Instance();												// Hacemos una instacia del CM porque los tiles van a utilizar cajas de colision
-
 	string buffer;
 	ifstream tilemap(filepath);																// Abrimos el archivo
 	
@@ -98,12 +96,12 @@ void Tilemap::LoadView() {																	// Cargamos la vista
 		for (int j = 0; j < levelHeight; j++) {
 			if (i < viewWidth && j < viewHeight) {
 				view->at(i)->at(j) = level->at(i)->at(j);									// Le asigno la posicion del nivel a la vista de un tile especifico
-				if (view->at(i)->at(j) == 0) {												// Si hay un 0 en esa posicion no deberia colisionar 
+				if (view->at(i)->at(j) == 0) 												// Si hay un 0 en esa posicion no deberia colisionar 
 					viewSprite->at(i)->at(j)->ChangeTexture(0);								// Cambiamos la textura
-				}
-				if (view->at(i)->at(j) == 1) {												// Si hay un 1 en esa posicion deberia colisionar 
+				
+				if (view->at(i)->at(j) == 1)												// Si hay un 1 en esa posicion deberia colisionar 
 					viewSprite->at(i)->at(j)->ChangeTexture(1);								// Cambiamos la textura
-				}
+				
 				posX += 2;																	// Posicion de las columnas (determino el espacio entre ellas)
 				viewSprite->at(i)->at(j)->SetPos(posX, posY, 0);							// Estoy asignando una posicion especifica donde se asigna el tile
 			}
@@ -124,11 +122,11 @@ void Tilemap::UpdateViewX() {																// Aca calculamos como se debe dibu
 	int posX = 13;																			// Posicion en x donde comienza a dibujarse al moverse
 	int posY = 9;																			// Posicion en y donde comienza a dibujarse al moverse
 																							// Updateamos x
-	/*for (int i = 0; i < viewWidth; i++) {
+	for (int i = 0; i < viewWidth; i++) {
 		for (int j = 1; j < viewHeight; j++) {
-			view->at(i)->at(j - 1) = view->at(i)->at(j);
+			view->at(i)->at(j - 1) = view->at(i)->at(j);									// Updateamos la anchura, la X
 		}
-	}*/
+	}
 
 	for (int i = 0; i < viewWidth; i++) {	
 		int pos = level->at(i)->at(xLevel);
@@ -136,13 +134,13 @@ void Tilemap::UpdateViewX() {																// Aca calculamos como se debe dibu
 	}
 																							// volver a dibujar
 	for (int j = 0; j < viewWidth; j++) {												
-		if (view->at(j)->at(viewHeight - 1) == 0) {											// Si hay un 0 en esa posicion no deberia colisionar 
+		if (view->at(j)->at(viewHeight - 1) == 0)											// Si hay un 0 en esa posicion no deberia colisionar 
 			viewSprite->at(j)->at(lastPosX)->ChangeTexture(0);								// Cambiamos la textura en ese lugar especifico de la grilla
-		}
-		if (view->at(j)->at(viewHeight - 1) == 1) {											// Si hay un 1 en esa posicion deberia colisionar 
+		
+		if (view->at(j)->at(viewHeight - 1) == 1) 											// Si hay un 1 en esa posicion deberia colisionar 
 			viewSprite->at(j)->at(lastPosX)->ChangeTexture(1);								// Cambiamos la textura
-		}
-		viewSprite->at(j)->at(lastPosX)->SetPos(posX + render->GetCameraPos().x, posY, 0);			// Estoy asignando una posicion especifica donde se asigna el tile
+		
+		viewSprite->at(j)->at(lastPosX)->SetPos(posX + render->GetCameraPos().x, posY, 0);	// Estoy asignando una posicion especifica donde se asigna el tile
 		posY -= 2;																			// La posicion de las filas (determino el espacio entre ellas)
 	}
 	if (lastPosX < viewHeight - 1)															// Si la ultima posicion de x es menor que la altura (filas) de la vista - 1(sino se sale de rango),
@@ -177,7 +175,7 @@ void Tilemap::UpdateTilemap() {
 bool Tilemap::CollisionMath(BoundingBox * box, Directions dir) {
 	for (int i = 0; i < viewWidth; i++) {
 		for (int j = 0; j < viewHeight; j++) {
-			if (view->at(i)->at(j) == 1) {
+			if (view->at(i)->at(j) <= 1) {													// Recorremos toda la vista para ver que hay en cada casillero (0 no colisiona, +1 colisiona)
 				switch (dir) {
 				case Up:
 					if ((box->GetY() + box->GetHeight()) >= viewSprite->at(i)->at(j)->GetPos().y)
@@ -192,13 +190,13 @@ bool Tilemap::CollisionMath(BoundingBox * box, Directions dir) {
 						return false;
 					break;
 				case Left:
-					if ((box->GetX() - box->GetWidth()) <= (viewSprite->at(i)->at(j)->GetPos().x) + box->GetWidth())		//if ((box->GetX() - box->GetWidth()) <= (viewSprite->at(i)->at(j)->GetPos().x) + box->GetWidth())
+					if ((box->GetX() - box->GetWidth()) <= (viewSprite->at(i)->at(j)->GetPos().x) + box->GetWidth())
 						return true;
 					else
 						return false;
 					break;
 				case Right:
-					if ((box->GetX() - box->GetWidth()) >= (viewSprite->at(i)->at(j)->GetPos().x) + box->GetWidth()) //if ((box->GetX() - box->GetWidth()) <= (viewSprite->at(i)->at(j)->GetPos().x))
+					if ((box->GetX() - box->GetWidth()) >= (viewSprite->at(i)->at(j)->GetPos().x) + box->GetWidth())
 						return true;
 					else
 						return false;

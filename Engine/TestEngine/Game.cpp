@@ -39,7 +39,7 @@ bool Game::OnStart() {
 	sp3->SetMaterial(mat2);
 	sp3->LoadBMP("character.bmp");
 	sp3->SetPos(8.0f, 0.0f, 0.0f);
-	sp3->SetBoundingBox(2.0f, 2.0f, 10.0f, false, true);			// Es trigger
+	sp3->SetBoundingBox(2.0f, 2.0f, 10.0f, false, true);										// Es trigger
 	instance->FillingBoxList(Enemy_layer, sp3);
 	sp3->SetAnimation(18, 23, 0.1f);
 
@@ -54,24 +54,24 @@ bool Game::OnStart() {
 	sp5 = new Sprite(renderer, 6, 8);
 	sp5->SetMaterial(mat2);
 	sp5->LoadBMP("character.bmp");
-	sp5->SetPos(-3.0f, -3.0f, 0.0f);
+	sp5->SetPos(-2.0f, -3.0f, 0.0f);
 	sp5->SetBoundingBox(2.0f, 2.0f, 10.0f, false, false);
 	instance->FillingBoxList(Enemy_layer, sp5);
 	sp5->SetAnimation(6, 11, 0.1f);
 
-	/*sp6 = new Sprite(renderer, 6, 8);
+	sp6 = new Sprite(renderer, 6, 8);
 	sp6->SetMaterial(mat2);
 	sp6->LoadBMP("character.bmp");
 	sp6->SetPos(0.0f, 0.0f, 0.0f);
 	sp6->SetBoundingBox(2.0f, 2.0f, 10.0f, false, false);
 	instance->FillingBoxList(Enemy_layer, sp6);
-	sp6->SetAnimation(0, 47, 0.1f);*/
+	sp6->SetAnimation(0, 47, 0.1f);
 
 	sp7 = new Sprite(renderer, 8, 8);
 	sp7->SetMaterial(mat2);
 	sp7->LoadBMP("asteroid.bmp");
 	sp7->SetPos(-1.0f, 4.0f, 0.0f);
-	sp7->SetBoundingBox(2.0f, 2.0f, 10.0f, true, false);			// ES estatico
+	sp7->SetBoundingBox(2.0f, 2.0f, 10.0f, true, false);										// Es estatico
 	instance->FillingBoxList(Bullet_layer, sp7);
 	sp7->SetAnimation(0, 63, 0.1f);
 
@@ -95,7 +95,7 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	sp3->UpdateAnim(time);
 	sp4->UpdateAnim(time);
 	sp5->UpdateAnim(time);
-
+	sp6->UpdateAnim(time);
 	sp7->UpdateAnim(time);
 
 	/* MOVIMIENTO */
@@ -109,26 +109,20 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 
 	/* COLISION CON TILEMAP */
 	/* UP */
-	/*if (!tile->CollisionMath(sp2->GetBoundingBox(), Directions::Up))
-		sp2->TranslationBox( 0.0f, speed * time, 0.0f);*/
-	if (!tile->CollisionMath(sp3->GetBoundingBox(), Directions::Up))
+	if (!tile->CollisionMath(sp3->GetBoundingBox(), Up))
 		sp3->TranslationBox(0.0f, speed * time, 0.0f);
 
 	/* DOWN */
-	/*if (!tile->CollisionMath(sp2->GetBoundingBox(), Down)) 
-		sp2->TranslationBox( 0.0f, -speed * time, 0.0f);*/
 	if (!tile->CollisionMath(sp4->GetBoundingBox(), Down))
 		sp4->TranslationBox(0.0f, -speed * time, 0.0f);
 	
 	/* LEFT */
-	/*if (!tile->CollisionMath(sp2->GetBoundingBox(), Directions::Left)) 
-		sp2->TranslationBox(-speed * time, 0.0f, 0.0f);*/
-	if (!tile->CollisionMath(sp5->GetBoundingBox(), Directions::Left))
+	if (!tile->CollisionMath(sp5->GetBoundingBox(), Left))
 		sp5->TranslationBox(-speed * time * 3, 0.0f, 0.0f);
 
 	/* RIGHT */
-	/*if (!tile->CollisionMath(sp2->GetBoundingBox(), Right))
-		sp2->TranslationBox(speed * time, 0.0f, 0.0f);*/
+	if (!tile->CollisionMath(sp6->GetBoundingBox(), Right))
+		sp6->TranslationBox(speed * time, 0.0f, 0.0f);
 
 	return true;
 }
@@ -141,7 +135,7 @@ void Game::OnDraw() {
 	sp3->Draw();
 	sp4->Draw();
 	sp5->Draw();
-
+	sp6->Draw();
 	sp7->Draw();
 }
 
@@ -151,7 +145,7 @@ bool Game::OnStop() {
 	delete sp3;
 	delete sp4;
 	delete sp5;
-
+	delete sp6;
 	delete sp7;
 	delete mat1;
 	delete mat2;
