@@ -1,9 +1,12 @@
 #pragma once
 #include "Entity.h"
 #include "Material.h"
+#include "Importer.h"
+#define PRIMITIVE_QUAD 0x0007
 
 class ENGINEDLL_API Shape : public Entity {
 protected:
+	Header header;
 	unsigned int bufferId;
 	unsigned int colorBufferId;
 	bool shouldDispose;
@@ -12,6 +15,9 @@ protected:
 	int vtxColorCount;
 	float* vertex;
 	float* colorVertex;
+	float* textureVertex;
+	unsigned int txrBufferId;
+	unsigned int UVBufferID;
 
 	Material * material;
 public:

@@ -24,6 +24,7 @@ public:
 	void ClearColor(float r, float g, float b, float a);
 	void SwapBuffers();
 	unsigned int GenBuffer(float* buffer, int size);
+	unsigned int GenTextureBuffer(int width, int height, unsigned char* data);
 	unsigned int GenColorBuffer(float* buffer, int size);
 	unsigned int UploadData(float width, float height, const void* data);
 	void DrawBuffer(int size, int type);

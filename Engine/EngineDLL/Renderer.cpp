@@ -64,6 +64,24 @@ unsigned int Renderer::GenBuffer(float* buffer, int size) {								// Aca creamo
 	return vertexbuffer;
 }
 
+unsigned int Renderer::GenTextureBuffer(int width, int height, unsigned char * data) {
+	unsigned int  texturebuffer;
+	glGenTextures(1, &texturebuffer);
+
+	glBindTexture(GL_TEXTURE_2D, texturebuffer);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_NEAREST);
+
+
+	return texturebuffer;
+}
+
 unsigned int Renderer::GenColorBuffer(float* buffer, int size) {
 
 	unsigned int colorbuffer;

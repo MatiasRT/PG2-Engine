@@ -2,46 +2,46 @@
 #include "Exports.h"
 #include "Renderer.h"
 #include "Material.h"
-#include "BoundingBox.h"
-#include "Tile.h"
+#include "Shape.h"
 #include <vector>
 #include <fstream>
 #include <iostream>
 #include <string>
 
-class ENGINEDLL_API Tilemap {
-	int viewWidth;
-	int viewHeight;
-	int levelWidth;
-	int levelHeight;
-	int xLevel;
-	int yLevel;
-	float scrollX;
-	float scrollY;
-	int lastPosX;
-	int lastPosY;
+class ENGINEDLL_API Tilemap : public Shape {
+private:
+	int tilemapWidth;
+	int tilemapHeight;
+	int cantUVvertex;
+	float cantTilesX;
+	float cantTilesY;
+	float tileOffset;
+	float tileSize;
+	vector<int>* mapIds;
+	vector<float> vertexArrayPos;
+	vector<vector<int>> bidimensionalIDs;
+	vector<int>* tilesWithCollides;
 
-	Material * material;
-	Renderer * render;
+	struct TileColliderData {
+		float positionX;
+		float width;
+		float positionY;
+		float height;
+	};
 
-	glm::vec3 LastCameraPos;
-	glm::vec3 CurrentCameraPos;
-	glm::vec3 DeltaCameraPos;
-
-	vector<vector<Tile*>*>* viewSprite;
-	vector<vector<int>*>* level;
-	vector<vector<int>*>* view;
-	//vector<int>* textures;
-
-	void UploadSprite();
-	void LoadView();
-	void UpdateViewX();
-	void UpdateViewY();
-
+	vector<TileColliderData>* tilesColliderData;
 public:
-	Tilemap(const char* filepath, int winWidth, int winHeight, Material * mat, Renderer * rend);
+	Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight, const char* _filename, float _cantTilesX, float _cantTilesY, float _tileOffset, float _tileSize, vector<int>* _colliderTiles);
 	~Tilemap();
-	void DrawTilemap();
-	void UpdateTilemap();
-	bool CollisionMath(BoundingBox * box, Directions dir);
+	void Draw() override;
+	void DrawMesh(int _drawType);
+	void SetTextures(float* vertex, int cant);
+	void LoadTexture(const char* name);
+	void LoadUVs();
+	void LoadMapIDs(const char* file);
+	void SetTilemapVertex(float* vertex, int cant);
+
+	bool NextTileIsCollider(float _playerTranslationX, float _playerTranslationY, float _playerHight, float _playerWidht);
+
+	void UpdateTilemapColliderPosition(float _diferenceX, float _diferenceY);
 };

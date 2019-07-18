@@ -15,11 +15,27 @@ bool Game::OnStart() {
 	mat3 = new Material();
 	unsigned int tileID = mat3->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
 
-	tile = new Tilemap("level.csv", 800, 600, mat3, renderer);
+
+	vector<int> * colliderTiles = new vector<int>();
+	colliderTiles->push_back(3);
+	colliderTiles->push_back(4);
+	colliderTiles->push_back(5);
+	colliderTiles->push_back(6);
+	colliderTiles->push_back(10);
+	colliderTiles->push_back(13);
+	colliderTiles->push_back(14);
+	colliderTiles->push_back(15);
+	colliderTiles->push_back(16);
+	colliderTiles->push_back(17);
+
+	tile = new Tilemap(renderer, 40, 40, "TileMapFinal.csv", 10.0f, 7.0f, 10.0f, 2.0f, colliderTiles);
+	tile->SetMaterial(mat3);
+	tile->LoadTexture("TileMap.bmp");
 
 	CollisionManager* instance = CollisionManager::Instance();
 
-	sp1 = new Sprite(renderer, 8, 8);
+
+	/*sp1 = new Sprite(renderer, 8, 8);
 	sp1->SetMaterial(mat2);
 	sp1->LoadBMP("asteroid.bmp");
 	sp1->SetPos(15.0f, 4.0f, 0.0f);
@@ -73,7 +89,7 @@ bool Game::OnStart() {
 	sp7->SetPos(-1.0f, 4.0f, 0.0f);
 	sp7->SetBoundingBox(2.0f, 2.0f, 10.0f, true, false);										// Es estatico
 	instance->FillingBoxList(Bullet_layer, sp7);
-	sp7->SetAnimation(0, 63, 0.1f);
+	sp7->SetAnimation(0, 63, 0.1f);*/
 
 	cout<<"Game::OnStart()"<<endl;
 	return true;
@@ -84,19 +100,19 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	speed = 1.0f;
 
 	/* TILES */
-	tile->UpdateTilemap();
+	//tile->UpdateTilemap();
 	
 	/* CAMARA */
-	renderer->TranslateCamera(glm::vec3(speed * time, 0, 0));
+	//renderer->TranslateCamera(glm::vec3(speed * time, 0, 0));
 
 	/* ANIMACIONES*/
-	sp1->UpdateAnim(time);
+	/*sp1->UpdateAnim(time);
 	sp2->UpdateAnim(time);
 	sp3->UpdateAnim(time);
 	sp4->UpdateAnim(time);
 	sp5->UpdateAnim(time);
 	sp6->UpdateAnim(time);
-	sp7->UpdateAnim(time);
+	sp7->UpdateAnim(time);*/
 
 	/* MOVIMIENTO */
 	/* Movimiento vertical */
@@ -104,39 +120,39 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	//sp2->TranslationBox(0.0f, -speed * time, 0.0f);
 
 	/* Movimineto horizontal */
-	sp1->TranslationBox(-speed * time * 2, 0.0f, 0.0f);											// Movemos con translation asi no pisamos la posicion original
-	sp2->TranslationBox(speed * time, 0.0f, 0.0f);
+	/*sp1->TranslationBox(-speed * time * 2, 0.0f, 0.0f);											// Movemos con translation asi no pisamos la posicion original
+	sp2->TranslationBox(speed * time, 0.0f, 0.0f);*/
 
 	/* COLISION CON TILEMAP */
 	/* UP */
-	if (!tile->CollisionMath(sp3->GetBoundingBox(), Up))
-		sp3->TranslationBox(0.0f, speed * time, 0.0f);
+	//if (!tile->CollisionMath(sp3->GetBoundingBox(), Up))
+		//sp3->TranslationBox(0.0f, speed * time, 0.0f);
 
 	/* DOWN */
-	if (!tile->CollisionMath(sp4->GetBoundingBox(), Down))
-		sp4->TranslationBox(0.0f, -speed * time, 0.0f);
+	//if (!tile->CollisionMath(sp4->GetBoundingBox(), Down))
+		//sp4->TranslationBox(0.0f, -speed * time, 0.0f);
 	
 	/* LEFT */
-	if (!tile->CollisionMath(sp5->GetBoundingBox(), Left))
-		sp5->TranslationBox(-speed * time * 3, 0.0f, 0.0f);
+	//if (!tile->CollisionMath(sp5->GetBoundingBox(), Left))
+		//sp5->TranslationBox(-speed * time * 3, 0.0f, 0.0f);
 
 	/* RIGHT */
-	if (!tile->CollisionMath(sp6->GetBoundingBox(), Right))
-		sp6->TranslationBox(speed * time, 0.0f, 0.0f);
+	//if (!tile->CollisionMath(sp6->GetBoundingBox(), Right))
+		//sp6->TranslationBox(speed * time, 0.0f, 0.0f);
 
 	return true;
 }
 
 void Game::OnDraw() {
-	tile->DrawTilemap();
+	tile->Draw();
 
-	sp1->Draw();
+	/*sp1->Draw();
 	sp2->Draw();
 	sp3->Draw();
 	sp4->Draw();
 	sp5->Draw();
 	sp6->Draw();
-	sp7->Draw();
+	sp7->Draw();*/
 }
 
 bool Game::OnStop() {

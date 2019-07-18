@@ -8,6 +8,7 @@ Sprite::Sprite(Renderer* renderer, int col, int rows) : Shape(renderer) {
 		1.0f, -1.0f, 0.0f,													
 		1.0f, 1.0f, 0.0f										
 	};
+	UVBufferID = -1;
 
 	/*textureVertex = new float[8]{
 		0.0f, 0.0f,
@@ -54,6 +55,11 @@ void Sprite::DrawMesh1(int type) {
 	renderer->DrawBuffer(vtxCount, type);													// El renderer dibuja el triangulo
 	renderer->EndDraw(0);
 	renderer->EndDraw(1);																	// Deja de dibujar
+}
+
+void Sprite::SetTextureBufferId(unsigned int _textureBufferId)
+{
+	UVBufferID = _textureBufferId;
 }
 
 void Sprite::DisposeTexture() {
