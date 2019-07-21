@@ -8,8 +8,11 @@ protected:
 	unsigned int MatrixID;
 	unsigned int TextureID;
 public:
-	void Bind();//unsigned int programId);
+	void Bind();
+	void Bind(const char * texName, unsigned int texture);
+	//unsigned int programId);
 	void BindTexture();
+	void BindTexture(const char * name, unsigned int textureBufferId);
 	unsigned int LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
 	void SetMatrixProperty(glm::mat4& mat);
 };

@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "BoundingBox.h"
 #include "BoundingCircle.h"
+#include "Collider.h"
 #include <iostream>
 using namespace std;
 class ENGINEDLL_API Entity {
@@ -23,10 +24,16 @@ protected:
 
 	BoundingBox* box;
 	BoundingCircle* circle;
+	Collider * collider;
+
 public:
 	virtual void Draw() = 0;
 	Entity(Renderer* rendererPtr);
 	void SetPos(float x, float y, float z);
+	void SetTranslation(float x, float y, float z);
+	void SetTranslationX(float x);
+	void SetTranslationY(float y);
+	void SetTranslationZ(float z);
 	void SetScale(float x, float y, float z);
 	void SetRotX(float x);
 	void SetRotY(float y);
@@ -41,4 +48,16 @@ public:
 	BoundingBox* GetBoundingBox() { return box; };
 	BoundingCircle* GetBoundingCircle() { return circle; };
 	void UpdateWorldMatrix();
+	void SetCollider(glm::vec3 _position, float _height, float _width, Layers _layer, bool _isStatic);
+	glm::vec3 GetTranslation();
+	float GetTranslationX();
+	float GetTranslationY();
+	float GetTranslationZ();
+	unsigned int GetColliderPivotX();
+	unsigned int GetColliderPivotY();
+	glm::vec2 GetColliderPivot();
+	unsigned int GetColliderHeight();
+	unsigned int GetColliderWidth();
+	Layers GetColliderLayer();
+	bool GetColliderIsStatic();
 };

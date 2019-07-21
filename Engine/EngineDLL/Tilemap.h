@@ -10,6 +10,7 @@
 
 class ENGINEDLL_API Tilemap : public Shape {
 private:
+	const char* filename;
 	int tilemapWidth;
 	int tilemapHeight;
 	int cantUVvertex;

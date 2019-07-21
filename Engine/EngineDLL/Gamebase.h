@@ -6,10 +6,10 @@
 #include <iostream>
 using namespace std;
 class ENGINEDLL_API Gamebase {
-	Window* window;
 	double currentFrame;
 	double lastFrame;
 public:
+	Window* window;
 	Gamebase() { };
 	~Gamebase() { };
 	bool Start();

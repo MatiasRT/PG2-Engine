@@ -2,6 +2,7 @@
 
 Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight, const char* _filename, float _cantTilesX, float _cantTilesY, float _tileOffset, float _tileSize, vector<int>* _colliderTiles) : Shape(_renderer) {
 
+	filename = _filename;
 	tilemapWidth = _tilemapWidth;
 	tilemapHeight = _tilemapHeight;
 	cantTilesX = _cantTilesX;
@@ -87,9 +88,9 @@ void Tilemap::DrawMesh(int _drawType) {
 
 
 	if (material != NULL) {
-		material->Bind();
+		material->Bind(filename, UVBufferID);
 		material->SetMatrixProperty(renderer->GetWVP());
-		material->BindTexture();
+		//material->BindTexture();
 	}
 
 	renderer->BeginDraw(0);

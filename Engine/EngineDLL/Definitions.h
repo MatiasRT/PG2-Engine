@@ -5,13 +5,12 @@
 #define GL_TRIANGLE_FAN			0x0006
 
 enum Layers {
-	Player_layer = 0,
-	Enemy_layer,
-	Bullet_layer,
-	EnemyBullet_layer,
-	Tiles_layer,
-	ObjectTile_layer,
-	Count
+	player,
+	enemy,
+	walkeable,
+	not_walkeable,
+	tiles,
+	count
 };
 
 enum Directions {

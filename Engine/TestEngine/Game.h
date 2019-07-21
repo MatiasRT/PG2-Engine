@@ -7,7 +7,11 @@
 #include <Importer.h>
 #include <Sprite.h>
 #include <Tilemap.h>
+#include <Player.h>
 #include <iostream>
+
+#define PLAYER_SPEED 20.0f
+
 class Game : public Gamebase {
 	int i;
 	float rotation;
@@ -27,6 +31,8 @@ class Game : public Gamebase {
 	Sprite * sp5;
 	Sprite * sp6;
 	Sprite * sp7;
+
+	Player * player1;
 
 	Tilemap * tile;
 public:

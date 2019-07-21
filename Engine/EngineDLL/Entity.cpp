@@ -42,6 +42,33 @@ void Entity::SetPos(float x, float y, float z) {
 	UpdateWorldMatrix();
 }
 
+void Entity::SetTranslation(float x, float y, float z) {
+	v3pos[0] = x;
+	v3pos[1] = y;
+	v3pos[2] = z;
+
+	translateMatrix = glm::translate(glm::mat4(1.0f), v3pos);
+	UpdateWorldMatrix();
+}
+
+void Entity::SetTranslationX(float x) {
+	v3pos[0] = x;
+	translateMatrix = glm::translate(glm::mat4(1.0f), v3pos);
+	UpdateWorldMatrix();
+}
+
+void Entity::SetTranslationY(float y) {
+	v3pos[1] = y;
+	translateMatrix = glm::translate(glm::mat4(1.0f), v3pos);
+	UpdateWorldMatrix();
+}
+
+void Entity::SetTranslationZ(float z) {
+	v3pos[2] = z;
+	translateMatrix = glm::translate(glm::mat4(1.0f), v3pos);
+	UpdateWorldMatrix();
+}
+
 void Entity::SetScale(float x, float y, float z) {
 	v3scale[0] = x;
 	v3scale[1] = y;
@@ -131,4 +158,49 @@ void Entity::SetBoundingCircle(float r, float mass, bool setStatic, bool setTrig
 
 void Entity::UpdateWorldMatrix() {
 	worldMatrix = (translateMatrix * rotationX * rotationY * rotationZ * scaleMatrix);
+}
+
+void Entity::SetCollider(glm::vec3 _position, float _height, float _width, Layers _layer, bool _isStatic) {
+	collider = new Collider(_position, _height, _width, _layer, _isStatic);
+}
+
+glm::vec3 Entity::GetTranslation() {
+	return v3pos;
+}
+float Entity::GetTranslationX() {
+	return v3pos[0];
+}
+float Entity::GetTranslationY() {
+	return v3pos[1];
+}
+float Entity::GetTranslationZ() {
+	return v3pos[2];
+}
+
+unsigned int Entity::GetColliderPivotX() {
+	return collider->GetXPosition();
+}
+
+unsigned int Entity::GetColliderPivotY() {
+	return collider->GetYPosition();
+}
+
+glm::vec2 Entity::GetColliderPivot() {
+	return collider->GetPivot();
+}
+
+unsigned int Entity::GetColliderHeight() {
+	return collider->GetHeight();
+}
+
+unsigned int Entity::GetColliderWidth() {
+	return collider->GetWidth();
+}
+
+Layers Entity::GetColliderLayer() {
+	return collider->GetLayer();
+}
+
+bool Entity::GetColliderIsStatic() {
+	return collider->GetIsStatic();
 }

@@ -106,8 +106,29 @@ void Material::Bind() {
 	MatrixID = glGetUniformLocation(ProgramID, "WVP");
 }
 
+void Material::Bind(const char* texName, unsigned int texture) {
+	glUseProgram(ProgramID);
+
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	unsigned int textureId = glGetUniformLocation(ProgramID, texName);
+
+	// Set our "myTextureSampler" sampler to use Texture Unit 0
+	glUniform1i(textureId, 0);
+}
+
 void Material::BindTexture() {
 	TextureID = glGetUniformLocation(ProgramID, "myTextureSampler");			// Le dice al material que tiene que usar una textura
+}
+
+void Material::BindTexture(const char* name, unsigned int textureBufferId) {
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureBufferId);
+
+	TextureID = glGetUniformLocation(ProgramID, name);
+	glUniform1i(TextureID, 0);
 }
 
 void Material::SetMatrixProperty(glm::mat4& mat) {

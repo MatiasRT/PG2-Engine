@@ -3,33 +3,33 @@
 CollisionManager* CollisionManager::instance = NULL;
 
 CollisionManager::CollisionManager() {
-	circles = new vector<list<Sprite*>*>((int)Layers::Count);												// Creo un vector de punteros de listas de punteros de sprites con tamaño de la cantidad de layers que tenga (para eso uso Count en el enum de layers) 
+	/*circles = new vector<list<Sprite*>*>((int)Layers::Count);												// Creo un vector de punteros de listas de punteros de sprites con tamaño de la cantidad de layers que tenga (para eso uso Count en el enum de layers) 
 	boxes = new vector<list<Sprite*>*>((int)Layers::Count);													// Creo un vector de punteros de listas de punteros de sprites con tamaño de la cantidad de layers que tenga
 	for (int i = 0; i < Layers::Count; i++) {
 		circles->at(i) = new list<Sprite*>();																// En cada posicion del vector circles creo una lista de sprites
 		boxes->at(i) = new list<Sprite*>();																	// En cada posicion del vector boxes creo una lista de sprites
-	}
+	}*/
 }
 
 CollisionManager::~CollisionManager() {
-	for (int i = 0; i < Layers::Count; i++) {
+	/*for (int i = 0; i < Layers::Count; i++) {
 		delete circles->at(i);
 		delete boxes->at(i);
 	}
 	delete circles;
-	delete boxes;
+	delete boxes;*/
 }
 
 void CollisionManager::FillingBoxList(Layers layer, Sprite* s) {
-	boxes->at(layer)->push_back(s);																			// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
+	//boxes->at(layer)->push_back(s);																			// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
 }	
 
 void CollisionManager::FillingCircleList(Layers layer, Sprite* s) {
-	circles->at(layer)->push_back(s);																		// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
+	//circles->at(layer)->push_back(s);																		// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
 }
 
 void CollisionManager::BoxCollisionDetector() {
-	for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
+	/*for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
 			
@@ -39,37 +39,37 @@ void CollisionManager::BoxCollisionDetector() {
 			}
 				LayersMatchBox(boxes->at(i), boxes->at(j));
 		}
-	}
+	}*/
 }
 
 void CollisionManager::CircleCollisionDetector() {
-	for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
+	/*for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
 			if (j == Layers::Tiles_layer || i == Layers::Tiles_layer) continue;
 				LayersMatchCircle(circles->at(i), circles->at(j));
 		}
-	}
+	}*/
 }
 
 void CollisionManager::LayersMatchBox(list<Sprite*>* layerA, list<Sprite*>* layerB) {						// Ven las colisiones entre los layers (cajas)
-	for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i){
+	/*for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i){
 		for (list<Sprite*>::iterator j = layerB->begin(); j != layerB->end(); ++j) {
 			CollisionBoxMath(*i, *j);																		// Le mandamos por parametro los sprites a la funcion que resuelve la colision
 		}
-	}
+	}*/
 }
 
 void CollisionManager::LayersMatchCircle(list<Sprite*>* layerA, list<Sprite*>* layerB) {					// Ven las colisiones entre los layers (circulos)
-	for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i) {
+	/*for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i) {
 		for (list<Sprite*>::iterator j = layerB->begin(); j != layerB->end(); ++j) {
 			CollisionCircleMath(*i, *j);																	// Le mandamos por parametro los sprites a la funcion que resuelve la colision
 		}
-	}
+	}*/
 }
 
 void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
-	BoundingBox* boxA = A->GetBoundingBox();																// Obtenemos la caja de colision del sprite n1
+	/*BoundingBox* boxA = A->GetBoundingBox();																// Obtenemos la caja de colision del sprite n1
 	BoundingBox* boxB = B->GetBoundingBox();																// Obtenemos la caja de colision del sprite n2
 
 	glm::vec2 diff = boxA->GetPos() - boxB->GetPos();														// Obtenemos la diferencia
@@ -138,11 +138,11 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {
-	BoundingCircle* circleA = A->GetBoundingCircle();
+	/*BoundingCircle* circleA = A->GetBoundingCircle();
 	BoundingCircle* circleB = B->GetBoundingCircle();
 
 	glm::vec2 diff = circleA->GetPos() - circleB->GetPos();
@@ -160,5 +160,5 @@ void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {
 		//unsigned int dirY = diff.y / moduleY;	
 
 		// Para expulsar deberia tener las direcciones de los dos objetos que colisionaron (dirA y dirB), y ver cual es la fuerza que se le aplica para retornarla y que salga con esa cantidad de fuerza.
-	}
+	}*/
 }
