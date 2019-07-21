@@ -15,7 +15,7 @@ Animation::~Animation() {
 }
 
 float * Animation::UpdateFrame() {
-	//timer += (float)Time::GetDT();
+	timer += 0.2f;
 
 	if (timer > frameTimer) {
 		frame[0] = 0.0f;

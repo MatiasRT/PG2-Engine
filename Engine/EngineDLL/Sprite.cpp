@@ -1,8 +1,10 @@
 #include "Sprite.h"
 
-Sprite::Sprite(Renderer* renderer, int _cantFrames) : Shape(renderer) {
+Sprite::Sprite(Renderer* renderer, int _cantFrames, const char* _filename) : Shape(renderer) {
 	collision = false;
 	
+	file = _filename;
+
 	animation = new Animation(_cantFrames);
 	// OLD 
 	/*vertex = new float[12]{													
@@ -32,7 +34,7 @@ Sprite::Sprite(Renderer* renderer, int _cantFrames) : Shape(renderer) {
 
 	textureVertex = animation->UpdateFrame();
 
-	SetTextureVertices(4);
+	SetTextureVertices(textureVertex, 4);
 }
 
 void Sprite::LoadBMP(const char * name) {
@@ -43,24 +45,17 @@ void Sprite::LoadBMP(const char * name) {
 
 unsigned int Sprite::LoadTexture(const char* _name) {
 	header = Importer::LoadBMP(_name);
-
+	//textureId = renderer->UploadData(header.width, header.height, header.data); //REVISAR
 	return renderer->GenTextureBuffer(header.width, header.height, header.data);
-}
-
-void Sprite::SetTextureVertices(int count) {
-	DisposeTexture();
-
-	vtxTextureCount = count;
-	shouldDisposeTexture = true;
-
-	txrBufferId = renderer->GenBuffer(textureVertex, sizeof(float) * count * 2);
 }
 
 void Sprite::SetTextureVertices(float* _vertex, int _cant) {
 	DisposeTexture();
 
+	vtxTextureCount = _cant;
+	shouldDisposeTexture = true;
+
 	txrBufferId = renderer->GenBuffer(_vertex, sizeof(float)* _cant * 2);
-	//dispouse = true;
 }
 
 void Sprite::DrawMesh1(int type) {
@@ -68,7 +63,7 @@ void Sprite::DrawMesh1(int type) {
 	renderer->SetModelMatrix(worldMatrix);
 
 	if (material != NULL) {
-		material->Bind();
+		material->Bind(file, UVBufferID);
 		material->SetMatrixProperty(renderer->GetWVP());
 		//material->BindTexture("myTextureSampler", UVBufferID);
 	}
@@ -108,6 +103,6 @@ void Sprite::SetMaterial(Material* material) {
 
 void Sprite::UpdateAnim() {
 	textureVertex = animation->UpdateFrame();
-	//SetTextureVertices(4);
+	
 	SetTextureVertices(textureVertex, 4);
 }

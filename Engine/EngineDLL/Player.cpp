@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(Renderer * _renderer, float _animation, float _speed, float _height, float _widht, float _positionX, float _positionY, float _positionZ, Tilemap * _tilemapToCollide) {
-	playerSprite = new Sprite(_renderer, _animation);
+	playerSprite = new Sprite(_renderer, _animation, "SpriteSheetDown.bmp");
 	playerMaterial = new Material();
 	playerMaterial->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
 	playerSprite->SetMaterial(playerMaterial);
@@ -20,7 +20,7 @@ Player::Player(Renderer * _renderer, float _animation, float _speed, float _heig
 
 	playerSprite->SetTextureBufferId(animationDownBuffer);
 	firstDraw = false;
-	playerSprite->SetPos(40, 1, 0);
+	//playerSprite->SetPos(40, 1, 0);
 }
 
 void Player::SetCollisionEntity(Layers _layer) {

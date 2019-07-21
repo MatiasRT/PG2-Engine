@@ -15,7 +15,7 @@ protected:
 	
 	bool collision;
 public:
-	Sprite(Renderer* renderer, int _cantFrames);//, const char * name);
+	Sprite(Renderer* renderer, int _cantFrames, const char* _filename);//, const char * name);
 	~Sprite();
 	void LoadBMP(const char * name);
 	unsigned int LoadTexture(const char * _name);
@@ -23,7 +23,6 @@ public:
 	void DrawMesh1(int type);
 	void SetTextureBufferId(unsigned int _textureBufferId);
 	void Draw() override;
-	void SetTextureVertices(int count);
 	void SetTextureVertices(float * _vertex, int _cant);
 	void SetMaterial(Material* material);
 	void UpdateAnim();
