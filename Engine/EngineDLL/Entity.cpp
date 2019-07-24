@@ -74,7 +74,7 @@ void Entity::SetScale(float x, float y, float z) {
 	v3scale[1] = y;
 	v3scale[2] = z;
 
-	scaleMatrix = glm::scale(glm::mat4(1.0f), v3pos);
+	scaleMatrix = glm::scale(glm::mat4(1.0f), v3scale);
 	UpdateWorldMatrix();
 }
 

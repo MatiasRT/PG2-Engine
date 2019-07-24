@@ -10,7 +10,7 @@ bool Gamebase::Start() {
 	renderer = new Renderer();
 	if (!renderer->Start(window))
 		return false;
-	renderer->ClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+	renderer->ClearColor(0.43f, 0.43f, 0.43f, 0.0f);
 
 	lastFrame = 0;
 

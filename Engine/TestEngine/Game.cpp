@@ -17,26 +17,32 @@ bool Game::OnStart() {
 
 
 	vector<int> * colliderTiles = new vector<int>();
-	colliderTiles->push_back(3);
-	colliderTiles->push_back(4);
-	colliderTiles->push_back(5);
-	colliderTiles->push_back(6);
-	colliderTiles->push_back(10);
-	colliderTiles->push_back(13);
-	colliderTiles->push_back(14);
-	colliderTiles->push_back(15);
-	colliderTiles->push_back(16);
-	colliderTiles->push_back(17);
-
-	tile = new Tilemap(renderer, 40, 40, "TileMapFinal.csv", 10.0f, 7.0f, 10.0f, 2.0f, colliderTiles);
+	colliderTiles->push_back(19);
+	colliderTiles->push_back(20);
+	colliderTiles->push_back(21);
+	colliderTiles->push_back(22);
+	colliderTiles->push_back(23);
+	colliderTiles->push_back(24);
+	colliderTiles->push_back(25);
+	colliderTiles->push_back(26);
+	colliderTiles->push_back(27);
+	colliderTiles->push_back(28);
+	colliderTiles->push_back(29);
+	colliderTiles->push_back(30);
+	colliderTiles->push_back(31);
+	colliderTiles->push_back(32);
+	colliderTiles->push_back(33);
+	colliderTiles->push_back(34);
+	
+	tile = new Tilemap(renderer, 40, 41, "mapv3.csv", 10.0f, 7.0f, 10.0f, 2.0f, colliderTiles);
 	tile->SetMaterial(mat3);
-	tile->LoadTexture("TileMap.bmp");
+	tile->LoadTexture("mapv3.bmp");
 
 	InputManager::GetInstance()->SetWindow(window);
 
 	CollisionManager* instance = CollisionManager::Instance();
 
-	player1 = new Player(renderer, 9, PLAYER_SPEED, 1.6f, 1.0f, 0, 0, 0, tile);
+	player1 = new Player(renderer, 3, 0.3f, 2.5f, 2.0f, -0.05f, -11.8f, 0, tile);
 	//player1->SetCollisionEntity(player);
 
 
@@ -71,14 +77,6 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 void Game::OnDraw() {
 	tile->Draw();
 	player1->Draw();
-	
-	/*sp1->Draw();
-	sp2->Draw();
-	sp3->Draw();
-	sp4->Draw();
-	sp5->Draw();
-	sp6->Draw();
-	sp7->Draw();*/
 }
 
 bool Game::OnStop() {

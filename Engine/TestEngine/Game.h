@@ -10,27 +10,15 @@
 #include <Player.h>
 #include <iostream>
 
-#define PLAYER_SPEED 20.0f
-
 class Game : public Gamebase {
 	int i;
 	float rotation;
 	float translation;
 	float speed;
-	/*Triangle * tr1;
-	Rectangle * rt1;
-	Circle * cr1;*/
+	
 	Material * mat1;
 	Material * mat2;
 	Material * mat3;
-
-	Sprite * sp1;
-	Sprite * sp2;
-	Sprite * sp3;
-	Sprite * sp4;
-	Sprite * sp5;
-	Sprite * sp6;
-	Sprite * sp7;
 
 	Player * player1;
 
