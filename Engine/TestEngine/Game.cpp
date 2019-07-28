@@ -5,6 +5,7 @@ bool Game::OnStart() {
 	translation = 0;
 	rotation = 0;
 	speed = 0;
+	f = 22;
 
 	mat1 = new Material();																		// Creo un Material
 	unsigned int programID = mat1->LoadShaders("VertexColor.glsl", "FragmentColor.glsl");		// Le digo al Material cuales van a ser los shaders que tiene que utilizar. El VS se ejecuta una vez x cada pixel, y el FS se ejecuta una vez x muestra
@@ -16,25 +17,47 @@ bool Game::OnStart() {
 	unsigned int tileID = mat3->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
 
 
-	vector<int> * colliderTiles = new vector<int>();
-	colliderTiles->push_back(19);
-	colliderTiles->push_back(20);
-	colliderTiles->push_back(21);
-	colliderTiles->push_back(22);
-	colliderTiles->push_back(23);
-	colliderTiles->push_back(24);
-	colliderTiles->push_back(25);
-	colliderTiles->push_back(26);
-	colliderTiles->push_back(27);
-	colliderTiles->push_back(28);
-	colliderTiles->push_back(29);
-	colliderTiles->push_back(30);
-	colliderTiles->push_back(31);
-	colliderTiles->push_back(32);
-	colliderTiles->push_back(33);
-	colliderTiles->push_back(34);
+	vector<int> * colliderTiles = new vector<int>();											// Vector con los tiles con los que colisiona el jugador 
+	for (int i = 19; i < 35; i++) 
+		colliderTiles->push_back(i);
+
+	vector<int> * modColliderTiles = new vector<int>();
+	//for (int i = 43; i < 50; i++)
+		//modColliderTiles->push_back(i);
+
+	flags = new vector<Collectable*>();
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", -0.05f, -17.5f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 0.55f, -24.1f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 10.0f, -24.1f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 20.0f, -24.1f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 26.05f, -31.6f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 23.05f, -40.0f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 21.55f, 40.0f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 9.55f, 40.0f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 3.25f, 40.0f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", -3.65f, 40.0f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", -3.95f, -46.6f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", -3.95f, 59.8f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", -4.25f, 58.29f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 2.05f, -66.0999f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 20.35f, -66.0999f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 49.4499f, -66.0999f, 0.0f, 0.5f, 0.5f));
+	//flags->push_back(new Collectable(renderer, "raceFlag.bmp", 58.14f, -64.6f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 58.14f, -49.89f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 58.14f, -22.6f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 52.7499f, -13.9f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 35.95f, -13.9f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 22.15f, -9.1f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 35.95f, -4.0f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 52.7499f, -4.0f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 62.0499f, 0.2f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 52.7499f, 4.1f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 35.95f, 4.1f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 14.35f, 4.1f, 0.0f, 0.5f, 0.5f));
+	flags->push_back(new Collectable(renderer, "raceFlag.bmp", -0.05f, 3.8f, 0.0f, 0.5f, 0.5f));
 	
-	tile = new Tilemap(renderer, 40, 41, "mapv3.csv", 10.0f, 7.0f, 10.0f, 2.0f, colliderTiles);
+	
+	tile = new Tilemap(renderer, 40, 41, "mapv3.csv", 10.0f, 7.0f, 10.0f, 2.0f, colliderTiles, modColliderTiles);
 	tile->SetMaterial(mat3);
 	tile->LoadTexture("mapv3.bmp");
 
@@ -51,7 +74,7 @@ bool Game::OnStart() {
 }
 
 bool Game::OnUpdate() {																			// Toda la logica va aca
-	CollisionManager::Instance()->BoxCollisionDetector();
+	//CollisionManager::Instance()->BoxCollisionDetector();
 	speed = 1.0f;
 
 
@@ -59,24 +82,36 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 
 	renderer->CameraFollow(player1->GetSprite()->GetTranslation());
 	//CollisionManager::Instance()->CollisionDetector();
+	
 
-	/*for (size_t i = 0; i < bones->size(); i++)
-	{
-		if (bones->at(i)->CheckCollision(player1->GetSprite()->GetTranslationX(), player1->GetSprite()->GetTranslationY(), player1->GetHeight(), player1->GetWidht()))
-		{
-			bones->at(i)->~CollectableItem();
-			bones->erase(bones->begin() + i);
+	for (int i = 0; i < flags->size(); i++) {
+		if (flags->at(i)->CheckCollision(player1->GetSprite()->GetTranslationX(), player1->GetSprite()->GetTranslationY(), player1->GetHeight(), player1->GetWidht())) {
+			flags->at(i)->~Collectable();	// REVISAR
+			flags->erase(flags->begin() + i);
+			f = f - 1;
+			//cout << "Hola" << endl;
 			break;
 		}
-	}*/
+		if (f == 1) {
+			flags->push_back(new Collectable(renderer, "raceFlag.bmp", -0.05f, -15.1f, 0.0f, 0.5f, 0.5f));
+			cout << "Hola" << endl;
+			f = f - 1;
+			break;
+		}
 
+		// F = -2 WIN
+	}
 
+	cout << f << endl;
 	return true;
 }
 
 void Game::OnDraw() {
 	tile->Draw();
 	player1->Draw();
+
+	for (int i = 0; i < flags->size(); i++)
+		flags->at(i)->Draw();
 }
 
 bool Game::OnStop() {
@@ -84,6 +119,7 @@ bool Game::OnStop() {
 	delete mat2;
 	delete tile;
 	delete player1;
+	delete flags;
 	cout << "Game::OnStop()" << endl;
 	return false;
 }

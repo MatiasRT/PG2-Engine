@@ -1,6 +1,6 @@
 #include "Tilemap.h"
 
-Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight, const char* _filename, float _cantTilesX, float _cantTilesY, float _tileOffset, float _tileSize, vector<int>* _colliderTiles) : Shape(_renderer) {
+Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight, const char* _filename, float _cantTilesX, float _cantTilesY, float _tileOffset, float _tileSize, vector<int>* _colliderTiles, vector<int>* modTiles) : Shape(_renderer) {
 
 	filename = _filename;
 	tilemapWidth = _tilemapWidth;
@@ -15,9 +15,16 @@ Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight,
 
 	mapIds = new vector<int>();
 	LoadMapIDs(_filename);
+
 	tilesWithCollides = new vector<int>();
 	tilesWithCollides = _colliderTiles;
+
+	modTilesWithCollides = new vector<int>();
+	modTilesWithCollides = modTiles;
+
 	tilesColliderData = new vector<TileColliderData>();
+	modTilesColliderData = new vector<TileColliderData>();
+
 	int aux = 0;
 	for (int i = 0; i < _tilemapHeight; i++) {
 		for (int j = 0; j < _tilemapWidth; j++) {
@@ -47,10 +54,23 @@ Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight,
 
 					colliderAux.positionY = (tileOffset - row) - tileSize;
 					colliderAux.positionX = (-tileOffset + col);
-					//cout << colliderAux.positionX << " - " << colliderAux.positionY << endl;
+
 					colliderAux.height = tileSize;
 					colliderAux.width = tileSize;
 					tilesColliderData->push_back(colliderAux);
+				}
+			}
+
+			for (int k = 0; k < modTilesWithCollides->size(); k++) {
+				if (mapIds->at(aux) == modTilesWithCollides->at(k)) {
+					TileColliderData modColliderAux;
+
+					modColliderAux.positionY = (tileOffset - row) - tileSize;
+					modColliderAux.positionX = (-tileOffset + col);
+					
+					modColliderAux.height = tileSize;
+					modColliderAux.width = tileSize;
+					modTilesColliderData->push_back(modColliderAux);
 				}
 			}
 
@@ -162,23 +182,46 @@ void Tilemap::SetTilemapVertex(float* _vertex, int _cant) {
 	bufferId = renderer->GenBuffer(_vertex, sizeof(float) * _cant);
 }
 
-
 bool Tilemap::NextTileIsCollider(float _playerTranslationX, float _playerTranslationY, float _playerHeight, float _playerWidht) {
 
 	float col = (((_playerTranslationX - GetPos().x) / tileSize) * tileSize) + GetPos().x;
 	float row = (((_playerTranslationY + GetPos().y) / tileSize) * tileSize) - GetPos().y;
 
 	for (int i = 0; i < tilesColliderData->size(); i++) {
-		if (((col + (_playerWidht / 2)) >= tilesColliderData->at(i).positionX) && ((col - (_playerWidht / 2)) <= tilesColliderData->at(i).positionX + tilesColliderData->at(i).width) && (row + (_playerHeight / 2) >= tilesColliderData->at(i).positionY) && (row - (_playerHeight / 2) <= tilesColliderData->at(i).positionY + tilesColliderData->at(i).height)) {
+		if (((col + (_playerWidht / 2)) >= tilesColliderData->at(i).positionX) && 
+			((col - (_playerWidht / 2)) <= tilesColliderData->at(i).positionX + tilesColliderData->at(i).width) && 
+			(row + (_playerHeight / 2) >= tilesColliderData->at(i).positionY) && 
+			(row - (_playerHeight / 2) <= tilesColliderData->at(i).positionY + tilesColliderData->at(i).height)) {
 			return true;
 		}
 	}
 	return false;
 }
 
+bool Tilemap::NextModTileIsCollider(float _playerTranslationX, float _playerTranslationY, float _playerHeight, float _playerWidht) {
+
+	float col = (((_playerTranslationX - GetPos().x) / tileSize) * tileSize) + GetPos().x;
+	float row = (((_playerTranslationY + GetPos().y) / tileSize) * tileSize) - GetPos().y;
+
+	for (int i = 0; i < modTilesColliderData->size(); i++) {
+		if (((col + (_playerWidht / 2)) >= modTilesColliderData->at(i).positionX) &&
+			((col - (_playerWidht / 2)) <= modTilesColliderData->at(i).positionX + modTilesColliderData->at(i).width) &&
+			(row + (_playerHeight / 2) >= modTilesColliderData->at(i).positionY) &&
+			(row - (_playerHeight / 2) <= modTilesColliderData->at(i).positionY + modTilesColliderData->at(i).height)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
 void Tilemap::UpdateTilemapColliderPosition(float _diferenceX, float _diferenceY) {
 	for (int i = 0; i < tilesColliderData->size(); i++) {
 		tilesColliderData->at(i).positionX += _diferenceX;
 		tilesColliderData->at(i).positionY += _diferenceY;
+	}
+	for (int i = 0; i < modTilesColliderData->size(); i++) {
+		modTilesColliderData->at(i).positionX += _diferenceX;
+		modTilesColliderData->at(i).positionY += _diferenceY;
 	}
 }

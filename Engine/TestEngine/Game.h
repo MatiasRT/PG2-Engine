@@ -8,10 +8,12 @@
 #include <Sprite.h>
 #include <Tilemap.h>
 #include <Player.h>
+#include <Collectable.h>
 #include <iostream>
 
 class Game : public Gamebase {
 	int i;
+	int f;
 	float rotation;
 	float translation;
 	float speed;
@@ -23,6 +25,8 @@ class Game : public Gamebase {
 	Player * player1;
 
 	Tilemap * tile;
+
+	vector<Collectable*> * flags;
 public:
 	Game() { i = 0; };
 	~Game() { };

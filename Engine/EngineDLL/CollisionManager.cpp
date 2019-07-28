@@ -9,6 +9,9 @@ CollisionManager::CollisionManager() {
 		circles->at(i) = new list<Sprite*>();																// En cada posicion del vector circles creo una lista de sprites
 		boxes->at(i) = new list<Sprite*>();																	// En cada posicion del vector boxes creo una lista de sprites
 	}*/
+	for (int i = 0; i < (int)Layers::count; i++) {
+		colliders.push_back(new list<Entity*>());
+	}
 }
 
 CollisionManager::~CollisionManager() {
@@ -20,15 +23,107 @@ CollisionManager::~CollisionManager() {
 	delete boxes;*/
 }
 
-void CollisionManager::FillingBoxList(Layers layer, Sprite* s) {
-	//boxes->at(layer)->push_back(s);																			// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
-}	
 
-void CollisionManager::FillingCircleList(Layers layer, Sprite* s) {
-	//circles->at(layer)->push_back(s);																		// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
+void CollisionManager::AddCollisionEntity(Entity* e, Layers lyr) {
+	colliders[lyr]->push_back(e);
 }
 
-void CollisionManager::BoxCollisionDetector() {
+void CollisionManager::CollisionDetector() {
+
+	for (int i = 0; i < (int)Layers::count; i++) {
+		for (int j = i + 1; j < (int)Layers::count; j++) {
+			CheckCollisionsBetweenLayers(colliders[i], colliders[j]);
+		}
+	}
+}
+
+void CollisionManager::CheckCollisionsBetweenLayers(list<Entity*> *layerA, list<Entity*> *layerB) {
+
+	for (list<Entity*>::iterator i = layerA->begin(); i != layerA->end(); ++i) {
+		for (list<Entity*>::iterator j = layerB->begin(); j != layerB->end(); ++j) {
+			CollisionBoxResolver(*i, *j);
+		}
+	}
+
+}
+
+void CollisionManager::CollisionBoxResolver(Entity* A, Entity* B) {
+
+	glm::vec2 translateA = glm::vec2(A->GetTranslationX(), A->GetTranslationY());
+	glm::vec2 translateB = glm::vec2(B->GetTranslationX(), B->GetTranslationY());
+	glm::vec2 module = abs((translateA + A->GetColliderPivot()) - (translateB + B->GetColliderPivot()));
+
+	if (module.x < (A->GetColliderWidth() + B->GetColliderWidth()) / 2.0f && module.y < (A->GetColliderHeight() + B->GetColliderHeight()) / 2.0f) {
+
+		float penetrationX = ((A->GetColliderWidth() / 2.0f) + (B->GetColliderWidth() / 2.0f)) - module.x;
+		float penetrationY = ((A->GetColliderHeight() / 2.0f) + (B->GetColliderHeight() / 2.0f)) - module.y;
+
+		if (penetrationX > penetrationY) {
+			if (A->GetColliderIsStatic()) {
+				if (B->GetTranslationY() < A->GetTranslationY())
+					B->SetTranslation(B->GetTranslationX(), B->GetTranslationY() - penetrationY, B->GetTranslationZ());
+				else
+					B->SetTranslation(B->GetTranslationX(), B->GetTranslationY() + penetrationY, B->GetTranslationZ());
+			}
+			else if (B->GetColliderIsStatic()) {
+				if (A->GetTranslationY() < B->GetTranslationY())
+					A->SetTranslation(A->GetTranslationX(), A->GetTranslationY() - penetrationY, A->GetTranslationZ());
+				else
+					A->SetTranslation(A->GetTranslationX(), A->GetTranslationY() + penetrationY, A->GetTranslationZ());
+			}
+			else {
+				if (B->GetTranslationY() < A->GetTranslationY()) {
+					A->SetTranslation(A->GetTranslationX(), A->GetTranslationY() + (penetrationY / 2), A->GetTranslationZ());
+					B->SetTranslation(B->GetTranslationX(), B->GetTranslationY() - (penetrationY / 2), B->GetTranslationZ());
+				}
+				else {
+					A->SetTranslation(A->GetTranslationX(), A->GetTranslationY() - (penetrationY / 2), A->GetTranslationZ());
+					B->SetTranslation(B->GetTranslationX(), B->GetTranslationY() + (penetrationY / 2), B->GetTranslationZ());
+				}
+			}
+		}
+		else if (penetrationX < penetrationY) {
+			if (A->GetColliderIsStatic()) {
+				if (B->GetTranslationX() < A->GetTranslationX())
+					B->SetTranslation(B->GetTranslationX() - penetrationX, B->GetTranslationY(), B->GetTranslationZ());
+				else
+					B->SetTranslation(B->GetTranslationX() + penetrationX, B->GetTranslationY(), B->GetTranslationZ());
+			}
+			else if (B->GetColliderIsStatic()) {
+				if (A->GetTranslationX() < B->GetTranslationX())
+					A->SetTranslation(A->GetTranslationX() - penetrationX, A->GetTranslationY(), A->GetTranslationZ());
+				else
+					A->SetTranslation(A->GetTranslationX() + penetrationX, A->GetTranslationY(), A->GetTranslationZ());
+			}
+			else {
+				if (B->GetTranslationX() < A->GetTranslationX()) {
+					A->SetTranslation(A->GetTranslationX() + (penetrationX / 2), A->GetTranslationY(), A->GetTranslationZ());
+					B->SetTranslation(B->GetTranslationX() - (penetrationX / 2), B->GetTranslationY(), B->GetTranslationZ());
+				}
+				else {
+					A->SetTranslation(A->GetTranslationX() - (penetrationX / 2), A->GetTranslationY(), A->GetTranslationZ());
+					B->SetTranslation(B->GetTranslationX() + (penetrationX / 2), B->GetTranslationY(), B->GetTranslationZ());
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+//void CollisionManager::FillingBoxList(Layers layer, Sprite* s) {
+	//boxes->at(layer)->push_back(s);																			// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
+//}	
+
+//void CollisionManager::FillingCircleList(Layers layer, Sprite* s) {
+	//circles->at(layer)->push_back(s);																		// En la posicion especifica del vector(determinado por el layer que le mando) le guardo el sprite que quiero
+//}
+
+//void CollisionManager::BoxCollisionDetector() {
 	/*for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
@@ -40,9 +135,9 @@ void CollisionManager::BoxCollisionDetector() {
 				LayersMatchBox(boxes->at(i), boxes->at(j));
 		}
 	}*/
-}
+//}
 
-void CollisionManager::CircleCollisionDetector() {
+//void CollisionManager::CircleCollisionDetector() {
 	/*for (int i = 0; i < (int)Layers::Count; i++) {															// Con estos dos fors recorremos los layers para asignar los matches
 		for (int j = 0; j < (int)Layers::Count; j++) {
 			if (j == i) continue;																			// Si es la misma layer se lo tiene que saltar
@@ -50,25 +145,25 @@ void CollisionManager::CircleCollisionDetector() {
 				LayersMatchCircle(circles->at(i), circles->at(j));
 		}
 	}*/
-}
+//}
 
-void CollisionManager::LayersMatchBox(list<Sprite*>* layerA, list<Sprite*>* layerB) {						// Ven las colisiones entre los layers (cajas)
+//void CollisionManager::LayersMatchBox(list<Sprite*>* layerA, list<Sprite*>* layerB) {						// Ven las colisiones entre los layers (cajas)
 	/*for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i){
 		for (list<Sprite*>::iterator j = layerB->begin(); j != layerB->end(); ++j) {
 			CollisionBoxMath(*i, *j);																		// Le mandamos por parametro los sprites a la funcion que resuelve la colision
 		}
 	}*/
-}
+//}
 
-void CollisionManager::LayersMatchCircle(list<Sprite*>* layerA, list<Sprite*>* layerB) {					// Ven las colisiones entre los layers (circulos)
+//void CollisionManager::LayersMatchCircle(list<Sprite*>* layerA, list<Sprite*>* layerB) {					// Ven las colisiones entre los layers (circulos)
 	/*for (list<Sprite*>::iterator i = layerA->begin(); i != layerA->end(); ++i) {
 		for (list<Sprite*>::iterator j = layerB->begin(); j != layerB->end(); ++j) {
 			CollisionCircleMath(*i, *j);																	// Le mandamos por parametro los sprites a la funcion que resuelve la colision
 		}
 	}*/
-}
+//}
 
-void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
+//void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 	/*BoundingBox* boxA = A->GetBoundingBox();																// Obtenemos la caja de colision del sprite n1
 	BoundingBox* boxB = B->GetBoundingBox();																// Obtenemos la caja de colision del sprite n2
 
@@ -139,9 +234,9 @@ void CollisionManager::CollisionBoxMath(Sprite* A, Sprite* B) {
 			}
 		}
 	}*/
-}
+//}
 
-void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {
+//void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {
 	/*BoundingCircle* circleA = A->GetBoundingCircle();
 	BoundingCircle* circleB = B->GetBoundingCircle();
 
@@ -161,4 +256,4 @@ void CollisionManager::CollisionCircleMath(Sprite* A, Sprite* B) {
 
 		// Para expulsar deberia tener las direcciones de los dos objetos que colisionaron (dirA y dirB), y ver cual es la fuerza que se le aplica para retornarla y que salga con esa cantidad de fuerza.
 	}*/
-}
+//}
