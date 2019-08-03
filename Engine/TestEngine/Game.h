@@ -9,6 +9,7 @@
 #include <Tilemap.h>
 #include <Player.h>
 #include <Collectable.h>
+#include <Object.h>
 #include <iostream>
 
 class Game : public Gamebase {
@@ -27,6 +28,8 @@ class Game : public Gamebase {
 	Tilemap * tile;
 
 	vector<Collectable*> * flags;
+	vector<Object*> * object;
+
 public:
 	Game() { i = 0; };
 	~Game() { };

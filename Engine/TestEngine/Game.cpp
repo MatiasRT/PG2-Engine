@@ -56,6 +56,47 @@ bool Game::OnStart() {
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 14.35f, 4.1f, 0.0f, 0.5f, 0.5f));
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", -0.05f, 3.8f, 0.0f, 0.5f, 0.5f));
 	
+
+	object = new vector<Object*>();
+
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -0.75f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 1.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 3.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 5.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 7.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 9.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 11.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 13.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 15.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -29.0f, 0.0f));
+
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -31.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -33.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -35.0f, 0.0f));
+
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -0.75f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 1.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 3.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 5.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 7.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 9.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 11.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 13.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 15.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -35.0f, 0.0f));
+
+
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -31.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -33.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -35.0f, 0.0f));
+
+	for (int i = 0; i < object->size(); i++) {
+		//object->at(i)->GetSprite()->SetScale
+		object->at(i)->SetCollider(0.0f, 0.0f, 0.0f, 4.0f, 4.0f);
+		CollisionManager::Instance()->AddCollisionEntity(object->at(i)->GetSprite(), not_walkeable);
+	}
+
 	
 	tile = new Tilemap(renderer, 40, 41, "mapv3.csv", 10.0f, 7.0f, 10.0f, 2.0f, colliderTiles, modColliderTiles);
 	tile->SetMaterial(mat3);
@@ -63,10 +104,10 @@ bool Game::OnStart() {
 
 	InputManager::GetInstance()->SetWindow(window);
 
-	CollisionManager* instance = CollisionManager::Instance();
+	//CollisionManager* instance = CollisionManager::Instance();
 
 	player1 = new Player(renderer, 3, 0.3f, 2.5f, 2.0f, -0.05f, -11.8f, 0, tile);
-	//player1->SetCollisionEntity(player);
+	player1->SetCollisionEntity(player);
 
 
 	cout<<"Game::OnStart()"<<endl;
@@ -81,8 +122,11 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	player1->Update();
 
 	renderer->CameraFollow(player1->GetSprite()->GetTranslation());
-	//CollisionManager::Instance()->CollisionDetector();
+	CollisionManager::Instance()->CollisionDetector();
 	
+	for (int i = 0; i < object->size(); i++) {
+		object->at(i)->Update();
+	}
 
 	for (int i = 0; i < flags->size(); i++) {
 		if (flags->at(i)->CheckCollision(player1->GetSprite()->GetTranslationX(), player1->GetSprite()->GetTranslationY(), player1->GetHeight(), player1->GetWidht())) {
@@ -94,7 +138,7 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 		}
 		if (f == 1) {
 			flags->push_back(new Collectable(renderer, "raceFlag.bmp", -0.05f, -15.1f, 0.0f, 0.5f, 0.5f));
-			cout << "Hola" << endl;
+			//cout << "Hola" << endl;
 			f = f - 1;
 			break;
 		}
@@ -102,7 +146,7 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 		// F = -2 WIN
 	}
 
-	cout << f << endl;
+	//cout << f << endl;
 	return true;
 }
 
@@ -112,6 +156,9 @@ void Game::OnDraw() {
 
 	for (int i = 0; i < flags->size(); i++)
 		flags->at(i)->Draw();
+
+	for (int i = 0; i < object->size(); i++)
+		object->at(i)->Draw();
 }
 
 bool Game::OnStop() {
@@ -120,6 +167,7 @@ bool Game::OnStop() {
 	delete tile;
 	delete player1;
 	delete flags;
+	delete object;
 	cout << "Game::OnStop()" << endl;
 	return false;
 }

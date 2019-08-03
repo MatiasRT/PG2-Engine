@@ -131,6 +131,7 @@
     <ClInclude Include="Importer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Importer.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer.cpp" />
