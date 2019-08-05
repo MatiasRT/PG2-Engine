@@ -42,7 +42,8 @@ class ENGINEDLL_API Tilemap : public Shape {
 	vector<TileColliderData>* modTilesColliderData;
 public:
 	Tilemap(Renderer* renderer, float tWidth, float tHeight, const char* fName, float tilesX, float tilesY, float tOffset, float tSize, vector<int>* cTiles, vector<int>* modTiles);
-	~Tilemap();
+	~Tilemap() {};
+	void CreateGrid(float h, float w);
 	void Draw() override;
 	void DrawMesh(int drawType);
 	void SetTextures(float* vertex, int cant);

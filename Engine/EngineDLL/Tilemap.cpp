@@ -25,13 +25,26 @@ Tilemap::Tilemap(Renderer* renderer, float tWidth, float tHeight, const char* fN
 	tilesColliderData = new vector<TileColliderData>();
 	modTilesColliderData = new vector<TileColliderData>();
 
+	CreateGrid(tHeight, tWidth);
+
+	float* positions = &vertexArrayPos[0];
+
+	textureVertex = new float[cantUVvertex];
+	LoadUVs();
+
+	SetTilemapVertex(positions, vtxCount);
+
+	SetTextures(textureVertex, cantUVvertex);
+}
+
+void Tilemap::CreateGrid(float h, float w) {
 	int aux = 0;
-	for (int i = 0; i < tHeight; i++) {
-		for (int j = 0; j < tWidth; j++) {
+	for (int i = 0; i < h; i++) {
+		for (int j = 0; j < w; j++) {
 
 			int row = i * 2;
 			int col = j * 2;
-																			// Aca creo la grilla del tilemap. Son cuatro por las cuatro esquinas
+			// Aca creo la grilla del tilemap. Son cuatro por las cuatro esquinas
 
 			vertexArrayPos.push_back(-tileOffset + col);					// Aca guardo las coordenadas x
 			vertexArrayPos.push_back(tileOffset - row);						// Aca guardo las coordenadas y
@@ -51,7 +64,7 @@ Tilemap::Tilemap(Renderer* renderer, float tWidth, float tHeight, const char* fN
 
 			for (int k = 0; k < tilesWithCollides->size(); k++) {
 				if (mapIds->at(aux) == tilesWithCollides->at(k)) {
-																			// Creo una segunda grilla para las colisiones
+					// Creo una segunda grilla para las colisiones
 					TileColliderData colliderAux;
 
 					colliderAux.positionX = (-tileOffset + col);			// Coordenadas x
@@ -69,7 +82,7 @@ Tilemap::Tilemap(Renderer* renderer, float tWidth, float tHeight, const char* fN
 
 					modColliderAux.positionY = (tileOffset - row) - tileSize;
 					modColliderAux.positionX = (-tileOffset + col);
-					
+
 					modColliderAux.height = tileSize;
 					modColliderAux.width = tileSize;
 					modTilesColliderData->push_back(modColliderAux);
@@ -83,19 +96,52 @@ Tilemap::Tilemap(Renderer* renderer, float tWidth, float tHeight, const char* fN
 	float* positions = &vertexArrayPos[0];
 
 	textureVertex = new float[cantUVvertex];
-	LoadUVs();
-
-	SetTilemapVertex(positions, vtxCount);
-
-	SetTextures(textureVertex, cantUVvertex);
 }
 
-Tilemap::~Tilemap() {
+void Tilemap::LoadUVs() {
+	float textureW = 1 / cantTilesX;
+	float textureH = 1 / cantTilesY;
 
+	int idIndex = 0;
+
+	for (int i = 0; i < cantUVvertex; i = i + 8) {	// Cargo las UV a cada vertice
+		textureVertex[i] = 0.0f;
+		textureVertex[i + 1] = 1.0f;
+
+		textureVertex[i + 2] = 0.0f;
+		textureVertex[i + 3] = 1.0f - textureH;
+
+		textureVertex[i + 4] = textureW;
+		textureVertex[i + 5] = 1.0f - textureH;
+
+		textureVertex[i + 6] = textureW;
+		textureVertex[i + 7] = 1.0f;
+
+		int row = 0;
+		int column = mapIds->at(idIndex);
+
+		while (column >= cantTilesX) {				// Si llego a la cantidad de columnas, bajo a la siguente linea
+			column -= cantTilesX;
+			row++;
+		}
+													// Sumo por el alto y ancho de la imagen para que se dibujen todos los tiles
+		textureVertex[i] += textureW * column;
+		textureVertex[i + 1] -= textureH * row;
+
+		textureVertex[i + 2] += textureW * column;
+		textureVertex[i + 3] -= textureH * row;
+
+		textureVertex[i + 4] += textureW * column;
+		textureVertex[i + 5] -= textureH * row;
+
+		textureVertex[i + 6] += textureW * column;
+		textureVertex[i + 7] -= textureH * row;
+
+		idIndex++;
+	}
 }
 
 void Tilemap::SetTextures(float* vertex, int cant) {
-	
 	txrBufferId = renderer->GenBuffer(vertex, sizeof(float)* cant);			// Genero buffer de texture
 }
 
@@ -134,49 +180,6 @@ void Tilemap::LoadMapIDs(const char* file) {
 
 	while (getline(tileFile, buffer, ',')) {
 		mapIds->push_back(stoi(buffer));			// Leo el .csv y me lo guardo en el buffer
-	}
-}
-
-void Tilemap::LoadUVs() {
-	float textureW = 1 / cantTilesX;
-	float textureH = 1 / cantTilesY;
-
-	int idIndex = 0;
-
-	for (int i = 0; i < cantUVvertex; i = i + 8) {	// Cargo las UV a cada vertice
-		textureVertex[i] = 0.0f;
-		textureVertex[i + 1] = 1.0f;
-
-		textureVertex[i + 2] = 0.0f;
-		textureVertex[i + 3] = 1.0f - textureH;
-
-		textureVertex[i + 4] = textureW;
-		textureVertex[i + 5] = 1.0f - textureH;
-
-		textureVertex[i + 6] = textureW;
-		textureVertex[i + 7] = 1.0f;
-
-		int row = 0;
-		int column = mapIds->at(idIndex);
-
-		while (column >= cantTilesX) {				// Si llego a la cantidad de columnas, bajo a la siguente linea
-			column -= cantTilesX;
-			row++;
-		}
-													
-		textureVertex[i] += textureW * column;
-		textureVertex[i + 1] -= textureH * row;
-
-		textureVertex[i + 2] += textureW * column;
-		textureVertex[i + 3] -= textureH * row;
-
-		textureVertex[i + 4] += textureW * column;
-		textureVertex[i + 5] -= textureH * row;
-
-		textureVertex[i + 6] += textureW * column;
-		textureVertex[i + 7] -= textureH * row;
-
-		idIndex++;
 	}
 }
 
