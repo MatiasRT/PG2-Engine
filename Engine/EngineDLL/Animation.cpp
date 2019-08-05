@@ -1,38 +1,33 @@
 #include "Animation.h"
 
-Animation::Animation(float _cantFrames) {
-	cantFrames = _cantFrames;
+Animation::Animation(float frames) {
+	cantFrames = frames;
 	actualFrame = 0;
-	frameWidth = 1.0f / cantFrames;
+	frameLenght = 1.0f / cantFrames;
 	frame = new float[8];
-	frameTimer = 0.2;
+	fTimer = 0.2;
 
-	timer = frameTimer;
-}
-
-
-Animation::~Animation() {
+	timer = fTimer;
 }
 
 float * Animation::UpdateFrame() {
 	timer += 0.2f;
 
-	if (timer > frameTimer) {
+	if (timer > fTimer) {
 		frame[0] = 0.0f;
 		frame[1] = 0.0f;
-		frame[2] = frameWidth;
+		frame[2] = frameLenght;
 		frame[3] = 0.0f;
 		frame[4] = 0.0f;
 		frame[5] = 1.0f;
-		frame[6] = frameWidth;
+		frame[6] = frameLenght;
 		frame[7] = 1.0f;
 
 		for (int i = 0; i < actualFrame; i++) {
-			frame[0] += frameWidth;
-			frame[2] += frameWidth;
-			frame[4] += frameWidth;
-			frame[6] += frameWidth;
-
+			frame[0] += frameLenght;
+			frame[2] += frameLenght;
+			frame[4] += frameLenght;
+			frame[6] += frameLenght;
 		}
 
 		actualFrame++;

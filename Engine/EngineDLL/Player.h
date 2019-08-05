@@ -8,29 +8,31 @@
 
 class ENGINEDLL_API Player {
 
-	Sprite * playerSprite;
-	Material * playerMaterial;
+	Sprite * sprite;
+	Material * material;
 	Tilemap * tilemapToCollide;
+
 	float speed;
 	float height;
 	float widht;
 
-	unsigned int animationRightBuffer;
-	unsigned int animationLeftBuffer;
-	unsigned int animationUpBuffer;
-	unsigned int animationDownBuffer;
+	unsigned int animRightBuffer;
+	unsigned int animLeftBuffer;
+	unsigned int animUpBuffer;
+	unsigned int animDownBuffer;
 
 	bool firstDraw;
 public:
 
-	Player(Renderer * _renderer, float _animation, float _speed, float _height, float _widht, float _positionX, float _positionY, float _positionZ, Tilemap * _tilemapToCollide);
+	Player(Renderer * renderer, float anim, float spd, float h, float w, float posX, float posY, float posZ, Tilemap * tilemap);
 	~Player();
 	void Update();
 	void Movement();
-	void SetCollisionEntity(Layers _layer);
+	void SetCollisionEntity(Layers layer);
 	void Draw();
-	float GetHeight();
-	float GetWidht();
-	Sprite* GetSprite();
+
+	float GetHeight() { return height; };
+	float GetWidht() { return widht; };
+	Sprite* GetSprite() { return sprite; };
 };
 

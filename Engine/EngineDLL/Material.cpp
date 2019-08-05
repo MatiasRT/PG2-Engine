@@ -8,14 +8,14 @@
 #include <iostream>
 using namespace std;
 
-unsigned int Material::LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {					//Aca cargamos los shaders recibiendo por parametro el vertex y el fragment shader
+unsigned int Material::LoadShaders(const char * vertexFile, const char * fragmentFile) {					//Aca cargamos los shaders recibiendo por parametro el vertex y el fragment shader
 	// Crear los shaders
 	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
 	// Leer el Vertex Shader desde archivo
 	string VertexShaderCode;
-	ifstream VertexShaderStream(vertex_file_path, ios::in);
+	ifstream VertexShaderStream(vertexFile, ios::in);
 	if (VertexShaderStream.is_open()) {
 		stringstream sstr;
 		sstr << VertexShaderStream.rdbuf();
@@ -23,14 +23,14 @@ unsigned int Material::LoadShaders(const char * vertex_file_path, const char * f
 		VertexShaderStream.close();
 	}
 	else {
-		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertex_file_path);
+		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertexFile);
 		getchar();
 		return 0;
 	}
 
 	// Leer el Fragment Shader desde archivo
 	string FragmentShaderCode;
-	ifstream FragmentShaderStream(fragment_file_path, ios::in);
+	ifstream FragmentShaderStream(fragmentFile, ios::in);
 	if (FragmentShaderStream.is_open()) {
 		stringstream sstr;
 		sstr << FragmentShaderStream.rdbuf();
@@ -43,7 +43,7 @@ unsigned int Material::LoadShaders(const char * vertex_file_path, const char * f
 
 
 	// Compilar Vertex Shader
-	printf("Compiling shader : %s\n", vertex_file_path);
+	printf("Compiling shader : %s\n", vertexFile);
 	char const * VertexSourcePointer = VertexShaderCode.c_str();
 	glShaderSource(VertexShaderID, 1, &VertexSourcePointer, NULL);
 	glCompileShader(VertexShaderID);
@@ -59,7 +59,7 @@ unsigned int Material::LoadShaders(const char * vertex_file_path, const char * f
 
 
 	// Compilar Fragment Shader
-	printf("Compiling shader : %s\n", fragment_file_path);
+	printf("Compiling shader : %s\n", fragmentFile);
 	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
 	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer, NULL);
 	glCompileShader(FragmentShaderID);
@@ -121,14 +121,6 @@ void Material::Bind(const char* texName, unsigned int texture) {
 
 void Material::BindTexture() {
 	TextureID = glGetUniformLocation(ProgramID, "myTextureSampler");			// Le dice al material que tiene que usar una textura
-}
-
-void Material::BindTexture(const char* name, unsigned int textureBufferId) {
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureBufferId);
-
-	TextureID = glGetUniformLocation(ProgramID, name);
-	glUniform1i(TextureID, 0);
 }
 
 void Material::SetMatrixProperty(glm::mat4& mat) {

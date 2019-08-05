@@ -6,15 +6,19 @@
 using namespace std;
 
 class ENGINEDLL_API Animation {
+
 	int actualFrame;
 	int cantFrames;
-	float frameWidth;
+
+	float frameLenght;
+
 	float timer;
-	float frameTimer;
+	float fTimer;
+
 	float * frame;
 
 public:
-	Animation(float _cantFrames);
-	~Animation();
+	Animation(float frames);
+	~Animation() { };
 	float * UpdateFrame();
 };

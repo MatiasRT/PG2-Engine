@@ -10,9 +10,10 @@ protected:
 public:
 	void Bind();
 	void Bind(const char * texName, unsigned int texture);
-	//unsigned int programId);
+	
 	void BindTexture();
-	void BindTexture(const char * name, unsigned int textureBufferId);
-	unsigned int LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
+
+	unsigned int LoadShaders(const char* vertexFile, const char* fragmentFile);
+
 	void SetMatrixProperty(glm::mat4& mat);
 };

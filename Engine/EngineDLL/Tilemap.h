@@ -9,12 +9,24 @@
 #include <string>
 
 class ENGINEDLL_API Tilemap : public Shape {
+	
+	struct TileColliderData {
+		float positionX;
+		float width;
+		float positionY;
+		float height;
+	};
+
 	const char* filename;
+
 	int tilemapWidth;
 	int tilemapHeight;
+
 	int cantUVvertex;
+
 	float cantTilesX;
 	float cantTilesY;
+
 	float tileOffset;
 	float tileSize;
 
@@ -25,29 +37,23 @@ class ENGINEDLL_API Tilemap : public Shape {
 	vector<int>* tilesWithCollides;
 	vector<int>* modTilesWithCollides;
 
-	struct TileColliderData {
-		float positionX;
-		float width;
-		float positionY;
-		float height;
-	};
 
 	vector<TileColliderData>* tilesColliderData;
 	vector<TileColliderData>* modTilesColliderData;
 public:
-	Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight, const char* _filename, float _cantTilesX, float _cantTilesY, float _tileOffset, float _tileSize, vector<int>* _colliderTiles, vector<int>* modTiles);
+	Tilemap(Renderer* renderer, float tWidth, float tHeight, const char* fName, float tilesX, float tilesY, float tOffset, float tSize, vector<int>* cTiles, vector<int>* modTiles);
 	~Tilemap();
 	void Draw() override;
-	void DrawMesh(int _drawType);
+	void DrawMesh(int drawType);
 	void SetTextures(float* vertex, int cant);
 	void LoadTexture(const char* name);
 	void LoadUVs();
 	void LoadMapIDs(const char* file);
 	void SetTilemapVertex(float* vertex, int cant);
 
-	bool NextTileIsCollider(float _playerTranslationX, float _playerTranslationY, float _playerHight, float _playerWidht);
+	bool CheckCollission(float pTranslationX, float pTranslationY, float pHeight, float pWidht);
 
-	bool NextModTileIsCollider(float _playerTranslationX, float _playerTranslationY, float _playerHeight, float _playerWidht);
+	bool CheckModCollission(float pTranslationX, float pTranslationY, float pHeight, float pWidht);
 
-	void UpdateTilemapColliderPosition(float _diferenceX, float _diferenceY);
+	void UpdateTilemapColliderPosition(float diffX, float diffY);
 };

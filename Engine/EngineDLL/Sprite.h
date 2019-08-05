@@ -15,15 +15,15 @@ protected:
 	
 	bool collision;
 public:
-	Sprite(Renderer* renderer, int _cantFrames, const char* _filename);//, const char * name);
+	Sprite(Renderer* renderer, int frames, const char* filename);//, const char * name);
 	~Sprite();
 	void LoadBMP(const char * name);
-	unsigned int LoadTexture(const char * _name);
+	unsigned int LoadTexture(const char * name);
 	void DisposeTexture();
 	void DrawMesh1(int type);
-	void SetTextureBufferId(unsigned int _textureBufferId);
+	void SetTextureBufferId(unsigned int textureBufferId);
 	void Draw() override;
-	void SetTextureVertices(float * _vertex, int _cant);
+	void SetTextureVertices(float * vertex, int cant);
 	void SetMaterial(Material* material);
 	void UpdateAnim();
 	void SetCollision() { collision = true; }

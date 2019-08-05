@@ -14,16 +14,6 @@ CollisionManager::CollisionManager() {
 	}
 }
 
-CollisionManager::~CollisionManager() {
-	/*for (int i = 0; i < Layers::Count; i++) {
-		delete circles->at(i);
-		delete boxes->at(i);
-	}
-	delete circles;
-	delete boxes;*/
-}
-
-
 void CollisionManager::AddCollisionEntity(Entity* e, Layers lyr) {
 	colliders[lyr]->push_back(e);
 }

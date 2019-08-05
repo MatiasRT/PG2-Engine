@@ -1,14 +1,16 @@
 #include "Collectable.h"
 
 Collectable::Collectable(Renderer * render, const char * filename, float posX, float posY, float posZ, float h, float w) {
-	sprite = new Sprite(render, 1.0f, "raceFlag.bmp");
-	material = new Material();
-	material->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
-	sprite->SetMaterial(material);
 
-	sprite->SetTranslation(posX, posY, posZ);
 	height = h;
 	width = w;
+
+	sprite = new Sprite(render, 1.0f, filename);
+	material = new Material();
+
+	material->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
+	sprite->SetMaterial(material);
+	sprite->SetTranslation(posX, posY, posZ);
 
 	textureBuffer = sprite->LoadTexture(filename);
 	sprite->SetTextureBufferId(textureBuffer);

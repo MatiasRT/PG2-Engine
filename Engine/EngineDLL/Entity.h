@@ -2,8 +2,6 @@
 #include "Definitions.h"
 #include "Exports.h"
 #include "Renderer.h"
-#include "BoundingBox.h"
-#include "BoundingCircle.h"
 #include "Collider.h"
 #include <iostream>
 using namespace std;
@@ -22,42 +20,43 @@ protected:
 	glm::mat4 rotationY;
 	glm::mat4 rotationZ;
 
-	BoundingBox* box;
-	BoundingCircle* circle;
 	Collider * collider;
 
 public:
 	virtual void Draw() = 0;
 	Entity(Renderer* rendererPtr);
-	void SetPos(float x, float y, float z);
+	void UpdateWorldMatrix();
+
 	void SetTranslation(float x, float y, float z);
 	void SetTranslationX(float x);
 	void SetTranslationY(float y);
 	void SetTranslationZ(float z);
+
 	void SetScale(float x, float y, float z);
 	void SetRotX(float x);
 	void SetRotY(float y);
 	void SetRotZ(float z);
-	void TranslationBox(float x, float y, float z);
-	void TranslationCircle(float x, float y, float z);
-	void SetBoundingBox(float w, float h, float mass, bool setStatic, bool setTrigger);
-	void SetBoundingCircle(float r, float mass, bool setStatic, bool setTrigger);
+
+	void SetCollider(glm::vec3 position, float height, float width, Layers layer, bool isStatic);
+	
 	glm::vec3 GetPos() { return v3pos; };
 	glm::vec3 GetScale() { return v3scale; };
 	glm::vec3 GetRot() { return v3rot; };
-	BoundingBox* GetBoundingBox() { return box; };
-	BoundingCircle* GetBoundingCircle() { return circle; };
-	void UpdateWorldMatrix();
-	void SetCollider(glm::vec3 _position, float _height, float _width, Layers _layer, bool _isStatic);
-	glm::vec3 GetTranslation();
-	float GetTranslationX();
-	float GetTranslationY();
-	float GetTranslationZ();
-	unsigned int GetColliderPivotX();
-	unsigned int GetColliderPivotY();
-	glm::vec2 GetColliderPivot();
-	unsigned int GetColliderHeight();
-	unsigned int GetColliderWidth();
-	Layers GetColliderLayer();
-	bool GetColliderIsStatic();
+
+
+	float GetTranslationX() { return v3pos[0]; };
+	float GetTranslationY() { return v3pos[1]; };
+	float GetTranslationZ() { return v3pos[2]; };
+
+	unsigned int GetColliderPivotX() { return collider->GetXPosition(); };
+	unsigned int GetColliderPivotY() { return collider->GetYPosition(); };
+
+	glm::vec2 GetColliderPivot() { return collider->GetPivot(); };
+
+	unsigned int GetColliderHeight() { return collider->GetHeight(); };
+	unsigned int GetColliderWidth() { return collider->GetWidth(); };
+
+	Layers GetColliderLayer() { return collider->GetLayer(); };
+
+	bool GetColliderIsStatic() { return collider->GetIsStatic(); };
 };

@@ -42,7 +42,6 @@ bool Game::OnStart() {
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 2.05f, -66.0999f, 0.0f, 0.5f, 0.5f));
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 20.35f, -66.0999f, 0.0f, 0.5f, 0.5f));
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 49.4499f, -66.0999f, 0.0f, 0.5f, 0.5f));
-	//flags->push_back(new Collectable(renderer, "raceFlag.bmp", 58.14f, -64.6f, 0.0f, 0.5f, 0.5f));
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 58.14f, -49.89f, 0.0f, 0.5f, 0.5f));
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 58.14f, -22.6f, 0.0f, 0.5f, 0.5f));
 	flags->push_back(new Collectable(renderer, "raceFlag.bmp", 52.7499f, -13.9f, 0.0f, 0.5f, 0.5f));
@@ -92,8 +91,7 @@ bool Game::OnStart() {
 	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -35.0f, 0.0f));
 
 	for (int i = 0; i < object->size(); i++) {
-		//object->at(i)->GetSprite()->SetScale
-		object->at(i)->SetCollider(0.0f, 0.0f, 0.0f, 4.0f, 4.0f);
+		object->at(i)->SetCollider(0.0f, 0.0f, 0.0f, 4.0f, 4.0f, not_walkeable);
 		CollisionManager::Instance()->AddCollisionEntity(object->at(i)->GetSprite(), not_walkeable);
 	}
 
@@ -102,7 +100,7 @@ bool Game::OnStart() {
 	tile->SetMaterial(mat3);
 	tile->LoadTexture("mapv3.bmp");
 
-	InputManager::GetInstance()->SetWindow(window);
+	InputManager::Instance()->SetWindow(window);
 
 	//CollisionManager* instance = CollisionManager::Instance();
 
@@ -121,7 +119,7 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 
 	player1->Update();
 
-	renderer->CameraFollow(player1->GetSprite()->GetTranslation());
+	renderer->CameraFollow(player1->GetSprite()->GetPos());
 	CollisionManager::Instance()->CollisionDetector();
 	
 	for (int i = 0; i < object->size(); i++) {
@@ -130,13 +128,13 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 
 	for (int i = 0; i < flags->size(); i++) {
 		if (flags->at(i)->CheckCollision(player1->GetSprite()->GetTranslationX(), player1->GetSprite()->GetTranslationY(), player1->GetHeight(), player1->GetWidht())) {
-			flags->at(i)->~Collectable();	// REVISAR
+
 			flags->erase(flags->begin() + i);
 			f = f - 1;
 			//cout << "Hola" << endl;
 			break;
 		}
-		if (f == 1) {
+		if (f == 0) {
 			flags->push_back(new Collectable(renderer, "raceFlag.bmp", -0.05f, -15.1f, 0.0f, 0.5f, 0.5f));
 			//cout << "Hola" << endl;
 			f = f - 1;
@@ -144,6 +142,10 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 		}
 
 		// F = -2 WIN
+	}
+
+	if (f == -2) {
+		cout << "WIN!" << endl;
 	}
 
 	//cout << f << endl;

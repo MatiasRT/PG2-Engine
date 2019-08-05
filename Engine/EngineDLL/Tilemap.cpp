@@ -1,23 +1,23 @@
 #include "Tilemap.h"
 
-Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight, const char* _filename, float _cantTilesX, float _cantTilesY, float _tileOffset, float _tileSize, vector<int>* _colliderTiles, vector<int>* modTiles) : Shape(_renderer) {
+Tilemap::Tilemap(Renderer* renderer, float tWidth, float tHeight, const char* fName, float tilesX, float tilesY, float tOffset, float tSize, vector<int>* cTiles, vector<int>* modTiles) : Shape(renderer) {
 
-	filename = _filename;
-	tilemapWidth = _tilemapWidth;
-	tilemapHeight = _tilemapHeight;
-	cantTilesX = _cantTilesX;
-	cantTilesY = _cantTilesY;
-	tileOffset = _tileOffset;
-	tileSize = _tileSize;
-	vtxCount = _tilemapWidth * _tilemapHeight * 4 * 3;
-	cantUVvertex = _tilemapWidth * _tilemapHeight * 4 * 2;
+	filename = fName;
+	tilemapWidth = tWidth;
+	tilemapHeight = tHeight;
+	cantTilesX = tilesX;
+	cantTilesY = tilesY;
+	tileOffset = tOffset;
+	tileSize = tSize;
+	vtxCount = tWidth * tHeight * 4 * 3;
+	cantUVvertex = tWidth * tHeight * 4 * 2;
 
 
 	mapIds = new vector<int>();
-	LoadMapIDs(_filename);
+	LoadMapIDs(fName);
 
 	tilesWithCollides = new vector<int>();
-	tilesWithCollides = _colliderTiles;
+	tilesWithCollides = cTiles;
 
 	modTilesWithCollides = new vector<int>();
 	modTilesWithCollides = modTiles;
@@ -26,34 +26,36 @@ Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight,
 	modTilesColliderData = new vector<TileColliderData>();
 
 	int aux = 0;
-	for (int i = 0; i < _tilemapHeight; i++) {
-		for (int j = 0; j < _tilemapWidth; j++) {
+	for (int i = 0; i < tHeight; i++) {
+		for (int j = 0; j < tWidth; j++) {
 
-			int col = j * 2;
 			int row = i * 2;
+			int col = j * 2;
+																			// Aca creo la grilla del tilemap. Son cuatro por las cuatro esquinas
 
-			vertexArrayPos.push_back(-tileOffset + col);
-			vertexArrayPos.push_back(tileOffset - row);
-			vertexArrayPos.push_back(0.0f);
+			vertexArrayPos.push_back(-tileOffset + col);					// Aca guardo las coordenadas x
+			vertexArrayPos.push_back(tileOffset - row);						// Aca guardo las coordenadas y
+			vertexArrayPos.push_back(0.0f);									// Aca guardo las coordenadas z
 
-			vertexArrayPos.push_back(-tileOffset + col);
-			vertexArrayPos.push_back((tileOffset - tileSize) - row);
-			vertexArrayPos.push_back(0.0f);
+			vertexArrayPos.push_back(-tileOffset + col);					// Aca guardo las coordenadas x
+			vertexArrayPos.push_back((tileOffset - tileSize) - row);		// Aca guardo las coordenadas y
+			vertexArrayPos.push_back(0.0f);									// Aca guardo las coordenadas z
 
-			vertexArrayPos.push_back(-(tileOffset - tileSize) + col);
-			vertexArrayPos.push_back((tileOffset - tileSize) - row);
-			vertexArrayPos.push_back(0.0f);
+			vertexArrayPos.push_back(-(tileOffset - tileSize) + col);		// Aca guardo las coordenadas x
+			vertexArrayPos.push_back((tileOffset - tileSize) - row);		// Aca guardo las coordenadas y
+			vertexArrayPos.push_back(0.0f);									// Aca guardo las coordenadas z
 
-			vertexArrayPos.push_back(-(tileOffset - tileSize) + col);
-			vertexArrayPos.push_back(tileOffset - row);
-			vertexArrayPos.push_back(0.0f);
+			vertexArrayPos.push_back(-(tileOffset - tileSize) + col);		// Aca guardo las coordenadas x
+			vertexArrayPos.push_back(tileOffset - row);						// Aca guardo las coordenadas y
+			vertexArrayPos.push_back(0.0f);									// Aca guardo las coordenadas z
 
 			for (int k = 0; k < tilesWithCollides->size(); k++) {
 				if (mapIds->at(aux) == tilesWithCollides->at(k)) {
+																			// Creo una segunda grilla para las colisiones
 					TileColliderData colliderAux;
 
-					colliderAux.positionY = (tileOffset - row) - tileSize;
-					colliderAux.positionX = (-tileOffset + col);
+					colliderAux.positionX = (-tileOffset + col);			// Coordenadas x
+					colliderAux.positionY = (tileOffset - row) - tileSize;	// Coordenadas y
 
 					colliderAux.height = tileSize;
 					colliderAux.width = tileSize;
@@ -78,12 +80,12 @@ Tilemap::Tilemap(Renderer* _renderer, float _tilemapWidth, float _tilemapHeight,
 
 		}
 	}
-	float* p = &vertexArrayPos[0];
+	float* positions = &vertexArrayPos[0];
 
 	textureVertex = new float[cantUVvertex];
 	LoadUVs();
 
-	SetTilemapVertex(p, vtxCount);
+	SetTilemapVertex(positions, vtxCount);
 
 	SetTextures(textureVertex, cantUVvertex);
 }
@@ -94,7 +96,7 @@ Tilemap::~Tilemap() {
 
 void Tilemap::SetTextures(float* vertex, int cant) {
 	
-	txrBufferId = renderer->GenBuffer(vertex, sizeof(float)* cant);
+	txrBufferId = renderer->GenBuffer(vertex, sizeof(float)* cant);			// Genero buffer de texture
 }
 
 void Tilemap::LoadTexture(const char* name) {
@@ -102,7 +104,11 @@ void Tilemap::LoadTexture(const char* name) {
 	UVBufferID = renderer->GenTextureBuffer(header.width, header.height, header.data);
 }
 
-void Tilemap::DrawMesh(int _drawType) {
+void Tilemap::Draw() {
+	DrawMesh(PRIMITIVE_QUAD);
+}
+
+void Tilemap::DrawMesh(int drawType) {
 	renderer->LoadIdentityMatrix();
 	renderer->MultiplyModelMatrix(worldMatrix);
 
@@ -117,21 +123,17 @@ void Tilemap::DrawMesh(int _drawType) {
 	renderer->BeginDraw(1);
 	renderer->BindBuffer(bufferId, 0);
 	renderer->BindTextureBuffer(txrBufferId, 1);
-	renderer->DrawBuffer(vtxCount, _drawType);
+	renderer->DrawBuffer(vtxCount, drawType);
 	renderer->EndDraw(0);
 	renderer->EndDraw(1);
 }
 
-void Tilemap::Draw() {
-	DrawMesh(PRIMITIVE_QUAD);
-}
-
-void Tilemap::LoadMapIDs(const char* _file) {
+void Tilemap::LoadMapIDs(const char* file) {
 	string buffer;
-	ifstream tileFile(_file);
+	ifstream tileFile(file);
 
 	while (getline(tileFile, buffer, ',')) {
-		mapIds->push_back(stoi(buffer));
+		mapIds->push_back(stoi(buffer));			// Leo el .csv y me lo guardo en el buffer
 	}
 }
 
@@ -141,7 +143,7 @@ void Tilemap::LoadUVs() {
 
 	int idIndex = 0;
 
-	for (int i = 0; i < cantUVvertex; i = i + 8) {
+	for (int i = 0; i < cantUVvertex; i = i + 8) {	// Cargo las UV a cada vertice
 		textureVertex[i] = 0.0f;
 		textureVertex[i + 1] = 1.0f;
 
@@ -157,11 +159,11 @@ void Tilemap::LoadUVs() {
 		int row = 0;
 		int column = mapIds->at(idIndex);
 
-		while (column >= cantTilesX) {
+		while (column >= cantTilesX) {				// Si llego a la cantidad de columnas, bajo a la siguente linea
 			column -= cantTilesX;
 			row++;
 		}
-
+													
 		textureVertex[i] += textureW * column;
 		textureVertex[i + 1] -= textureH * row;
 
@@ -178,36 +180,30 @@ void Tilemap::LoadUVs() {
 	}
 }
 
-void Tilemap::SetTilemapVertex(float* _vertex, int _cant) {
-	bufferId = renderer->GenBuffer(_vertex, sizeof(float) * _cant);
+void Tilemap::SetTilemapVertex(float* vertex, int cant) {
+	bufferId = renderer->GenBuffer(vertex, sizeof(float) * cant);				// Genero el buffer
 }
 
-bool Tilemap::NextTileIsCollider(float _playerTranslationX, float _playerTranslationY, float _playerHeight, float _playerWidht) {
-
-	float col = (((_playerTranslationX - GetPos().x) / tileSize) * tileSize) + GetPos().x;
-	float row = (((_playerTranslationY + GetPos().y) / tileSize) * tileSize) - GetPos().y;
+bool Tilemap::CheckCollission(float pTranslationX, float pTranslationY, float pHeight, float pWidht) {
 
 	for (int i = 0; i < tilesColliderData->size(); i++) {
-		if (((col + (_playerWidht / 2)) >= tilesColliderData->at(i).positionX) && 
-			((col - (_playerWidht / 2)) <= tilesColliderData->at(i).positionX + tilesColliderData->at(i).width) && 
-			(row + (_playerHeight / 2) >= tilesColliderData->at(i).positionY) && 
-			(row - (_playerHeight / 2) <= tilesColliderData->at(i).positionY + tilesColliderData->at(i).height)) {
+		if (((pTranslationX + (pWidht / 2)) >= tilesColliderData->at(i).positionX) &&
+			((pTranslationX - (pWidht / 2)) <= tilesColliderData->at(i).positionX + tilesColliderData->at(i).width) &&
+			(pTranslationY + (pHeight / 2) >= tilesColliderData->at(i).positionY) &&
+			(pTranslationY - (pHeight / 2) <= tilesColliderData->at(i).positionY + tilesColliderData->at(i).height)) {
 			return true;
 		}
 	}
 	return false;
 }
 
-bool Tilemap::NextModTileIsCollider(float _playerTranslationX, float _playerTranslationY, float _playerHeight, float _playerWidht) {
-
-	float col = (((_playerTranslationX - GetPos().x) / tileSize) * tileSize) + GetPos().x;
-	float row = (((_playerTranslationY + GetPos().y) / tileSize) * tileSize) - GetPos().y;
+bool Tilemap::CheckModCollission(float pTranslationX, float pTranslationY, float pHeight, float pWidht) {
 
 	for (int i = 0; i < modTilesColliderData->size(); i++) {
-		if (((col + (_playerWidht / 2)) >= modTilesColliderData->at(i).positionX) &&
-			((col - (_playerWidht / 2)) <= modTilesColliderData->at(i).positionX + modTilesColliderData->at(i).width) &&
-			(row + (_playerHeight / 2) >= modTilesColliderData->at(i).positionY) &&
-			(row - (_playerHeight / 2) <= modTilesColliderData->at(i).positionY + modTilesColliderData->at(i).height)) {
+		if (((pTranslationX + (pWidht / 2)) >= modTilesColliderData->at(i).positionX) &&
+			((pTranslationX - (pWidht / 2)) <= modTilesColliderData->at(i).positionX + modTilesColliderData->at(i).width) &&
+			(pTranslationY + (pHeight / 2) >= modTilesColliderData->at(i).positionY) &&
+			(pTranslationY - (pHeight / 2) <= modTilesColliderData->at(i).positionY + modTilesColliderData->at(i).height)) {
 			return true;
 		}
 	}
@@ -215,13 +211,13 @@ bool Tilemap::NextModTileIsCollider(float _playerTranslationX, float _playerTran
 }
 
 
-void Tilemap::UpdateTilemapColliderPosition(float _diferenceX, float _diferenceY) {
+void Tilemap::UpdateTilemapColliderPosition(float diffX, float diffY) {
 	for (int i = 0; i < tilesColliderData->size(); i++) {
-		tilesColliderData->at(i).positionX += _diferenceX;
-		tilesColliderData->at(i).positionY += _diferenceY;
+		tilesColliderData->at(i).positionX += diffX;
+		tilesColliderData->at(i).positionY += diffY;
 	}
 	for (int i = 0; i < modTilesColliderData->size(); i++) {
-		modTilesColliderData->at(i).positionX += _diferenceX;
-		modTilesColliderData->at(i).positionY += _diferenceY;
+		modTilesColliderData->at(i).positionX += diffX;
+		modTilesColliderData->at(i).positionY += diffY;
 	}
 }

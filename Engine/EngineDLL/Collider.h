@@ -2,26 +2,29 @@
 #include "Exports.h"
 #include "Definitions.h"
 #include <iostream>
-#include "../external/glm-0.9.9.0/glm/glm.hpp"
-#include "../external/glm-0.9.9.0/glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
 using namespace std;
 
 class ENGINEDLL_API Collider {
 
 	float height;
 	float width;
-	glm::vec2 pivotPosition;
-	Layers layer;
 	bool isStatic;
+
+	glm::vec2 pivotPosition;
+
+	Layers layer;
 public:
-	Collider(glm::vec2 _pivotPosition, float _height, float _width, Layers _layer, bool isStatic);
-	unsigned int GetXPosition();
-	unsigned int GetYPosition();
-	glm::vec2 GetPivot();
-	unsigned int GetHeight();
-	unsigned int GetWidth();
-	Layers GetLayer();
-	bool GetIsStatic();
-	~Collider();
+	Collider(glm::vec2 pPosition, float h, float w, Layers l, bool stc);
+	~Collider() {};
+	
+	unsigned int GetHeight() { return height; }
+	unsigned int GetWidth() { return width; }
+	unsigned int GetXPosition() { return pivotPosition.x; }
+	unsigned int GetYPosition() { return pivotPosition.y; }
+	bool GetIsStatic() { return isStatic; }
+	glm::vec2 GetPivot() { return pivotPosition; }
+	Layers GetLayer() { return layer; }
 };
 

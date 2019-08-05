@@ -4,14 +4,16 @@
 #include "Material.h"
 
 class ENGINEDLL_API Object {
-	Sprite * staticObjectSprite;
-	Material * staticObjectMaterial;
+
+	Sprite * sprite;
+	Material * material;
 	unsigned int textureBuffer;
 public:
-	Object(Renderer * _renderer, const char * _filename, float _animation, float _positionX, float _positionY, float _positionZ);
+	Object(Renderer * renderer, const char * filename, float anim, float posX, float posY, float posZ);
 	~Object();
-	void SetCollider(float _positionX, float _positionY, float _positionZ, float _height, float _widht);
+	void SetCollider(float posX, float posY, float posZ, float height, float widht, Layers layer);
 	void Draw();
 	void Update();
-	Sprite * GetSprite();
+
+	Sprite * GetSprite() { return sprite; };
 };

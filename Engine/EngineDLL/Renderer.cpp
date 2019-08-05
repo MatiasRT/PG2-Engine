@@ -210,7 +210,6 @@ void Renderer::TranslateCamera(glm::vec3 pos) {
 	UpdateWVP();
 }
 
-
-void Renderer::CameraFollow(glm::vec3 _playerPosition) {
-	ViewMatrix = lookAt(_playerPosition - glm::vec3(0.0f, 0.0f, -1.0f), _playerPosition, glm::vec3(0.0f, 1.0f, 0.0f));
+void Renderer::CameraFollow(glm::vec3 pPos) {
+	ViewMatrix = lookAt(pPos - glm::vec3(0.0f, 0.0f, -1.0f), pPos, glm::vec3(0.0f, 1.0f, 0.0f));
 }

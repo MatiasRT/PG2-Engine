@@ -2,35 +2,31 @@
 
 
 
-Object::Object(Renderer * _renderer, const char * _filename, float _animation, float _positionX, float _positionY, float _positionZ) {
-	staticObjectSprite = new Sprite(_renderer, _animation, _filename);
-	staticObjectMaterial = new Material();
-	staticObjectMaterial->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
-	staticObjectSprite->SetMaterial(staticObjectMaterial);
+Object::Object(Renderer * renderer, const char * filename, float anim, float posX, float posY, float posZ) {
+	sprite = new Sprite(renderer, anim, filename);
+	material = new Material();
+	material->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
+	sprite->SetMaterial(material);
 
-	staticObjectSprite->SetTranslation(_positionX, _positionY, _positionZ);
+	sprite->SetTranslation(posX, posY, posZ);
 
-	textureBuffer = staticObjectSprite->LoadTexture(_filename);
-	staticObjectSprite->SetTextureBufferId(textureBuffer);
+	textureBuffer = sprite->LoadTexture(filename);
+	sprite->SetTextureBufferId(textureBuffer);
 }
 
-void Object::SetCollider(float _positionX, float _positionY, float _positionZ, float _height, float _widht) {
-	staticObjectSprite->SetCollider(glm::vec3(_positionX, _positionY, _positionZ), _height, _widht, not_walkeable, true);
+void Object::SetCollider(float posX, float posY, float posZ, float height, float widht, Layers layer) {
+	sprite->SetCollider(glm::vec3(posX, posY, posZ), height, widht, layer, true);
 }
 
 Object::~Object() {
-	delete staticObjectSprite;
-	delete staticObjectMaterial;
+	delete sprite;
+	delete material;
 }
 
 void Object::Draw() {
-	staticObjectSprite->Draw();
+	sprite->Draw();
 }
 
 void Object::Update() {
-	staticObjectSprite->UpdateAnim();
-}
-
-Sprite* Object::GetSprite() {
-	return staticObjectSprite;
+	sprite->UpdateAnim();
 }

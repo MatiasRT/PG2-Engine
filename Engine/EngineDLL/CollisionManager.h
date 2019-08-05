@@ -12,21 +12,10 @@ class ENGINEDLL_API CollisionManager {
 	static CollisionManager* instance;
 
 	vector<list<Entity*>*> colliders;
-	//vector<list<Sprite*>*>* circles;
-
-	/*void LayersMatchBox(list<Sprite*>* layerA, list<Sprite*>* layerB);
-	void LayersMatchCircle(list<Sprite*>* layerA, list<Sprite*>* layerB);
-	
-	void CollisionBoxMath(Sprite* A, Sprite* B);
-	void CollisionCircleMath(Sprite* A, Sprite* B);*/
 
 public:
 	CollisionManager();
-	~CollisionManager();
-	/*void FillingBoxList(Layers layer, Sprite* s);
-	void FillingCircleList(Layers layer, Sprite* s);
-	void CircleCollisionDetector();
-	void BoxCollisionDetector();*/
+	~CollisionManager() { };
 
 	void AddCollisionEntity(Entity* e, Layers lyr);
 	void CollisionDetector();

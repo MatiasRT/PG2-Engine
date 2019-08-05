@@ -3,27 +3,17 @@
 
 InputManager* InputManager::instance = 0;
 
-InputManager* InputManager::GetInstance() {
+InputManager* InputManager::Instance() {
 	if (instance == 0) {
 		instance = new InputManager();
 	}
 	return instance;
 }
 
-
-void InputManager::SetWindow(Window* _window) {
-	window = _window;
+void InputManager::SetWindow(Window* w) {
+	window = w;
 }
 
-bool InputManager::GetKeyDown(Key _key) {
-	return (glfwGetKey((GLFWwindow*)window->GetWindow(), _key) == GLFW_PRESS);
-}
-
-
-InputManager::InputManager() {
-
-}
-
-InputManager::~InputManager() {
-
+bool InputManager::GetKeyDown(Key key) {
+	return (glfwGetKey((GLFWwindow*)window->GetWindow(), key) == GLFW_PRESS);
 }

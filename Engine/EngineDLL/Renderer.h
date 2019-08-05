@@ -42,6 +42,6 @@ public:
 	void EndDraw(unsigned int attribute);
 	void UpdateTexture(unsigned int textureID);
 	void TranslateCamera(glm::vec3 pos);
-	void CameraFollow(glm::vec3 _playerPosition);
+	void CameraFollow(glm::vec3 pPos);
 	glm::vec3 GetCameraPos() { return camera; };
 };

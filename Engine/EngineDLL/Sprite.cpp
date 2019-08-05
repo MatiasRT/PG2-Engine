@@ -1,34 +1,18 @@
 #include "Sprite.h"
 
-Sprite::Sprite(Renderer* renderer, int _cantFrames, const char* _filename) : Shape(renderer) {
+Sprite::Sprite(Renderer* renderer, int frames, const char* filename) : Shape(renderer) {
 	collision = false;
 	
-	file = _filename;
+	file = filename;
 
-	animation = new Animation(_cantFrames);
-	// OLD 
-	/*vertex = new float[12]{													
-		-1.0f, -1.0f, 0.0f,													
-		-1.0f, 1.0f, 0.0f,													
-		1.0f, -1.0f, 0.0f,													
-		1.0f, 1.0f, 0.0f										
-	};*/
+	animation = new Animation(frames);
+
 	vertex = new float[12] {
 		-1.0f,-1.0f , 0.0f ,
 		1.0f,-1.0f , 0.0f ,
 		-1.0f, 1.0f , 0.0f ,
 		1.0f, 1.0f , 0.0f
 	};
-
-
-	//UVBufferID = -1;
-
-	/*textureVertex = new float[8]{
-		0.0f, 0.0f,
-		0.0f, 1.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-	};*/
 
 	SetVertices(vertex, 4);
 
@@ -43,19 +27,18 @@ void Sprite::LoadBMP(const char * name) {
 	material->BindTexture();
 }
 
-unsigned int Sprite::LoadTexture(const char* _name) {
-	header = Importer::LoadBMP(_name);
-	//textureId = renderer->UploadData(header.width, header.height, header.data); //REVISAR
+unsigned int Sprite::LoadTexture(const char* name) {
+	header = Importer::LoadBMP(name);
 	return renderer->GenTextureBuffer(header.width, header.height, header.data);
 }
 
-void Sprite::SetTextureVertices(float* _vertex, int _cant) {
+void Sprite::SetTextureVertices(float* vertex, int cant) {
 	DisposeTexture();
 
-	vtxTextureCount = _cant;
+	vtxTextureCount = cant;
 	shouldDisposeTexture = true;
 
-	txrBufferId = renderer->GenBuffer(_vertex, sizeof(float)* _cant * 2);
+	txrBufferId = renderer->GenBuffer(vertex, sizeof(float)* cant * 2);
 }
 
 void Sprite::DrawMesh1(int type) {
@@ -65,9 +48,8 @@ void Sprite::DrawMesh1(int type) {
 	if (material != NULL) {
 		material->Bind(file, UVBufferID);
 		material->SetMatrixProperty(renderer->GetWVP());
-		//material->BindTexture("myTextureSampler", UVBufferID);
 	}
-	//renderer->BindTexture(textureId, txrBufferId);
+
 	renderer->BeginDraw(0);
 	renderer->BeginDraw(1);																	// Le decimos al renderer que comience a dibujar
 	renderer->BindBuffer(bufferId, 0);
@@ -77,8 +59,8 @@ void Sprite::DrawMesh1(int type) {
 	renderer->EndDraw(1);																	// Deja de dibujar
 }
 
-void Sprite::SetTextureBufferId(unsigned int _textureBufferId) {
-	UVBufferID = _textureBufferId;
+void Sprite::SetTextureBufferId(unsigned int textureBufferId) {
+	UVBufferID = textureBufferId;
 }
 
 void Sprite::DisposeTexture() {

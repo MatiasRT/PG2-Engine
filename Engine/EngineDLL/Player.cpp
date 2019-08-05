@@ -1,41 +1,41 @@
 #include "Player.h"
 
-Player::Player(Renderer * _renderer, float _animation, float _speed, float _height, float _widht, float _positionX, float _positionY, float _positionZ, Tilemap * _tilemapToCollide) {
-	playerSprite = new Sprite(_renderer, _animation, "F1Down.bmp");
-	playerMaterial = new Material();
-	playerMaterial->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
-	playerSprite->SetMaterial(playerMaterial);
-	playerSprite->SetScale(2.0f, 2.0f, 0.0f);
+Player::Player(Renderer * renderer, float anim, float spd, float h, float w, float posX, float posY, float posZ, Tilemap * tilemap) {
+	sprite = new Sprite(renderer, anim, "F1Down.bmp");
+	material = new Material();
+	material->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
+	sprite->SetMaterial(material);
+	sprite->SetScale(2.0f, 2.0f, 0.0f);
 
-	playerSprite->SetCollider(glm::vec3(0, 0, 0), 1, 1, player, false);
-	playerSprite->SetTranslation(_positionX, _positionY, _positionZ);
-	speed = _speed;
-	height = _height;
-	widht = _widht;
-	tilemapToCollide = _tilemapToCollide;
+	sprite->SetCollider(glm::vec3(0, 0, 0), 1, 1, player, false);
+	sprite->SetTranslation(posX, posY, posZ);
+	speed = spd;
+	height = h;
+	widht = w;
+	tilemapToCollide = tilemap;
 
-	animationRightBuffer = playerSprite->LoadTexture("F1Right.bmp");
-	animationLeftBuffer = playerSprite->LoadTexture("F1Left.bmp");
-	animationUpBuffer = playerSprite->LoadTexture("F1Up.bmp");
-	animationDownBuffer = playerSprite->LoadTexture("F1Down.bmp");
+	animRightBuffer = sprite->LoadTexture("F1Right.bmp");
+	animLeftBuffer = sprite->LoadTexture("F1Left.bmp");
+	animUpBuffer = sprite->LoadTexture("F1Up.bmp");
+	animDownBuffer = sprite->LoadTexture("F1Down.bmp");
 
-	playerSprite->SetTextureBufferId(animationDownBuffer);
+	sprite->SetTextureBufferId(animDownBuffer);
 	firstDraw = false;
-	//playerSprite->SetPos(40, 1, 0);
+
 }
 
-void Player::SetCollisionEntity(Layers _layer) {
-	CollisionManager::Instance()->AddCollisionEntity(playerSprite, _layer);
+void Player::SetCollisionEntity(Layers layer) {
+	CollisionManager::Instance()->AddCollisionEntity(sprite, layer);
 }
 
 Player::~Player() {
-	delete playerSprite;
-	delete playerMaterial;
+	delete sprite;
+	delete material;
 }
 
 void Player::Update() {
 	if (!firstDraw) {
-		playerSprite->UpdateAnim();
+		sprite->UpdateAnim();
 		firstDraw = true;
 	}
 	Movement();
@@ -45,80 +45,68 @@ void Player::Update() {
 
 void Player::Movement() {
 
-	if (InputManager::GetInstance()->GetKeyDown(RightKey)) {
-		playerSprite->SetTextureBufferId(animationRightBuffer);
+	if (InputManager::Instance()->GetKeyDown(RightKey)) {
+		sprite->SetTextureBufferId(animRightBuffer);
 		
-		playerSprite->SetTranslationX(playerSprite->GetTranslationX() + speed);
+		sprite->SetTranslationX(sprite->GetTranslationX() + speed);
 
-		if (tilemapToCollide->NextTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) 
-			playerSprite->SetTranslationX(playerSprite->GetTranslationX() - speed);
+		if (tilemapToCollide->CheckCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht))
+			sprite->SetTranslationX(sprite->GetTranslationX() - speed);
 		
-		if (tilemapToCollide->NextModTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) {
-			playerSprite->SetTranslationX(playerSprite->GetTranslationX() + 0.1);
+		if (tilemapToCollide->CheckModCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht)) {
+			sprite->SetTranslationX(sprite->GetTranslationX() + 0.1);
 			cout << "Right: " << speed << endl;
 		}
 
-		playerSprite->UpdateAnim();
+		sprite->UpdateAnim();
 	}
-	else if (InputManager::GetInstance()->GetKeyDown(LeftKey)) {
-		playerSprite->SetTextureBufferId(animationLeftBuffer);
+	else if (InputManager::Instance()->GetKeyDown(LeftKey)) {
+		sprite->SetTextureBufferId(animLeftBuffer);
 		
-		playerSprite->SetTranslationX(playerSprite->GetTranslationX() - speed);
+		sprite->SetTranslationX(sprite->GetTranslationX() - speed);
 
-		if (tilemapToCollide->NextTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) 
-			playerSprite->SetTranslationX(playerSprite->GetTranslationX() + speed);
+		if (tilemapToCollide->CheckCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht))
+			sprite->SetTranslationX(sprite->GetTranslationX() + speed);
 		
-		if (tilemapToCollide->NextModTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) {
-			playerSprite->SetTranslationX(playerSprite->GetTranslationX() - 0.1);
+		if (tilemapToCollide->CheckModCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht)) {
+			sprite->SetTranslationX(sprite->GetTranslationX() - 0.1);
 			cout << "Left: " << speed << endl;
 		}
 
-		playerSprite->UpdateAnim();
+		sprite->UpdateAnim();
 	}
-	else if (InputManager::GetInstance()->GetKeyDown(UpKey)) {
-		playerSprite->SetTextureBufferId(animationUpBuffer);
+	else if (InputManager::Instance()->GetKeyDown(UpKey)) {
+		sprite->SetTextureBufferId(animUpBuffer);
 		
-		playerSprite->SetTranslationY(playerSprite->GetTranslationY() + speed);
+		sprite->SetTranslationY(sprite->GetTranslationY() + speed);
 
-		if (tilemapToCollide->NextTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) 
-			playerSprite->SetTranslationY(playerSprite->GetTranslationY() - speed);
+		if (tilemapToCollide->CheckCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht))
+			sprite->SetTranslationY(sprite->GetTranslationY() - speed);
 		
-		if (tilemapToCollide->NextModTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) {
-			playerSprite->SetTranslationY(playerSprite->GetTranslationY() + 0.1);
+		if (tilemapToCollide->CheckModCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht)) {
+			sprite->SetTranslationY(sprite->GetTranslationY() + 0.1);
 			cout << "Up: " << speed << endl;
 		}
 
-		playerSprite->UpdateAnim();
+		sprite->UpdateAnim();
 	}
-	else if (InputManager::GetInstance()->GetKeyDown(DownKey)) {
-		playerSprite->SetTextureBufferId(animationDownBuffer);
+	else if (InputManager::Instance()->GetKeyDown(DownKey)) {
+		sprite->SetTextureBufferId(animDownBuffer);
 		
-		playerSprite->SetTranslationY(playerSprite->GetTranslationY() - speed);
+		sprite->SetTranslationY(sprite->GetTranslationY() - speed);
 
-		if (tilemapToCollide->NextTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) 
-			playerSprite->SetTranslationY(playerSprite->GetTranslationY() + speed);
+		if (tilemapToCollide->CheckCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht))
+			sprite->SetTranslationY(sprite->GetTranslationY() + speed);
 		
-		if (tilemapToCollide->NextModTileIsCollider(playerSprite->GetTranslationX(), playerSprite->GetTranslationY(), height, widht)) {
-			playerSprite->SetTranslationY(playerSprite->GetTranslationY() - 0.1);
+		if (tilemapToCollide->CheckModCollission(sprite->GetTranslationX(), sprite->GetTranslationY(), height, widht)) {
+			sprite->SetTranslationY(sprite->GetTranslationY() - 0.1);
 			cout << "Down: " << speed << endl;
 		}
 
-		playerSprite->UpdateAnim();
+		sprite->UpdateAnim();
 	}
 }
 
 void Player::Draw() {
-	playerSprite->Draw();
+	sprite->Draw();
 }
-
-Sprite* Player::GetSprite() {
-	return playerSprite;
-}
-
-float Player::GetHeight() {
-	return height;
-}
-float Player::GetWidht() {
-	return widht;
-}
-
