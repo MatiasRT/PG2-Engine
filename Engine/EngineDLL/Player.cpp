@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(Renderer * renderer, float anim, float spd, float h, float w, float posX, float posY, float posZ, Tilemap * tilemap) {
-	sprite = new Sprite(renderer, anim, "F1Down.bmp");
+	sprite = new Sprite(renderer, anim, "F1Downv2.bmp");
 	material = new Material();
 	material->LoadShaders("VertexTexture.glsl", "FragmentTexture.glsl");
 	sprite->SetMaterial(material);

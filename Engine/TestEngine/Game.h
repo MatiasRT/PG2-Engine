@@ -29,6 +29,7 @@ class Game : public Gamebase {
 
 	vector<Collectable*> * flags;
 	vector<Object*> * object;
+	vector<Object*> * object2;
 
 public:
 	Game() { i = 0; };

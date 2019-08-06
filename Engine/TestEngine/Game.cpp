@@ -4,7 +4,7 @@ bool Game::OnStart() {
 	i = 0;
 	translation = 0;
 	rotation = 0;
-	speed = 0;
+	speed = 0.3f;
 	f = 22;
 
 	mat1 = new Material();																		// Creo un Material
@@ -58,43 +58,51 @@ bool Game::OnStart() {
 
 	object = new vector<Object*>();
 
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -0.75f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 1.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 3.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 5.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 7.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 9.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 11.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 13.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 15.25f, -29.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -29.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -0.75f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 1.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 3.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 5.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 7.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 9.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 11.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 13.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 15.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -29.0f, 0.0f, 4.0f, 4.0f, tile));
 
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -31.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -33.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -31.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -33.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -2.75f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
 
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -0.75f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 1.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 3.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 5.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 7.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 9.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 11.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 13.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 15.25f, -35.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, -0.75f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 1.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 3.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 5.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 7.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 9.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 11.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 13.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 15.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
 
 
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -31.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -33.0f, 0.0f));
-	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -35.0f, 0.0f));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -31.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -33.0f, 0.0f, 4.0f, 4.0f, tile));
+	object->push_back(new Object(renderer, "Tires.bmp", 1.0f, 17.25f, -35.0f, 0.0f, 4.0f, 4.0f, tile));
 
 	for (int i = 0; i < object->size(); i++) {
-		object->at(i)->SetCollider(0.0f, 0.0f, 0.0f, 4.0f, 4.0f, not_walkeable);
+		object->at(i)->SetCollider(0.0f, 0.0f, 0.0f, 4.0f, 4.0f, not_walkeable, true);
 		CollisionManager::Instance()->AddCollisionEntity(object->at(i)->GetSprite(), not_walkeable);
 	}
 
+
+	object2 = new vector<Object*>();
+
+	object2->push_back(new Object(renderer, "Tires.bmp", 1.0f, 19.25f, -32.0f, 0.0f, 4.0f, 4.0f, tile));
+	for (int i = 0; i < object2->size(); i++) {
+		object2->at(i)->SetCollider(0.0f, 0.0f, 0.0f, 4.0f, 4.0f, not_walkeable, false);
+		CollisionManager::Instance()->AddCollisionEntity(object2->at(i)->GetSprite(), not_walkeable);
+	}
 	
 	tile = new Tilemap(renderer, 40, 41, "mapv3.csv", 10.0f, 7.0f, 10.0f, 2.0f, colliderTiles, modColliderTiles);
 	tile->SetMaterial(mat3);
@@ -104,7 +112,7 @@ bool Game::OnStart() {
 
 	//CollisionManager* instance = CollisionManager::Instance();
 
-	player1 = new Player(renderer, 3, 0.3f, 2.5f, 2.0f, -0.05f, -11.8f, 0, tile);
+	player1 = new Player(renderer, 3, speed, 2.5f, 2.0f, -0.05f, -11.8f, 0, tile);
 	player1->SetCollisionEntity(player);
 
 
@@ -114,7 +122,7 @@ bool Game::OnStart() {
 
 bool Game::OnUpdate() {																			// Toda la logica va aca
 	//CollisionManager::Instance()->BoxCollisionDetector();
-	speed = 1.0f;
+	speed += time * 0.3f;
 
 
 	player1->Update();
@@ -124,6 +132,11 @@ bool Game::OnUpdate() {																			// Toda la logica va aca
 	
 	for (int i = 0; i < object->size(); i++) {
 		object->at(i)->Update();
+	}
+
+	for (int i = 0; i < object2->size(); i++) {
+		object2->at(i)->Update();
+		//object2->at(i)->CheckCollision(0.3f);
 	}
 
 	for (int i = 0; i < flags->size(); i++) {
@@ -161,6 +174,9 @@ void Game::OnDraw() {
 
 	for (int i = 0; i < object->size(); i++)
 		object->at(i)->Draw();
+
+	for (int i = 0; i < object2->size(); i++)
+		object2->at(i)->Draw();
 }
 
 bool Game::OnStop() {
@@ -170,6 +186,7 @@ bool Game::OnStop() {
 	delete player1;
 	delete flags;
 	delete object;
+	delete object2;
 	cout << "Game::OnStop()" << endl;
 	return false;
 }
